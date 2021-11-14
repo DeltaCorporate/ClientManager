@@ -38,7 +38,6 @@ services:
         restart: always
         networks:
             - dev
-            
     www:
         build: php
         container_name: web

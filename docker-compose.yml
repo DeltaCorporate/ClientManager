@@ -3,7 +3,7 @@ services:
 
   db:
     image: mysql:5.7.35
-    container_name: db
+    container_name: progDatabase
     restart: always
     volumes:
       - db-data:/var/lib/mysql
@@ -16,7 +16,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin
-    container_name: phpMyadmin
+    container_name: progMyAdmin
     restart: always
     depends_on:
       - db
@@ -31,7 +31,7 @@ services:
 
   maildev:
     image: maildev/maildev
-    container_name: mail
+    container_name: progMail
     command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
     ports:
       - "8083:80"
@@ -41,7 +41,7 @@ services:
 
   www:
     build: php
-    container_name: web
+    container_name: progWeb
     ports:
       - "8742:80"
     volumes:

@@ -1,1 +1,4 @@
 .idea/
+
+www/vendor
+www/node_modules

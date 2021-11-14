@@ -1,0 +1,22 @@
+{
+    "name": "delta/client_manager",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Houmame LAZAR",
+            "email": "houms937@gmail.com"
+        },{
+            "name": "Raphael BACKLAND",
+            "email": "raphaos.rb@gmail.com"
+        },{
+            "name": "Raphael BACKLAND",
+            "email": "ryanrida783@gmail.com"
+        }
+    ],
+    "require": {}
+}

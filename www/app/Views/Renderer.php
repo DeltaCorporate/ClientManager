@@ -12,8 +12,8 @@ require "../vendor/autoload.php";
 
 class Renderer
 {
-    private $loader;
-    public static $renderer;
+    private \Twig\Loader\FilesystemLoader $loader;
+    public static \Twig\Environment $renderer;
 
     public function __construct()
     {

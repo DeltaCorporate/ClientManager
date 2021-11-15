@@ -106,23 +106,16 @@ class Router
             $requestUri = implode($requestUri);
         }
         $routes = self::$routes;
-        $foundRoute = false;
         foreach ($routes as $route) {
             if ($route['link'] == $requestUri and strtolower($request['REQUEST_METHOD']) == $route['method']) {
 
                 $controller = $route["controller"];
                 $function = $route["function"];
-                $foundRoute = true;
-                (new $controller())->$function();
-                return true;
+                return (new $controller())->$function();
             }
         }
 
-
-        if (!$foundRoute) {
-            die(self::$renderer->render("errors.404"));
-        }
-        return false;
+        return self::$renderer->render("errors.404");
 
     }
 

@@ -11,7 +11,6 @@ require "../vendor/autoload.php";
 $dotenv->load();*/
 
 new DotEnvParser();
-Views::dd($_SERVER);
 $router = new Router();
 $router->addRoutes();
 

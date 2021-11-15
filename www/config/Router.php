@@ -3,7 +3,6 @@
 namespace Config;
 
 use App\Views\Renderer;
-use App\Views\Views;
 
 require "../vendor/autoload.php";
 
@@ -19,6 +18,8 @@ class Router
     {
         self::$routes = [];
         self::$renderer = new Renderer();
+        $this->addRoutes();
+        self::checkRoute();
     }
 
     /**

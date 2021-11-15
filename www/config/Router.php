@@ -51,7 +51,7 @@ class Router
         } else{
             $route['link'] = $link;
             $route['controller'] = $toDo[0];
-            $route['method'] = $toDo[1];
+            $route['function'] = $toDo[1];
             array_push(self::$routes,$route);
         }
 
@@ -60,17 +60,28 @@ class Router
     static function checkRoute(){
         $request = $_SERVER;
         $requestUri = $request['REQUEST_URI'];
-        $requestUri= explode("/",$requestUri);
-        if($requestUri[0] == "" && $requestUri[1]==""){
-            $requestUri = array_splice($requestUri,1);
-            $requestUri[0] = "/";
+        $requestUri = explode("?",$requestUri);
+        $requestUri = $requestUri[0];
+        $requestUri = str_split($requestUri);
+        if($requestUri[sizeof($requestUri)-1] == "/"){
+            array_splice($requestUri,sizeof($requestUri)-1);
         }
-        Views::dd($requestUri);
-
+        $requestUri = implode($requestUri);
         $routes = self::$routes;
 
-        foreach ($routes as $route){
 
+        $foundRoute = false;
+        foreach ($routes as $route){
+            if($route['link'] == $requestUri){
+                $foundRoute = true;
+                $controller = $route["controller"];
+                $function = $route["function"];
+                (new $controller())->$function();
+            }
+        }
+
+        if(!$foundRoute){
+            return self::$renderer->render("errors.404");
         }
 
     }

@@ -2,6 +2,10 @@
 
 namespace App\Views;
 
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
+
 require "../vendor/autoload.php";
 
 class Renderer
@@ -22,16 +26,18 @@ class Renderer
     }
 
 
-    public static function render($path, $datas = null)
+    public static function render($path, $datas = []): bool
     {
 
         $path = str_replace(".", "/", $path);
         $path .= ".html.twig";
-
-        if (!empty($datas)) {
+        try {
             echo self::$renderer->render($path, $datas);
-        } else {
-            echo self::$renderer->render($path);
+            return true;
+        } catch (LoaderError | RuntimeError | SyntaxError $e) {
+            echo $e->getMessage();
+
+            return false;
         }
 
     }

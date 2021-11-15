@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Views\Renderer;
+use Config\Redirect;
 
 class Test
 {
@@ -12,14 +13,12 @@ class Test
         self::$renderer = new Renderer();
     }
 
-    public function index(){
+    public function index():void{
 
-       self::$renderer->render("test1",[
-           "app"=>$_SERVER['APP_NAME']
-       ]);
+       Redirect::redirect("test2");
    }
 
    public function index2(){
-       echo "test fait 2";
+       self::$renderer->render("test2");
    }
 }

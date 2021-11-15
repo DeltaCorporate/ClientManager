@@ -2,9 +2,11 @@
 
 namespace App\Views;
 
+use Config\Router;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
+use Twig\TwigFunction;
 
 require "../vendor/autoload.php";
 
@@ -18,12 +20,16 @@ class Renderer
 
         $this->loader = new \Twig\Loader\FilesystemLoader('../Templates');
         self::$renderer = new \Twig\Environment($this->loader);
+        self::$renderer->addFunction(new TwigFunction("url",function ($name,$reqMethode,$datas=[]){
+            echo Router::generateURL($name,$reqMethode,$datas);
+        }));
     }
 
     public function getRenderer(): \Twig\Environment
     {
         return self::$renderer;
     }
+
 
 
     public static function render($path, $datas = []): bool

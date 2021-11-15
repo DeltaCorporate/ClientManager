@@ -2,10 +2,18 @@
 
 namespace App\Controllers;
 
+use App\Views\Renderer;
+
 class Test
 {
-   public function index(){
-       echo "test fait";
+    private static Renderer $renderer;
+    public function __construct()
+    {
+        self::$renderer = new Renderer();
+    }
+
+    public function index(){
+       self::$renderer->render("test1");
    }
 
    public function index2(){

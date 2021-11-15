@@ -14,6 +14,7 @@ class Router
 {
     private static array $routes;
     private static Renderer $renderer;
+
     public function __construct()
     {
         self::$routes = [];
@@ -23,9 +24,20 @@ class Router
     /**
      * @return array
      */
-    public function getRoutes(): array
+    public static function getRoutes(): array
     {
         return self::$routes;
+    }
+
+    public static function generateURL($name, $reqMethode, $datas)
+    {
+        $routes = self::$routes;
+        foreach ($routes as $route) {
+            if ($route['name'] == $name and $route['method'] == $reqMethode) {
+                return $route['link'];
+            }
+        }
+        return "";
     }
 
     /**
@@ -36,75 +48,79 @@ class Router
         return self::$renderer;
     }
 
-    public function addRoutes(){
+    public function addRoutes()
+    {
         include_once "../routes/web.php";
     }
 
 
-    public static function get($link,$toDo,$name =null): ?bool
+    public static function get($link, $toDo, $name = null): ?bool
     {
         $route = [];
-        if(empty($link) || empty($toDo)){
+        if (empty($link) || empty($toDo)) {
             return self::$renderer->render("errors.404");
-        } else{
+        } else {
             $route['link'] = $link;
-            $route['method'] = "GET";
+            $route['method'] = "get";
             $route['controller'] = $toDo[0];
             $route['function'] = $toDo[1];
-            array_push(self::$routes,$route);
+            if (!empty($name)) {
+                $route['name'] = $name;
+            }
+            array_push(self::$routes, $route);
         }
 
         return null;
     }
-    public static function post($link,$toDo,$name =null): ?bool
+
+    public static function post($link, $toDo, $name = null): ?bool
     {
 
         $route = [];
-        if(empty($link) || empty($toDo)){
+        if (empty($link) || empty($toDo)) {
             return self::$renderer->render("errors.404");
-        } else{
+        } else {
             $route['link'] = $link;
-            $route['method'] = "POST";
+            $route['method'] = "post";
             $route['controller'] = $toDo[0];
             $route['function'] = $toDo[1];
-            array_push(self::$routes,$route);
+            if (!empty($name)) {
+                $route['name'] = $name;
+            }
+            array_push(self::$routes, $route);
         }
         return null;
     }
 
-    static function checkRoute(){
+    static function checkRoute()
+    {
         $request = $_SERVER;
         $requestUri = $request['REQUEST_URI'];
-        $requestUri = explode("?",$requestUri);
+        $requestUri = explode("?", $requestUri);
         $requestUri = $requestUri[0];
-        if($requestUri != "/"){
+        if ($requestUri != "/") {
             $requestUri = str_split($requestUri);
-            if($requestUri[sizeof($requestUri)-1] == "/"){
-                array_splice($requestUri,sizeof($requestUri)-1);
+            if ($requestUri[sizeof($requestUri) - 1] == "/") {
+                array_splice($requestUri, sizeof($requestUri) - 1);
             }
             $requestUri = implode($requestUri);
         }
-
         $routes = self::$routes;
-
-
         $foundRoute = false;
-        foreach ($routes as $route){
-            if($route['link'] == $requestUri and $request['REQUEST_METHOD'] == $route['method']){
+        foreach ($routes as $route) {
+            if ($route['link'] == $requestUri and strtolower($request['REQUEST_METHOD']) == $route['method']) {
 
                 $controller = $route["controller"];
                 $function = $route["function"];
                 $foundRoute = true;
                 (new $controller())->$function();
                 return true;
-
-
             }
         }
 
 
-        if(!$foundRoute){
-            self::$renderer->render("errors.404");
+        if (!$foundRoute) {
+            die(self::$renderer->render("errors.404"));
         }
         return false;
 

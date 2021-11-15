@@ -13,7 +13,10 @@ class Test
     }
 
     public function index(){
-       self::$renderer->render("test1");
+
+       self::$renderer->render("test1",[
+           "app"=>$_SERVER['APP_NAME']
+       ]);
    }
 
    public function index2(){

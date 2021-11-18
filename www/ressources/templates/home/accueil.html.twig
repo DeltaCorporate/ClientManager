@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="shortcut icon" href="{{ asset('images/logo.svg') }}" type="image/x-icon">
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+</head>
+<body>
+
+
+<p class="text-primary">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam deleniti et explicabo impedit maxime nulla sequi soluta veritatis? Amet at deserunt doloribus error est eum illum praesentium quod sapiente vel.</p>
+
+
+
+
+<script src="{{ asset("js/jquery.js") }}"></script>
+<script src="{{ asset("js/app.js") }}"></script>
+{% block customJs %}{% endblock %}
+</body>
+</html>

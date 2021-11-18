@@ -1,9 +1,7 @@
 <?php
 
 
-use App\Controllers\Test;
+use App\Controllers\Home\HomeController;
 use Config\Router;
 
-Router::get("/test",[Test::class,'index'],'test1');
-
-include_once "../routes/test2.php";
+Router::get("/",[HomeController::class,'index'],'home');

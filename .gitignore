@@ -1,4 +1,6 @@
 .idea/
 
+composer.lock
+
 www/vendor
 www/node_modules

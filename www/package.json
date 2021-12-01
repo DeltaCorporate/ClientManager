@@ -4,11 +4,18 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "npx tailwindcss -i ./ressources/css/app.css -o ./public/assets/css/app.css"
+    "dev": "npx tailwindcss -i ./ressources/css/app.css -o ./public/assets/css/app.css",
+    "console": "node console"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.0",
     "postcss": "^8.3.11",
     "tailwindcss": "^2.2.19"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "fs-extra": "^10.0.0",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.12.0-alpha.1"
   }
 }

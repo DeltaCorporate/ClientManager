@@ -1,8 +1,7 @@
 <?php
 
-namespace Config;
+namespace Database;
 
-use App\Views\Renderer;
 use PDO;
 use PDOException;
 

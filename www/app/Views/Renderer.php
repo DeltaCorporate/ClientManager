@@ -21,7 +21,7 @@ class Renderer
     {
 
 
-        $this->loader = new FilesystemLoader(ROOT.'/ressources/templates/');
+        $this->loader = new FilesystemLoader(ROOT.'/ressources/views/');
         self::$renderer = new Environment($this->loader);
         self::$renderer->addFunction(new TwigFunction("url",function ($name,$reqMethode,$datas=[]){
             echo Router::generateURL($name,$reqMethode,$datas);

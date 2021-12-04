@@ -20,6 +20,6 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf \
     &&  docker-php-ext-install \
             pdo pdo_mysql opcache intl zip calendar dom mbstring gd xsl \
 \
-    &&  pecl install apcu && docker-php-ext-enable apcu \
+    &&  pecl install apcu && docker-php-ext-enable apcu
 
 WORKDIR /var/www/www

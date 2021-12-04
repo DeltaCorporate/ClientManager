@@ -5,18 +5,10 @@
 */
 
 use Console\Commands;
-use Database\Database;
 
 require "vendor/autoload.php";
 
-Database::connection(
-    [
-        "host" => "progDatabase",
-        "username" => "root",
-        "password" => "root",
-        "dbname" => "client"
-    ]
-);
+
 new Commands();
 
 

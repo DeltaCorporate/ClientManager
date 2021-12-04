@@ -8,12 +8,13 @@
 
 namespace Console;
 
+use Database\Database;
 use PhpSchool\CliMenu\Builder\CliMenuBuilder;
 use PhpSchool\CliMenu\CliMenu;
 use PhpSchool\CliMenu\Exception\InvalidTerminalException;
 
 
-class Commands
+class Commands extends Database
 {
     public function __construct()
     {
@@ -32,10 +33,7 @@ class Commands
         $flash = $cliMenu->flash($msg);
         $flash->getStyle()->setBg('green')->setFg('black');
         $flash->display();
-        try {
-            $cliMenu->close();
-        } catch (InvalidTerminalException $e) {
-        }
+
     }
 
     public function controller(CliMenu $cliMenu)
@@ -59,18 +57,26 @@ class Commands
                 switch (sizeof($controllerSplited)) {
                     case 1:
                         $controllerName = $controller . 'Controller';
-                        shell_exec('touch ./app/Controllers/' . $controllerName. '.php');
-                        $content = "<?php".PHP_EOL."namespace App\Controllers;".PHP_EOL.PHP_EOL."class $controllerName ".PHP_EOL."{".PHP_EOL.PHP_EOL."}";
+                        shell_exec('touch ./app/Controllers/' . $controllerName . '.php');
+                        $content = "<?php" . PHP_EOL . "namespace App\Controllers;" . PHP_EOL . PHP_EOL . "class $controllerName " . PHP_EOL . "{" . PHP_EOL . PHP_EOL . "}";
                         file_put_contents('./app/Controllers/' . $controllerName . '.php', $content);
                         $this->flashSuccess($cliMenu, 'The Controller created successfully\nCheck the file in the app/Controllers/' . $controllerName . '.php');
+                        try {
+                            $cliMenu->close();
+                        } catch (InvalidTerminalException $e) {
+                        }
                         break;
                     case 2:
                         $controllerName = $controllerSplited[1] . 'Controller';
                         shell_exec('mkdir -p ./app/Controllers/' . $controllerSplited[0]);
-                        shell_exec('touch ./app/Controllers/' . $controllerSplited[0] . '/' .  $controllerName . '.php');
-                        $content = "<?php".PHP_EOL."namespace App\Controllers\\$controllerSplited[0];".PHP_EOL.PHP_EOL."class $controllerName ".PHP_EOL."{".PHP_EOL.PHP_EOL."}";
+                        shell_exec('touch ./app/Controllers/' . $controllerSplited[0] . '/' . $controllerName . '.php');
+                        $content = "<?php" . PHP_EOL . "namespace App\Controllers\\$controllerSplited[0];" . PHP_EOL . PHP_EOL . "class $controllerName " . PHP_EOL . "{" . PHP_EOL . PHP_EOL . "}";
                         file_put_contents('./app/Controllers/' . $controllerSplited[0] . '/' . $controllerName . '.php', $content);
                         $this->flashSuccess($cliMenu, 'The Controller created successfully\nCheck the file in the app/Controllers/' . $controllerSplited[0] . '/' . $controllerName . '.php');
+                        try {
+                            $cliMenu->close();
+                        } catch (InvalidTerminalException $e) {
+                        }
                         break;
                 }
             }
@@ -87,6 +93,12 @@ class Commands
                 ->addItem('Controller', function (CliMenu $cliMenu) {
                     $this->controller($cliMenu);
                 })
+                ->addItem("Model:create", function (CliMenu $cliMenu) {
+                    $this->modelCreation($cliMenu);
+                })
+                ->addItem("Model:migration", function (CliMenu $cliMenu) {
+                    $this->modelMigration($cliMenu);
+                })
                 ->addLineBreak('#')
                 ->setBackgroundColour("black")
                 ->setForegroundColour("white")
@@ -97,6 +109,36 @@ class Commands
         } catch (InvalidTerminalException $e) {
             echo $e->getMessage();
         }
+    }
+
+    private function modelCreation(CliMenu $cliMenu)
+    {
+
+    }
+
+    private function modelMigration(CliMenu $cliMenu)
+    {
+        $models = scandir('./database/migrations');
+        array_shift($models);
+        array_shift($models);
+        foreach ($models as $model) {
+            $modelName = pathinfo($model, PATHINFO_FILENAME);
+            $modelClass = "\\Database\\migrations\\$modelName";
+            $model = new $modelClass();
+            $sql = $model->up();
+            dump($sql);
+            $migrationStatus = self::$instance->prepare($sql)->execute();
+            if ($migrationStatus) {
+                $this->flashSuccess($cliMenu, 'The migration for the model ' . $modelName . ' was created successfully');
+            } else {
+                $this->flashError($cliMenu, 'The migration for the model ' . $modelName . ' was not created successfully');
+            }
+        }
+        try {
+            $cliMenu->close();
+        } catch (InvalidTerminalException $e) {
+        }
+
     }
 
 }

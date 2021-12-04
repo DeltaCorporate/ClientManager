@@ -6,8 +6,9 @@ class HomeController
 {
     public function index(): bool
     {
+        dd([date('YmdHis')]);
         return render('home.accueil', [
-            'title' => 'Home',
+            'title' => "Page d'accueil",
         ]);
     }
 

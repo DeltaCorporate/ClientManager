@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
-class Model
+use Database\Database;
+
+class Model extends Database
 {
 
 }

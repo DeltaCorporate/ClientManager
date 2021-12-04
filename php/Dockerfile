@@ -21,8 +21,5 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf \
             pdo pdo_mysql opcache intl zip calendar dom mbstring gd xsl \
 \
     &&  pecl install apcu && docker-php-ext-enable apcu \
-    && curl -fsSL https://deb.nodesource.com/setup_16.x |  bash - \
-       && apt-get install -y nodejs \
-    && npm install -g yarn@latest \
 
 WORKDIR /var/www/www

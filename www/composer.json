@@ -2,9 +2,9 @@
     "name": "delta/client_manager",
     "license": "MIT",
     "autoload": {
-        "psr-0": {
-
-        },
+        "files": [
+            "config/GlobalFunctions.php"
+        ],
         "psr-4": {
             "App\\": "app/",
             "Database\\": "database/",

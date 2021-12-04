@@ -20,7 +20,7 @@ class DotEnvParser
         foreach ($files as $file){
             $fileExtension = explode(".",$file)[1];
             if($fileExtension === "env"){
-                array_push($this->configFiles,$file);
+                $this->configFiles[] = $file;
             }
         }
         if(sizeof($this->configFiles)>0){

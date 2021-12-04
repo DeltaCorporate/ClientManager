@@ -60,7 +60,7 @@ class Commands
                     case 1:
                         $controllerName = $controller . 'Controller';
                         shell_exec('touch ./app/Controllers/' . $controllerName. '.php');
-                        $content = "<?php".PHP_EOL."namespace App\Controllers;".PHP_EOL.PHP_EOL."use App\Views\Renderer;".PHP_EOL.PHP_EOL."class $controllerName ".PHP_EOL."{".PHP_EOL.PHP_EOL."}";
+                        $content = "<?php".PHP_EOL."namespace App\Controllers;".PHP_EOL.PHP_EOL."class $controllerName ".PHP_EOL."{".PHP_EOL.PHP_EOL."}";
                         file_put_contents('./app/Controllers/' . $controllerName . '.php', $content);
                         $this->flashSuccess($cliMenu, 'The Controller created successfully\nCheck the file in the app/Controllers/' . $controllerName . '.php');
                         break;
@@ -68,7 +68,7 @@ class Commands
                         $controllerName = $controllerSplited[1] . 'Controller';
                         shell_exec('mkdir -p ./app/Controllers/' . $controllerSplited[0]);
                         shell_exec('touch ./app/Controllers/' . $controllerSplited[0] . '/' .  $controllerName . '.php');
-                        $content = "<?php".PHP_EOL."namespace App\Controllers\\$controllerSplited[0];".PHP_EOL.PHP_EOL."use App\Views\Renderer;".PHP_EOL.PHP_EOL."class $controllerName ".PHP_EOL."{".PHP_EOL.PHP_EOL."}";
+                        $content = "<?php".PHP_EOL."namespace App\Controllers\\$controllerSplited[0];".PHP_EOL.PHP_EOL."class $controllerName ".PHP_EOL."{".PHP_EOL.PHP_EOL."}";
                         file_put_contents('./app/Controllers/' . $controllerSplited[0] . '/' . $controllerName . '.php', $content);
                         $this->flashSuccess($cliMenu, 'The Controller created successfully\nCheck the file in the app/Controllers/' . $controllerSplited[0] . '/' . $controllerName . '.php');
                         break;
@@ -83,12 +83,13 @@ class Commands
         try {
             (new CliMenuBuilder)
                 ->setTitle('Client Manager Console')
+                ->setTitleSeparator('#')
                 ->addItem('Controller', function (CliMenu $cliMenu) {
                     $this->controller($cliMenu);
                 })
-                ->addLineBreak('-')
+                ->addLineBreak('#')
                 ->setBackgroundColour("black")
-                ->setForegroundColour("green")
+                ->setForegroundColour("white")
                 ->setPadding(2, 4)
                 ->setMarginAuto()
                 ->build()

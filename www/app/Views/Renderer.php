@@ -2,7 +2,7 @@
 
 namespace App\Views;
 
-use Config\Router;
+use App\Exceptions\UndefinedOptionsException;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use Twig\TwigFunction;
@@ -21,10 +21,17 @@ class Renderer
         $this->loader = new FilesystemLoader(ROOT.'/ressources/views/');
         self::$renderer = new Environment($this->loader);
         self::$renderer->addFunction(new TwigFunction("url",function ($name,$reqMethode,$datas=[]){
-            echo Router::generateURL($name,$reqMethode,$datas);
+            echo url($name,$reqMethode,$datas);
+
         }));
         self::$renderer->addFunction(new TwigFunction("asset",function ($path){
             echo "/assets/".$path;
+        }));
+        self::$renderer->addFunction(new TwigFunction("image",function ($path){
+            echo "/src/images/".$path;
+        }));
+        self::$renderer->addFunction(new TwigFunction("arrow",function (){
+            echo "&#10132;";
         }));
     }
 

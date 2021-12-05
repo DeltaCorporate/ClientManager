@@ -30,16 +30,9 @@ class Router
         return self::$routes;
     }
 
-    public static function generateURL($name, $reqMethode, $datas)
-    {
-        $routes = self::$routes;
-        foreach ($routes as $route) {
-            if ($route['name'] == $name and $route['method'] == $reqMethode) {
-                return $route['link'];
-            }
-        }
-        return "";
-    }
+
+
+
 
     /**
      * @return Renderer

@@ -5,21 +5,46 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link rel="shortcut icon" href="{{ asset('images/logo.svg') }}" type="image/x-icon">
-    <title>{{ title }}</title>
+    <link rel="shortcut icon" href="{{ image('logo.svg') }}" type="image/x-icon">
+    <title>{% block title %}{% endblock %}</title>
 </head>
-<body class="">
-{% include 'components/navbar.html.twig' %}
+<body class=" h-screen overflow-hidden">
+{% include 'components/header.html.twig' %}
+<div class="flex h-full">
+    {% include 'components/navbar.html.twig' %}
 
-{% block body %}
-{% endblock %}
+    <div class="min-h-full flex-1 bg-primary-100">
+        {% block body %}{% endblock %}
+    </div>
 
-
-
+</div>
 
 
 <script src="{{ asset("js/jquery.js") }}"></script>
 <script src="{{ asset("js/app.js") }}"></script>
+<!-- Required popper.js -->
+<script
+        src="https://unpkg.com/@popperjs/core@2.9.1/dist/umd/popper.min.js"
+        charset="utf-8"
+></script>
+<script>
+    function openDropdown(event, dropdownID) {
+        let element = event.target;
+        while (element.nodeName !== "BUTTON") {
+            element = element.parentNode;
+        }
+        const popper = Popper.createPopper(
+            element,
+            document.getElementById(dropdownID),
+            {
+                placement: "bottom-start",
+            }
+        );
+        document.getElementById(dropdownID).classList.toggle("hidden");
+        document.getElementById(dropdownID).classList.toggle("block");
+    }
+</script>
 {% block customJs %}{% endblock %}
+
 </body>
 </html>

@@ -1,6 +1,10 @@
-{% include "layouts/base.html.twig" with {'title':'Home'} %}
+{% extends "layouts/base.html.twig" %}
+
+{% block title %}
+    Home
+{% endblock %}
 
 {% block body %}
-Hello World!
+<a href="{{ url("home",'get') }}">HEllo</a>
 
 {% endblock %}

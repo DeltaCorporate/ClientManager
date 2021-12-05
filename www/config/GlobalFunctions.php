@@ -5,6 +5,7 @@
 */
 
 use App\Views\Renderer;
+use Config\Router;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
@@ -18,10 +19,22 @@ function render($path, $datas = []): bool
     try {
         echo $renderer->render($path, $datas);
         return true;
-    } catch (LoaderError | RuntimeError | SyntaxError $e) {
+    } catch (LoaderError|RuntimeError|SyntaxError $e) {
         echo $e->getMessage();
 
         return false;
     }
 
+}
+
+function url($name, $reqMethode, $datas = null)
+{
+    $routeur = new Router();
+    $routes = $routeur->getRoutes();
+    foreach ($routes as $route) {
+        if ($route['name'] == $name and $route['method'] == $reqMethode) {
+            return $route['link'];
+        }
+    }
+    return "";
 }

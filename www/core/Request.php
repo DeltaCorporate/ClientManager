@@ -28,27 +28,27 @@ class Request
 
     public static function get($key)
     {
-        return $_GET[$key] ?? null;
+        return $_GET[$key] ?? [];
     }
 
     public static function post($key)
     {
-        return $_GET[$key] ?? null;
+        return $_GET[$key] ?? [];
     }
 
     public static function file($key)
     {
-        return $_FILES[$key] ?? null;
+        return $_FILES[$key] ?? [];
     }
 
     public static function cookie($key)
     {
-        return $_COOKIE[$key] ?? null;
+        return $_COOKIE[$key] ?? [];
     }
 
     public static function session($key)
     {
-        return $_SESSION[$key] ?? null;
+        return $_SESSION[$key] ?? [];
     }
 
     public static function token(): string

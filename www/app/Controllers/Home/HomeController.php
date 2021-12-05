@@ -13,7 +13,6 @@ class HomeController
     }
     public function test(): bool
     {
-
         return render('home.test',[
             "title"=>Request::get('title'),
         ]);

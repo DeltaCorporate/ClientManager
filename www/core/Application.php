@@ -6,7 +6,7 @@
 *@NameSpace: Config
 */
 
-namespace Config;
+namespace Core;
 
 use Database\Database;
 
@@ -22,6 +22,10 @@ class Application
         $this->request = new Request();
 
         $this->router = new Router($this->request);
+
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
 
     }
 

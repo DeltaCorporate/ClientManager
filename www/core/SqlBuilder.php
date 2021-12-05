@@ -6,7 +6,7 @@
 *@NameSpace: Config
 */
 
-namespace Config;
+namespace Core;
 
 class SqlBuilder
 {

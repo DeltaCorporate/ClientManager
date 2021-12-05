@@ -1,8 +1,7 @@
 <?php
 
-namespace Config;
+namespace Core;
 
-use App\Views\Views;
 
 class DotEnvParser
 {

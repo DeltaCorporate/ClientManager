@@ -1,7 +1,7 @@
 <?php
 
 
-use Config\Application;
+use Core\Application;
 
 require "../vendor/autoload.php";
 define("ROOT", dirname(__DIR__));

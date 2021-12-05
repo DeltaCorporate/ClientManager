@@ -2,7 +2,7 @@
 
 
 use App\Controllers\Home\HomeController;
-use Config\Router;
+use Core\Router;
 
 Router::get("/",[HomeController::class,'index'],'home');
 Router::get("/test",[HomeController::class,'test'],'test');

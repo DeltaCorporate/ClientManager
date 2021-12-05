@@ -5,7 +5,7 @@
 */
 
 use App\Views\Renderer;
-use Config\Router;
+use Core\Router;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;

@@ -3,12 +3,12 @@
     "license": "MIT",
     "autoload": {
         "files": [
-            "config/GlobalFunctions.php"
+            "core/GlobalFunctions.php"
         ],
         "psr-4": {
             "App\\": "app/",
             "Database\\": "database/",
-            "Config\\": "config/",
+            "Core\\": "core/",
             "Routes\\": "routes/",
             "Console\\": "Console/"
         }

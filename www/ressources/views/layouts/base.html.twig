@@ -27,23 +27,6 @@
         src="https://unpkg.com/@popperjs/core@2.9.1/dist/umd/popper.min.js"
         charset="utf-8"
 ></script>
-<script>
-    function openDropdown(event, dropdownID) {
-        let element = event.target;
-        while (element.nodeName !== "BUTTON") {
-            element = element.parentNode;
-        }
-        const popper = Popper.createPopper(
-            element,
-            document.getElementById(dropdownID),
-            {
-                placement: "bottom-start",
-            }
-        );
-        document.getElementById(dropdownID).classList.toggle("hidden");
-        document.getElementById(dropdownID).classList.toggle("block");
-    }
-</script>
 {% block customJs %}{% endblock %}
 
 </body>

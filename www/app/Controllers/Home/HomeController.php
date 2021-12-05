@@ -2,13 +2,21 @@
 
 namespace App\Controllers\Home;
 
+use Config\Request;
+
 class HomeController
 {
 
     public function index(): bool
     {
-        dd(url("home",'get'));
         return render('home.accueil');
+    }
+    public function test(): bool
+    {
+
+        return render('home.test',[
+            "title"=>Request::get('title'),
+        ]);
     }
 
 }

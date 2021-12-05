@@ -27,14 +27,28 @@ function render($path, $datas = []): bool
 
 }
 
-function url($name, $reqMethode, $datas = null)
+function url($name, $reqMethode, $datas = null): string
 {
-    $routeur = new Router();
-    $routes = $routeur->getRoutes();
+    $routes = Router::getRoutes($reqMethode);
     foreach ($routes as $route) {
-        if ($route['name'] == $name and $route['method'] == $reqMethode) {
-            return $route['link'];
+        if($route['name']===$name){
+            return $route['path'];
         }
     }
     return "";
+}
+
+function redirect($link="/")
+{
+    $routes = Router::getRoutes('GET');
+
+    if (str_contains($link, '/')) {
+        $link = $routes[$link]['path'];
+    } else{
+        $link = url($link,'get');
+    }
+    if(!headers_sent()){
+        header("Location: $link");
+        exit();
+    }
 }

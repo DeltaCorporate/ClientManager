@@ -4,14 +4,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="" type="image/x-icon">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="shortcut icon" href="{{ image('logo.svg') }}" type="image/x-icon">
     <title>404</title>
 </head>
-<body>
-<div>
-    <h1>C'est une 404</h1>
+<body class="min-h-screen bg-primary-100">
+<div class="flex min-h-screen w-full items-center justify-center">
+    <div class="text-center">
+        <h1 class="text-primary-500 mb-5 text-2xl ">This page doen't exist</h1>
+        <a href="{{ url("home","get") }}" class="text-primary-100 bg-primary-50 px-4 py-2 rounded">Return at home</a>
+    </div>
 
-    <p>ligne : {{ ligne }}</p>
 </div>
 </body>
 </html>

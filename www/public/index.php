@@ -1,19 +1,15 @@
 <?php
 
-use Config\DotEnvParser;
-use Config\Router;
-use Database\Database;
 
+use Config\Application;
 
 require "../vendor/autoload.php";
 define("ROOT", dirname(__DIR__));
 const ROOT_DIR = ROOT . "/public";
-new DotEnvParser();
-Database::connection();
-$router = new Router();
 
 
 
+$app = new Application();
 
-
+$app->run();
 

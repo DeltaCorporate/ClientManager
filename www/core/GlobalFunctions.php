@@ -52,3 +52,11 @@ function redirect($link="/")
         exit();
     }
 }
+
+function session($key, $value)
+{
+    $_SESSION['flash'][$key] = [
+        "remove" => false,
+        "value" => $value
+    ];
+}

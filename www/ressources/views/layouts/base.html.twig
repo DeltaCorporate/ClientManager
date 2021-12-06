@@ -9,6 +9,37 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body class=" h-screen overflow-hidden">
+{% if session('success') %}
+    <div class="absolute top-2 right-0 h-12 w-80 bg-green-200 text-green-900 flex pl-2 font-medium items-center z-50 rounded-l-full">
+        {{ session('success') }}
+        <span class="absolute right-0 flash">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+        </span>
+    </div>
+{% endif %}
+{% if session('error') %}
+    <div class="absolute top-2 right-0 h-12 w-80 bg-red-200 text-red-900 flex pl-2 font-medium items-center z-50 rounded-l-full">
+    {{ session('error') }}
+    <span class="absolute right-0 flash">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+        </span>
+    </div>{% endif %}
+{% if session('info') %}
+    <div class="absolute top-2 right-0 h-12 w-80 bg-gray-200 text-gray-900 flex pl-2 font-medium items-center z-50 rounded-l-full">
+    {{ session('info') }}
+    <span class="absolute right-0 flash">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+        </span>
+    </div>{% endif %}
 {% include 'components/header.html.twig' %}
 <div class="flex h-full">
     {% include 'components/navbar.html.twig' %}

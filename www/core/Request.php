@@ -68,7 +68,11 @@ class Request
 
     public static function clearSession($key="")
     {
-        $_SESSION[$key] = [];
+        if($key==""){
+            unset($_SESSION);
+        }else{
+            unset($_SESSION[$key]);
+        }
     }
 
     public static function csrf(): string

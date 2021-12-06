@@ -13,3 +13,8 @@ function openDropdown(event, dropdownID) {
     document.getElementById(dropdownID).classList.toggle("hidden");
     document.getElementById(dropdownID).classList.toggle("block");
 }
+
+
+$('.flash').click(function () {
+    $(this).parent().remove();
+})

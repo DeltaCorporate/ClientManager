@@ -21,13 +21,10 @@ class Application
         new DotEnvParser();
         Database::connection();
         $this->request = new Request();
-
         $this->session = new Session();
+
         $this->router = new Router($this->request, $this->session);
 
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
 
     }
 

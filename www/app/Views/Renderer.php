@@ -19,7 +19,9 @@ class Renderer
 
 
         $this->loader = new FilesystemLoader(ROOT . '/ressources/views/');
-        self::$renderer = new Environment($this->loader);
+        self::$renderer = new Environment($this->loader,[
+            'strict_variables' => false,
+        ]);
         self::$renderer->addFunction(new TwigFunction("url", function ($name, $reqMethode, $datas = []) {
             echo url($name, $reqMethode, $datas);
 
@@ -38,10 +40,7 @@ class Renderer
             echo "<input type='hidden' name='csrf' value='$token'>";
         }));
         self::$renderer->addFunction(new TwigFunction("session", function ($key) {
-            return Session::getFlash($key);
-        }));
-        self::$renderer->addFunction(new TwigFunction("session_clean", function () {
-            Request::clearSession("flash");
+            return (Session::getFlash($key))['value'];
         }));
     }
 

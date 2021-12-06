@@ -10,62 +10,50 @@ namespace Core;
 
 class Session
 {
-    protected static $flash;
+    protected const FLASH_KEY = 'flash';
 
     public function __construct()
     {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        self::$flash = Request::session('flash') ?? [];
-        $this->updateFlashToRemove();
+        session_start();
+        $flashMessages = $_SESSION[self::FLASH_KEY] ?? [];
+        $flashMessages = array_map(function ($message) {
+            $message['remove'] = true;
+            return $message;
+        }, $flashMessages);
+        Session::setFlash($flashMessages);
 
     }
 
-    public function updateFlashToRemove()
+
+
+
+
+    public static function setFlash($value)
     {
-
-        $arr2 = array_map(fn($message) =>{
-            return [
-                "remove" => true,
-                "value" =>
-    ];
-        });
-        $flash = Request::session("flash");
-        foreach ($flash as $key => $message) {
-            $message["remove"] = true;
-        }
-        $this->setFlash('flash', self::$flash);
+        $_SESSION[self::FLASH_KEY] = $value;
     }
 
 
-    public static function setFlash($key, $value)
-    {
-        $_SESSION['flash'][$key] = [
-            "remove" => false,
-            "value" => $value
-        ];
-    }
+
 
     public static function getFlash($key)
     {
-        if (isset($_SESSION['flash'][$key])) {
-            return $_SESSION['flash'][$key];
+        if (isset($_SESSION[self::FLASH_KEY][$key])) {
+            return $_SESSION[self::FLASH_KEY][$key];
         }
         return [];
     }
 
     public function __destruct()
     {
-        $flash = Request::session('flash');
-        foreach ($flash as $key => $message) {
-
-            if ($message['remove']) {
-                unset($flash[$key]);
+        $flashMessages = $_SESSION[self::FLASH_KEY] ?? [];
+        foreach ($flashMessages as $key => $flashMessage) {
+            dump($flashMessage);
+            if ($flashMessage['remove']) {
+                unset($flashMessages[$key]);
             }
         }
-        $this->setFlash('flash', $flash);
+        Session::setFlash($flashMessages);
     }
 
 }

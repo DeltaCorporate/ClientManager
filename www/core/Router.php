@@ -12,11 +12,13 @@ class Router
 {
     protected static array $routes;
     private Request $request;
+    private Session $session;
 
-    public function __construct(Request $request)
+    public function __construct(Request $request,Session $session)
     {
         require_once('../routes/web.php');
         $this->request = $request;
+        $this->session = $session;
     }
 
     public static function get($path, $callable, $name)
@@ -50,7 +52,7 @@ class Router
         if ($callable === false) {
             return render('errors.404');
         }
-        return call_user_func($callable);
+        return call_user_func_array($callable,array('request'=>$this->request));
 
     }
 

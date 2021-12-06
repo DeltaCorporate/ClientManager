@@ -3,6 +3,7 @@
 namespace App\Controllers\Home;
 
 use Core\Request;
+use Core\Session;
 
 class HomeController
 {
@@ -13,6 +14,8 @@ class HomeController
     }
     public function test(): bool
     {
+
+        redirect('home');
         return render('home.test',[
             "title"=>Request::get('title'),
         ]);

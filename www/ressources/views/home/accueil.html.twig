@@ -5,6 +5,9 @@
 {% endblock %}
 
 {% block body %}
+    {% for message in session('success') %}
+        <li class="text-white">{{ message }}</li>
+    {% endfor %}
 <a href="{{ url("test",'get') }}" class="text-red-50">Test</a>
 
 {% endblock %}

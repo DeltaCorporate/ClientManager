@@ -33,6 +33,7 @@ class DotEnvParser
                     $name = $contentInfo[0];
                     $value = $contentInfo[1];
                     $comment = str_split($name)[0];
+                    $value = str_replace("\r","",$value);
                     if(!empty($value) and $comment !="#"){
 
                         $_SERVER[$name] = $value;

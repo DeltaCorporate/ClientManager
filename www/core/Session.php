@@ -25,13 +25,22 @@ class Session
 
     public function updateFlashToRemove()
     {
-        foreach (self::$flash as $key => $message) {
+
+        $arr2 = array_map(fn($message) =>{
+            return [
+                "remove" => true,
+                "value" =>
+    ];
+        });
+        $flash = Request::session("flash");
+        foreach ($flash as $key => $message) {
             $message["remove"] = true;
         }
         $this->setFlash('flash', self::$flash);
     }
 
-    public function setFlash($key, $value)
+
+    public static function setFlash($key, $value)
     {
         $_SESSION['flash'][$key] = [
             "remove" => false,
@@ -39,7 +48,7 @@ class Session
         ];
     }
 
-    public function getFlash($key)
+    public static function getFlash($key)
     {
         if (isset($_SESSION['flash'][$key])) {
             return $_SESSION['flash'][$key];
@@ -51,11 +60,12 @@ class Session
     {
         $flash = Request::session('flash');
         foreach ($flash as $key => $message) {
+
             if ($message['remove']) {
-                unset($_SESSION['flash'][$key]);
+                unset($flash[$key]);
             }
         }
-        $this->setFlash('flash',$flash);
+        $this->setFlash('flash', $flash);
     }
 
 }

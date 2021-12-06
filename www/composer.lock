@@ -75,16 +75,16 @@
         },
         {
             "name": "php-school/cli-menu",
-            "version": "4.1.0",
+            "version": "4.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-school/cli-menu.git",
-                "reference": "d25ae866d86b1ac95f026e7147c0e30ef4996dcd"
+                "reference": "af04121429be1fc09ae13b36a23c9ac4f4272f0a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-school/cli-menu/zipball/d25ae866d86b1ac95f026e7147c0e30ef4996dcd",
-                "reference": "d25ae866d86b1ac95f026e7147c0e30ef4996dcd",
+                "url": "https://api.github.com/repos/php-school/cli-menu/zipball/af04121429be1fc09ae13b36a23c9ac4f4272f0a",
+                "reference": "af04121429be1fc09ae13b36a23c9ac4f4272f0a",
                 "shasum": ""
             },
             "require": {
@@ -133,9 +133,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-school/cli-menu/issues",
-                "source": "https://github.com/php-school/cli-menu/tree/4.1.0"
+                "source": "https://github.com/php-school/cli-menu/tree/4.2.0"
             },
-            "time": "2020-10-24T09:18:48+00:00"
+            "time": "2021-12-05T18:57:08+00:00"
         },
         {
             "name": "php-school/terminal",

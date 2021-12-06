@@ -14,6 +14,7 @@ class Application
 {
     private Router $router;
     private Request $request;
+    private Session $session;
 
     public function __construct()
     {
@@ -21,7 +22,8 @@ class Application
         Database::connection();
         $this->request = new Request();
 
-        $this->router = new Router($this->request);
+        $this->session = new Session();
+        $this->router = new Router($this->request, $this->session);
 
         if (session_status() == PHP_SESSION_NONE) {
             session_start();

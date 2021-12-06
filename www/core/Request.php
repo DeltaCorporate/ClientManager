@@ -66,9 +66,9 @@ class Request
         $_SESSION['csrf'][] = $value;
     }
 
-    public static function clearSessionCsrf()
+    public static function clearSession($key="")
     {
-        $_SESSION['csrf'] = [];
+        $_SESSION[$key] = [];
     }
 
     public static function csrf(): string

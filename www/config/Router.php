@@ -59,7 +59,7 @@ class Router
     {
         $route = [];
         if (empty($link) || empty($toDo)) {
-            return self::$renderer->render("errors.404");
+            return render("errors.404");
         } else {
             $route['link'] = $link;
             $route['method'] = "get";
@@ -68,7 +68,7 @@ class Router
             if (!empty($name)) {
                 $route['name'] = $name;
             }
-            array_push(self::$routes, $route);
+            self::$routes[] = $route;
         }
 
         return null;
@@ -79,7 +79,7 @@ class Router
 
         $route = [];
         if (empty($link) || empty($toDo)) {
-            return self::$renderer->render("errors.404");
+            return render("errors.404");
         } else {
             $route['link'] = $link;
             $route['method'] = "post";
@@ -88,7 +88,7 @@ class Router
             if (!empty($name)) {
                 $route['name'] = $name;
             }
-            array_push(self::$routes, $route);
+            self::$routes[] = $route;
         }
         return null;
     }
@@ -116,7 +116,7 @@ class Router
             }
         }
 
-        return self::$renderer->render("errors.404");
+        return render("errors.404");
 
     }
 

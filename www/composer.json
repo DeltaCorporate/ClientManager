@@ -2,14 +2,15 @@
     "name": "delta/client_manager",
     "license": "MIT",
     "autoload": {
-        "psr-0": {
-
-        },
+        "files": [
+            "config/GlobalFunctions.php"
+        ],
         "psr-4": {
             "App\\": "app/",
             "Database\\": "database/",
             "Config\\": "config/",
-            "Routes\\": "routes/"
+            "Routes\\": "routes/",
+            "Console\\": "Console/"
         }
     },
     "authors": [
@@ -27,6 +28,7 @@
     "require": {
         "twig/twig": "^2.0",
         "symfony/var-dumper": "^5.3",
-      "ext-pdo": "*"
+      "ext-pdo": "*",
+        "php-school/cli-menu": "^4.1"
     }
 }

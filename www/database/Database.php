@@ -7,21 +7,39 @@ use PDOException;
 
 class Database
 {
-    public function __construct()
+     static protected $instance = null;
+    public static function connection($connectParams = [])
     {
-        $host = $_SERVER['DB_HOST'];
-        $dbname = $_SERVER['DB_NAME'];
-        $username = $_SERVER['DB_USER'];
-        $password = $_SERVER['DB_PASS'];
-        try {
-            $database = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-            $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $database->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
-            $database->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES utf8');
-        } catch (PDOException $e) {
-            dd($e->getMessage());
+        if(empty($connectParams)){
+            $host = $_SERVER['DB_HOST'];
+            $dbname = $_SERVER['DB_NAME'];
+            $username = $_SERVER['DB_USER'];
+            $password = $_SERVER['DB_PASSWORD'];
+        } else{
+            $host = $connectParams['host'];
+            $dbname = $connectParams['dbname'];
+            $username = $connectParams['username'];
+            $password = $connectParams['password'];
         }
-        return $database;
+        if(self::$instance == null)
+        {
+            try {
+                self::$instance = new PDO("mysql:host=$host;dbname=$dbname", $username,$password);
+                self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                self::$instance->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+                self::$instance->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES utf8');
+            } catch (PDOException $e) {
+                dd($e->getMessage());
+            }
+        }
+    }
+
+    /**
+     * @return null
+     */
+    public static function getInstance()
+    {
+        return self::$instance;
     }
 
 }

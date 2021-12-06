@@ -4,9 +4,6 @@ namespace App\Views;
 
 use Config\Router;
 use Twig\Environment;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 use Twig\Loader\FilesystemLoader;
 use Twig\TwigFunction;
 
@@ -38,21 +35,7 @@ class Renderer
 
 
 
-    public static function render($path, $datas = []): bool
-    {
 
-        $path = str_replace(".", "/", $path);
-        $path .= ".html.twig";
-        try {
-            echo self::$renderer->render($path, $datas);
-            return true;
-        } catch (LoaderError | RuntimeError | SyntaxError $e) {
-            echo $e->getMessage();
-
-            return false;
-        }
-
-    }
 
 
 }

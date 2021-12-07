@@ -46,7 +46,6 @@ class AuthentificationController
         session("success","You have been registered! An email was sent to verify your account!");
         redirect("user.login");
 
-
     }
 
 }

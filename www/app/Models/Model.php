@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Exceptions\ModelColumnNotfound;
 use Database\Database;
 
 abstract class Model extends Database
@@ -24,6 +25,7 @@ abstract class Model extends Database
         $stmt->execute();
         return true;
     }
+
     public static function delete($id): bool
     {
         $self = new static();
@@ -35,6 +37,49 @@ abstract class Model extends Database
         $stmt->execute();
         return true;
     }
+
+    /**
+     * @throws ModelColumnNotfound
+     */
+    public static function update($id, $data): bool
+    {
+        $self = new static();
+        $table = $self->getTableName();
+        $primaryKey = $self->primaryKey();
+        $sql = "UPDATE `$table` SET ";
+        foreach ($data as $key => $value) {
+            $sql .= "`$key` = :$key, ";
+        }
+        $sql = rtrim($sql, ', ');
+        $sql .= " WHERE $primaryKey = :$primaryKey";
+        $stmt = self::$instance->prepare($sql);
+        foreach ($data as $key => $value) {
+            if ($self->existColumn($key)) {
+                $stmt->bindValue(":" . $key, $value);
+            }
+        }
+        $stmt->bindValue(":" . $primaryKey, $id);
+        $stmt->execute();
+        return true;
+    }
+
+    /**
+     * @throws ModelColumnNotfound
+     */
+    protected function existColumn($column): bool
+    {
+        $self = new static();
+        $table = $self->getTableName();
+        if (!in_array($column, $self->getColumns())) {
+            throw new ModelColumnNotfound("Column $column not found in table $table");
+
+        }
+        return true;
+    }
+
+    /**
+     * @throws ModelColumnNotfound
+     */
     public static function save($values): bool
     {
         $self = new static();
@@ -43,17 +88,38 @@ abstract class Model extends Database
         $params = array_map(fn($attr) => ':' . $attr, $columns);
         $sql = "INSERT INTO $tableName (" . implode(",", $columns) . ") VALUES (" . implode(",", $params) . ")";
         $statement = self::$instance->prepare($sql);
-        foreach ($columns as $column) {
-            $statement->bindValue(':' . $column, $values[$column]);
+        foreach ($columns as $key => $column) {
+            if ($self->existColumn($column)) {
+                $statement->bindValue(':' . $column, $values[$key]);
+            }
         }
         $statement->execute();
         return true;
     }
 
+    /**
+     * @throws ModelColumnNotfound
+     */
+    public static function bulkCreate($datas)
+    {
+        foreach ($datas as $data) {
+            static::save($data);
+        }
+    }
+
+    /**
+     * @throws ModelColumnNotfound
+     */
+    public static function bulkUpdate($datas)
+    {
+        foreach ($datas as $data) {
+            static::update($data['id'], $data['values']);
+        }
+    }
+
     public static function find($id)
     {
         $self = new static();
-
         $table = $self->getTableName();
         $primaryKey = $self->primaryKey();
         $sql = "SELECT * FROM `$table` WHERE $primaryKey = :" . $primaryKey;

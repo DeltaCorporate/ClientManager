@@ -8,8 +8,15 @@ use Console\Commands;
 
 require "vendor/autoload.php";
 
-
+\Database\Database::connection([
+    'host' => 'progDatabase',
+    'dbname' => 'client',
+    'username' => 'root',
+    'password' => 'root',
+]);
 new Commands();
+
+
 
 
 

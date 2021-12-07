@@ -21,6 +21,11 @@ class Request
         return substr($path, 0, $position);
     }
 
+    public static function postBody(): array
+    {
+        return $_POST;
+    }
+
     public function getMethod()
     {
         return $_SERVER['REQUEST_METHOD'] ?? "GET";

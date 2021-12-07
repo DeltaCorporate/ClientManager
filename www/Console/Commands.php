@@ -135,9 +135,12 @@ class Commands extends Database
             $this->flashError($cliMenu, 'The model already exists');
         } else {
             shell_exec('touch ./app/Models/' . $model . '.php');
-            $content = "<?php" . PHP_EOL . "namespace App\Models;" . PHP_EOL . PHP_EOL . "class $model extends Model" . PHP_EOL . "{" . PHP_EOL . PHP_EOL . "}";
+            $tableName = strtolower($model);
+            $content = "<?php" . PHP_EOL . "namespace App\Models;" . PHP_EOL . PHP_EOL . "class $model extends Model" . PHP_EOL . "{\n\tpublic static function getTableName(): string\n\t{\n\t\treturn '$tableName';\n\t}" . PHP_EOL . PHP_EOL . "\t public static function getColumns(): array\n\t{\n\t\treturn [];//TODO: mettre les colonnes, ne pas mettre id et created_at\n\t}" . PHP_EOL . PHP_EOL . "}";
             file_put_contents('./app/Models/' . $model . '.php', $content);
             $this->flashSuccess($cliMenu, 'The Model created successfully\nCheck the file in the app/Models/' . $model . '.php');
+
+
         }
         try {
             $cliMenu->close();
@@ -196,9 +199,9 @@ class Commands extends Database
         if (file_exists('database/migrations/' . $migration . '.php')) {
             $this->flashError($cliMenu, 'The migration already exists');
         } else {
-            $migration = "m".date('YmdHis') . '_' . $migration;
+            $migration = "m" . date('YmdHis') . '_' . $migration;
             shell_exec('touch ./database/migrations/' . $migration . '.php');
-            $content = "<?php" . PHP_EOL .PHP_EOL . "namespace Database\migrations;" . PHP_EOL. PHP_EOL."use Config\SqlBuilder;" . PHP_EOL .PHP_EOL . "class $migration" . PHP_EOL . "{" .PHP_EOL."\tprivate \$tableName;". PHP_EOL ."\tprivate \$table;".PHP_EOL.PHP_EOL."\tpublic function __construct()\n\t{".PHP_EOL."\t\t\$this->tableName = '';".PHP_EOL."\t\t\$this->table = new SqlBuilder(\$this->tableName);".PHP_EOL. "\t}".PHP_EOL. "}";
+            $content = "<?php" . PHP_EOL . PHP_EOL . "namespace Database\migrations;" . PHP_EOL . PHP_EOL . "use Core\SqlBuilder;" . PHP_EOL . PHP_EOL . "class $migration" . PHP_EOL . "{" . PHP_EOL . "\tprivate \$tableName;" . PHP_EOL . "\tprivate \$table;" . PHP_EOL . PHP_EOL . "\tpublic function __construct()\n\t{" . PHP_EOL . "\t\t\$this->tableName = '';" . PHP_EOL . "\t\t\$this->table = new SqlBuilder(\$this->tableName);" . PHP_EOL . "\t}\n\tpublic function up(){\n\t\t//TODO:Construire la structure de la table.\n\t}" . PHP_EOL . "}";
             file_put_contents('./database/migrations/' . $migration . '.php', $content);
             $this->flashSuccess($cliMenu, 'The migration created successfully\nCheck the file in the database/migrations/' . $migration . '.php');
         }

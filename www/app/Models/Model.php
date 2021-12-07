@@ -8,6 +8,7 @@ use Database\Database;
 abstract class Model extends Database
 {
 
+
     abstract public static function getTableName(): string;
 
     abstract public static function getColumns(): array;
@@ -19,9 +20,10 @@ abstract class Model extends Database
 
     public static function bulkDelete(): bool
     {
-        $table = static::getTableName();
-        $sql = "DELETE FROM $table";
-        $stmt = static::$db->prepare($sql);
+        $self = new static();
+        $table = $self->getTableName();
+        $sql = "DELETE FROM `$table`";
+        $stmt = static::$instance->prepare($sql);
         $stmt->execute();
         return true;
     }
@@ -90,7 +92,7 @@ abstract class Model extends Database
         $statement = self::$instance->prepare($sql);
         foreach ($columns as $key => $column) {
             if ($self->existColumn($column)) {
-                $statement->bindValue(':' . $column, $values[$key]);
+                $statement->bindValue(':' . $column, $values[$column]);
             }
         }
         $statement->execute();
@@ -125,6 +127,16 @@ abstract class Model extends Database
         $sql = "SELECT * FROM `$table` WHERE $primaryKey = :" . $primaryKey;
         $stmt = self::$instance->prepare($sql);
         $stmt->bindValue(":" . $primaryKey, $id);
+        $stmt->execute();
+        return $stmt->fetchObject(static::class);
+    }
+
+    public static function findBy($colomn,$value){
+        $self = new static();
+        $table = $self->getTableName();
+        $sql = "SELECT * FROM `$table` WHERE $colomn = :$colomn";
+        $stmt = self::$instance->prepare($sql);
+        $stmt->bindValue(":" . $colomn, $value);
         $stmt->execute();
         return $stmt->fetchObject(static::class);
     }

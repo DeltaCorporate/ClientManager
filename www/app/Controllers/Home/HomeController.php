@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Home;
 
+use App\Models\User;
 use Core\Request;
 
 class HomeController
@@ -13,8 +14,7 @@ class HomeController
     }
     public function test(): bool
     {
-        session("error",'Vous êtes connecté');
-        redirect('home');
+
         return render('home.test',[
             "title"=>Request::get('title'),
         ]);

@@ -5,6 +5,7 @@ namespace App\Controllers\Authentification;
 use App\Exceptions\ModelColumnNotfound;
 use App\Models\User;
 use Core\Request;
+use Core\Rules;
 
 class AuthentificationController
 {
@@ -38,8 +39,14 @@ class AuthentificationController
     {
 
         $values = Request::postBody();
-        $values = User::getValuesFromSession($values);
+        $rules = [
+            "username" => [[Rules::class, 'string'], [Rules::class, 'length']],
+            "email" => [[Rules::class, 'email']],
+        ];
+        $values = User::matchPostValuesToValidationData($values, $rules);
+        Request::validateRules($values);
         $user = User::findBy("email", $values['email']);
+
         dd($user);
         $user = new User();
         $user->setUsername($values['username']);

@@ -54,7 +54,7 @@ abstract class Model extends Database
         return true;
     }
 
-    public static function getValuesFromSession($session): array
+    public static function matchPostValuesToValidationData($session,$rules =[]): array
     {
         $self = new static();
         $columns = $self->getColumns();
@@ -64,7 +64,10 @@ abstract class Model extends Database
                 Session::validation($column, "The $column field is required");
                 back();
             }
-            $values[$column] = $session[$column];
+            $values[$column]['value'] = $session[$column];
+            if(isset($rules[$column])){
+                $values[$column]['rules'] = $rules[$column];
+            }
         }
         $notMapped = $self->getNotMappedColumns();
         if (!empty($notMapped)) {
@@ -74,7 +77,9 @@ abstract class Model extends Database
                     back();
                 }
                 $values[$column] = $session[$column];
-
+                if(isset($rules[$column])){
+                    $values[$column]['rules'] = $rules[$column];
+                }
             }
         }
         return $values;

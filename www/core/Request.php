@@ -61,5 +61,24 @@ class Request
         return $randstring;
     }
 
+    public static function validateRules($data){
+        foreach ($data as $key => $value){
+            if(!isset($value['rules'])){
+                continue;
+            } else{
+                foreach ($value['rules'] as $rule){
+                    $called = call_user_func_array($rule, [$value['value']]);
+                    if($called == true){
+                        continue;
+                    } else{
+                        $called = str_replace(':key', $key, $called);
+                        Session::validation($key, $called);
+                        back();
+                    }
+                }
+            }
+        }
+    }
+
 
 }

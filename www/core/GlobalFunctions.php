@@ -54,7 +54,7 @@ function redirect($link="/")
 }
 
 function back(){
-    if(!headers_sent()){
+    if(!headers_sent() and isset($_SERVER['HTTP_REFERER']) and !empty($_SERVER['HTTP_REFERER'])){
         header("Location: ".$_SERVER['HTTP_REFERER']);
         exit();
     }

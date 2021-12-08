@@ -22,6 +22,7 @@ class User extends Model
         ];
 	}
 
+
    public function setUsername(string $pseudo)
     {
         $this->user['username'] = $pseudo;
@@ -42,4 +43,10 @@ class User extends Model
         return $this->user;
     }
 
+    public static function getNotMappedColumns(): array
+    {
+        return [
+            "password_confirm",
+        ];
+    }
 }

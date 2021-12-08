@@ -2,7 +2,6 @@
 
 namespace App\Views;
 
-use Core\Request;
 use Core\Session;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -36,11 +35,14 @@ class Renderer
             echo "&#10132;";
         }));
         self::$renderer->addFunction(new TwigFunction("csrf", function () {
-            $token = Request::csrf();
+            $token = Session::csrf();
             echo "<input type='hidden' name='csrf' value='$token'>";
         }));
-        self::$renderer->addFunction(new TwigFunction("session", function ($key) {
+        self::$renderer->addFunction(new TwigFunction("flash", function ($key) {
             return (Session::getFlash($key))['value'];
+        }));
+        self::$renderer->addFunction(new TwigFunction("session", function ($key) {
+            return (Session::session($key));
         }));
     }
 

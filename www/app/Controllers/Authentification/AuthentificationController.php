@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers\Authentification;
 
 use App\Exceptions\ModelColumnNotfound;
@@ -14,14 +15,17 @@ class AuthentificationController
     {
         return render('authentification/login');
     }
+
     public function displayRegisterForm(): bool
     {
         return render('authentification/register');
     }
+
     public function displayForgotPasswordForm(): bool
     {
         return render('authentification/forgot-password');
     }
+
     public function displayResetPasswordForm(): bool
     {
         return render('authentification/reset-password');
@@ -30,12 +34,14 @@ class AuthentificationController
     /**
      * @throws ModelColumnNotfound
      */
-    public function register(){
+    public function register()
+    {
 
         $values = Request::postBody();
+        $values = User::getValuesFromSession($values);
         $user = User::findBy("email", $values['email']);
-        if($user){
-            session("error","This email is already used");
+        if ($user) {
+            session("error", "This email is already used");
             redirect("user.register");
         }
         $user = new User();
@@ -44,7 +50,7 @@ class AuthentificationController
         $password = password_hash($values['password'], PASSWORD_ARGON2I);
         $user->setPassword($password);
         User::save($user->getUser());
-        session("success","You have been registered! An email was sent to verify your account!");
+        session("success", "You have been registered! An email was sent to verify your account!");
         redirect("user.login");
 
     }

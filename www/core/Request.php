@@ -26,20 +26,6 @@ class Request
         return $_POST;
     }
 
-    public static function validate($datas,$values)
-    {
-        $errors = [];
-        foreach($datas as $key => $value){
-            if(empty($values[$key])){
-                $errors[$key] = "The field $key is required";
-            }
-        }
-        if(!empty($errors)){
-            session("validation", $errors);
-            back();
-        }
-    }
-
     public function getMethod()
     {
         return $_SERVER['REQUEST_METHOD'] ?? "GET";
@@ -65,11 +51,6 @@ class Request
         return $_COOKIE[$key] ?? [];
     }
 
-    public static function session($key)
-    {
-        return $_SESSION[$key] ?? [];
-    }
-
     public static function token(): string
     {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -78,33 +59,6 @@ class Request
             $randstring .= $characters[rand(0, strlen($characters))];
         }
         return $randstring;
-    }
-
-    public static function setSessionCsrf($value)
-    {
-        $_SESSION['csrf'][] = $value;
-    }
-
-    public static function clearSession($key="")
-    {
-        if($key==""){
-            unset($_SESSION);
-        }else{
-            unset($_SESSION[$key]);
-        }
-    }
-
-    public static function csrf(): string
-    {
-        $csrfTokens = self::session('csrf');
-        $token = self::token();
-        if(!empty($csrfTokens)){
-            while (in_array($token, $csrfTokens)) {
-                $token = self::token();
-            }
-        }
-        self::setSessionCsrf($token);
-        return $token;
     }
 
 

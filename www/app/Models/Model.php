@@ -13,6 +13,8 @@ abstract class Model extends Database
 
     abstract public static function getColumns(): array;
 
+    abstract public static function getNotMappedColumns(): array;
+
     public function primaryKey(): string
     {
         return 'id';
@@ -26,6 +28,23 @@ abstract class Model extends Database
         $stmt = static::$instance->prepare($sql);
         $stmt->execute();
         return true;
+    }
+
+    public static function getValuesFromSession($session): array
+    {
+        $self = new static();
+        $columns = $self->getColumns();
+        $values = [];
+        foreach ($columns as $column) {
+            $values[$column] = $session[$column];
+        }
+        $notMapped = $self->getNotMappedColumns();
+        if(!empty($notMapped)){
+            foreach ($notMapped as $column){
+                $values[$column] = $session[$column];
+            }
+        }
+        return $values;
     }
 
     public static function delete($id): bool

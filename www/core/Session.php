@@ -33,6 +33,7 @@ class Session
 
 
     }
+
     /*
      * Méthode générale
      * */
@@ -41,6 +42,7 @@ class Session
     {
         return $_SESSION[$key] ?? [];
     }
+
     public static function clearSession($key = "")
     {
         if ($key == "") {
@@ -58,9 +60,9 @@ class Session
         $_SESSION[self::FLASH_KEY] = $value;
     }
 
-    public static function flash($key,$value)
+    public static function flash($key, $value)
     {
-         $_SESSION[self::FLASH_KEY][$key] = $value;
+        $_SESSION[self::FLASH_KEY][$key] = $value;
     }
 
 
@@ -119,8 +121,17 @@ class Session
         $_SESSION[self::VALIDATION] = $validationMessages;
     }
 
+    public static function removeValidationMessageAuto(): void
+    {
+        foreach ($_SESSION[self::VALIDATION] as $key => $value) {
+            if ($value['remove']) {
+                unset($_SESSION[self::VALIDATION][$key]);
+            }
+        }
+    }
 
-    public function __destruct()
+
+    public static function removeFlashMessageAuto()
     {
         $flashMessages = $_SESSION[self::FLASH_KEY] ?? [];
         foreach ($flashMessages as $key => $flashMessage) {
@@ -130,11 +141,13 @@ class Session
             }
         }
         Session::setFlash($flashMessages);
-        foreach ($_SESSION[self::VALIDATION] as $key => $value) {
-            if ($value['remove']) {
-                unset($_SESSION[self::VALIDATION][$key]);
-            }
-        }
+    }
+
+
+    public function __destruct()
+    {
+        self::removeFlashMessageAuto();
+        self::removeValidationMessageAuto();
     }
 
 }

@@ -49,4 +49,9 @@ class User extends Model
             "password_confirm",
         ];
     }
+
+    public static function getUnique(): string
+    {
+        return 'email';
+    }
 }

@@ -12,6 +12,8 @@ abstract class Model extends Database
 
     abstract public static function getTableName(): string;
 
+    abstract public static function getUnique(): string;
+
     abstract public static function getColumns(): array;
 
     abstract public static function getNotMappedColumns(): array;
@@ -19,6 +21,27 @@ abstract class Model extends Database
     public function primaryKey(): string
     {
         return 'id';
+    }
+
+    public static function checkIfExists($value): bool
+    {
+        $self = new static();
+        $uniqueField = $self->getUnique();
+        if (!isset($uniqueField) or empty($uniqueField)) {
+            return false;
+        } else {
+            $tableName = $self->getTableName();
+            $sql = "SELECT * FROM $tableName WHERE $uniqueField = :$uniqueField";
+            $stmt = self::$instance->prepare($sql);
+            $stmt->bindValue(":$uniqueField", $value);
+            $stmt->execute();
+            $result = $stmt->fetch();
+            if (!empty($result)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 
     public static function bulkDelete(): bool
@@ -37,17 +60,17 @@ abstract class Model extends Database
         $columns = $self->getColumns();
         $values = [];
         foreach ($columns as $column) {
-            if(!isset($session[$column]) or empty($session[$column])){
-                Session::validation($column,"The $column field is required");
+            if (!isset($session[$column]) or empty($session[$column])) {
+                Session::validation($column, "The $column field is required");
                 back();
             }
             $values[$column] = $session[$column];
         }
         $notMapped = $self->getNotMappedColumns();
-        if(!empty($notMapped)){
-            foreach ($notMapped as $column){
-                if(!isset($session[$column]) or empty($session[$column])){
-                    Session::validation($column,"The $column field is required");
+        if (!empty($notMapped)) {
+            foreach ($notMapped as $column) {
+                if (!isset($session[$column]) or empty($session[$column])) {
+                    Session::validation($column, "The $column field is required");
                     back();
                 }
                 $values[$column] = $session[$column];
@@ -160,7 +183,8 @@ abstract class Model extends Database
         return $stmt->fetchObject(static::class);
     }
 
-    public static function findBy($colomn,$value){
+    public static function findBy($colomn, $value)
+    {
         $self = new static();
         $table = $self->getTableName();
         $sql = "SELECT * FROM `$table` WHERE $colomn = :$colomn";

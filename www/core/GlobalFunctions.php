@@ -53,6 +53,13 @@ function redirect($link="/")
     }
 }
 
+function back(){
+    if(!headers_sent()){
+        header("Location: ".$_SERVER['HTTP_REFERER']);
+        exit();
+    }
+}
+
 function session($key, $value)
 {
     $_SESSION['flash'][$key] = [

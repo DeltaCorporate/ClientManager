@@ -31,6 +31,7 @@ class AuthentificationController
      * @throws ModelColumnNotfound
      */
     public function register(){
+
         $values = Request::postBody();
         $user = User::findBy("email", $values['email']);
         if($user){

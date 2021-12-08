@@ -22,7 +22,7 @@ class Renderer
         self::$renderer = new Environment($this->loader,[
             'strict_variables' => false,
         ]);
-        self::$renderer->addFunction(new TwigFunction("url", function ($name, $reqMethode, $datas = []) {
+        self::$renderer->addFunction(new TwigFunction("url", function ($name, $reqMethode = 'get', $datas = []) {
             echo url($name, $reqMethode, $datas);
 
         }));

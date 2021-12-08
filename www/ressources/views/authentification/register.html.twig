@@ -6,45 +6,52 @@
 
 {% block body %}
     <form action="{{ url("user.register",'post') }}" method="post">
-        <div class=" mt-12 pr-8">
-            <div class="flex space-x-10 ">
-                <div class="bg-primary-300 py-40 ">
-                    <img src="{{ image('auth.svg') }}" alt="" class="w-3/4 mx-auto">
+        <div class=" mt-12">
+            <div class="grid grid-cols-12 gap-y-4 items-center">
+                <div class="col-span-6 hidden lg:block">
+                    <img src="{{ image('auth.svg') }}" alt="" class="w-3/4">
                 </div>
-                <div class="flex-1">
+                <div class="col-span-full lg:col-span-6">
+                    <div class="logo lg:hidden mb-4 flex items-center justify-center space-x-4">
+
+                        <img src="{{ image('logo.svg') }}" class="" alt="">
+                        <h1 class="text-primary-500 text-2xl font-semibold">Client Manager</h1>
+                    </div>
                     <div class="text-center">
                         <h1 class="text-primary-400 font-semibold text-4xl mb-10">Sign up</h1>
                     </div>
-                    <div class="grid grid-cols-12 gap-x-10 mb-8">
-                        <div class="col-span-3 ">
+                    
+                    {{ csrf() }}
+                    <div class="grid grid-cols-12 gap-y-4 mb-8 ">
+                        <div class="col-span-full lg:col-span-3 ">
                             <label class="text-primary-500 leading-loose font-medium " for="username">Username</label>
                         </div>
-                        <div class="col-span-9">
-                            <input id="username" type="text" name="username" class="w-full text-primary-500 rounded-md appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
+                        <div class="col-span-full lg:col-span-9">
+                            <input id="username" type="text" name="username" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
                         </div>
                     </div>
-                    <div class="grid grid-cols-12 gap-x-10 mb-8">
-                        <div class="col-span-3 ">
+                    <div class="grid grid-cols-12 gap-y-4 mb-8">
+                        <div class="col-span-full lg:col-span-3 ">
                             <label class="text-primary-500 font-medium leading-loose" for="email">Email</label>
                         </div>
-                        <div class="col-span-9">
-                            <input id="email" type="email" name="email" class="w-full text-primary-500 rounded-md appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
+                        <div class="col-span-full lg:col-span-9">
+                            <input id="email" type="email" name="email" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
                         </div>
                     </div>
-                    <div class="grid grid-cols-12 gap-x-10 mb-8">
-                        <div class="col-span-3 ">
+                    <div class="grid grid-cols-12 gap-y-4 mb-8">
+                        <div class="col-span-full lg:col-span-3 ">
                             <label class="text-primary-500 font-medium leading-loose" for="password">Password</label>
                         </div>
-                        <div class="col-span-9">
-                            <input id="password" type="password" name="password" class="w-full text-primary-500 rounded-md appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
+                        <div class="col-span-full lg:col-span-9">
+                            <input id="password" type="password" name="password" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
                         </div>
                     </div>
-                    <div class="grid grid-cols-12 gap-x-10 mb-8">
-                        <div class="col-span-3 ">
+                    <div class="grid grid-cols-12 gap-y-4 mb-8">
+                        <div class="col-span-full lg:col-span-3 ">
                             <label class="text-primary-500 font-medium leading-loose" for="password_confirm">Confirm</label>
                         </div>
-                        <div class="col-span-9">
-                            <input id="password_confirm" type="password" name="password_confirm" class="w-full text-primary-500 rounded-md appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
+                        <div class="col-span-full lg:col-span-9">
+                            <input id="password_confirm" type="password" name="password_confirm" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
                         </div>
                     </div>
                     <div class="grid place-items-end">
@@ -59,17 +66,3 @@
         </div>
     </form>
 {% endblock %}
-
-
-{#<div>#}
-{#    <label class="flex items-center space-x-20">#}
-{#        <span class="text-primary-500 font-medium leading-loose">Username</span>#}
-{#        <input type="text" name="username" class="w-full text-primary-500 rounded-md appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">#}
-{#    </label>#}
-{#</div>#}
-{#<div>#}
-{#    <label class="flex items-center space-x-20">#}
-{#        <span class="text-primary-500 font-medium leading-loose">Email</span>#}
-{#        <input type="email" name="email" class="w-full text-primary-500 rounded-md appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">#}
-{#    </label>#}
-{#</div>#}

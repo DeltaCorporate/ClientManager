@@ -26,6 +26,20 @@ class Request
         return $_POST;
     }
 
+    public static function validate($datas,$values)
+    {
+        $errors = [];
+        foreach($datas as $key => $value){
+            if(empty($values[$key])){
+                $errors[$key] = "The field $key is required";
+            }
+        }
+        if(!empty($errors)){
+            session("validation", $errors);
+            back();
+        }
+    }
+
     public function getMethod()
     {
         return $_SERVER['REQUEST_METHOD'] ?? "GET";

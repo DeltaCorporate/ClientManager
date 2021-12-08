@@ -42,7 +42,11 @@ class Renderer
             return (Session::getFlash($key))['value'];
         }));
         self::$renderer->addFunction(new TwigFunction("session", function ($key) {
-            return (Session::session($key));
+            $validationMessages = Session::session($key);
+            $validationMessages = array_map(function ($value) {
+                return $value['value'];
+            }, $validationMessages);
+            return ($validationMessages);
         }));
     }
 

@@ -11,6 +11,7 @@ namespace Core;
 class Session
 {
     protected const FLASH_KEY = 'flash';
+    protected const VALIDATION = 'validation';
 
     public function __construct()
     {
@@ -21,6 +22,15 @@ class Session
             return $message;
         }, $flashMessages);
         Session::setFlash($flashMessages);
+
+        $validationMessages = $_SESSION[self::VALIDATION] ?? [];
+
+        $validationMessages = array_map(function ($message) {
+            $message['remove'] = true;
+            return $message;
+        }, $validationMessages);
+        Session::setValidation($validationMessages);
+
 
     }
     /*
@@ -46,6 +56,11 @@ class Session
     public static function setFlash($value)
     {
         $_SESSION[self::FLASH_KEY] = $value;
+    }
+
+    public static function flash($key,$value)
+    {
+         $_SESSION[self::FLASH_KEY][$key] = $value;
     }
 
 
@@ -91,18 +106,17 @@ class Session
     /*
      * Méthode pour la gestion des validations de messages
     */
-    public static function validate($datas, $values)
+    public static function validation($key, $value)
     {
-        $errors = [];
-        foreach ($datas as $key => $value) {
-            if (empty($values[$key])) {
-                $errors[$key] = "The field $key is required";
-            }
-        }
-        if (!empty($errors)) {
-            session("validation", $errors);
-            back();
-        }
+        $_SESSION[self::VALIDATION][$key] = [
+            'value' => $value,
+            'remove' => false
+        ];
+    }
+
+    private static function setValidation($validationMessages)
+    {
+        $_SESSION[self::VALIDATION] = $validationMessages;
     }
 
 
@@ -116,6 +130,11 @@ class Session
             }
         }
         Session::setFlash($flashMessages);
+        foreach ($_SESSION[self::VALIDATION] as $key => $value) {
+            if ($value['remove']) {
+                unset($_SESSION[self::VALIDATION][$key]);
+            }
+        }
     }
 
 }

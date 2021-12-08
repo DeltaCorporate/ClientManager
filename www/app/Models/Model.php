@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Exceptions\ModelColumnNotfound;
+use Core\Session;
 use Database\Database;
 
 abstract class Model extends Database
@@ -36,12 +37,21 @@ abstract class Model extends Database
         $columns = $self->getColumns();
         $values = [];
         foreach ($columns as $column) {
+            if(!isset($session[$column]) or empty($session[$column])){
+                Session::validation($column,"The $column field is required");
+                back();
+            }
             $values[$column] = $session[$column];
         }
         $notMapped = $self->getNotMappedColumns();
         if(!empty($notMapped)){
             foreach ($notMapped as $column){
+                if(!isset($session[$column]) or empty($session[$column])){
+                    Session::validation($column,"The $column field is required");
+                    back();
+                }
                 $values[$column] = $session[$column];
+
             }
         }
         return $values;

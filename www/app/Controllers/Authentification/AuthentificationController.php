@@ -40,10 +40,7 @@ class AuthentificationController
         $values = Request::postBody();
         $values = User::getValuesFromSession($values);
         $user = User::findBy("email", $values['email']);
-        if ($user) {
-            session("error", "This email is already used");
-            redirect("user.register");
-        }
+        dd($user);
         $user = new User();
         $user->setUsername($values['username']);
         $user->setEmail($values['email']);

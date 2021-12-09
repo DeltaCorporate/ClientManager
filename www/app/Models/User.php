@@ -1,6 +1,8 @@
 <?php
 namespace App\Models;
 
+use Core\Session;
+
 class User extends Model
 {
     private $user;
@@ -47,6 +49,15 @@ class User extends Model
     public function setPassword(string $password)
     {
         $this->user['password'] = $password;
+    }
+
+    public static function checkPasswordConfirm(string $password, string $password_confirm): bool
+    {
+        if ($password !== $password_confirm) {
+            Session::validation("password_confirm", "Les mots de passe ne correspondent pas");
+            back();
+        }
+        return true;
     }
 
     public function getUser(): array

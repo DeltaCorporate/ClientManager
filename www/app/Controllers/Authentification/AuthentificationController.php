@@ -44,10 +44,12 @@ class AuthentificationController
             "password" => ["string","length:8:20"],
             "password_confirm" => ["string","length:8:20"],
         ];
+        User::checkPasswordConfirm($values['password'], $values['password_confirm']);
         $values = User::matchPostValuesToValidationData($values, $rules);
         Request::validateRules($values);
 
         User::checkIfUniqueRespected($values['email']['value']);
+
 
         $user = new User();
         $user->setUsername($values['username']['value']);

@@ -76,7 +76,7 @@ abstract class Model extends Database
                     Session::validation($column, "The $column field is required");
                     back();
                 }
-                $values[$column] = $session[$column];
+                $values[$column]["value"] = $session[$column];
                 if(isset($rules[$column])){
                     $values[$column]['rules'] = $rules[$column];
                 }

@@ -5,7 +5,6 @@ namespace App\Controllers\Authentification;
 use App\Exceptions\ModelColumnNotfound;
 use App\Models\User;
 use Core\Request;
-use Core\Rules;
 
 class AuthentificationController
 {
@@ -41,23 +40,22 @@ class AuthentificationController
         $values = Request::postBody();
         $rules = [
             'email' => ["required", "email"],
-            "username" => ["string","length:3:20"],
+            "username" => ["string","length:6:20"],
             "password" => ["string","length:8:20"],
             "password_confirm" => ["string","length:8:20"],
         ];
         $values = User::matchPostValuesToValidationData($values, $rules);
         Request::validateRules($values);
-        exit();
-        $user = User::findBy("email", $values['email']);
 
-        dd($user);
+        User::checkIfUniqueRespected($values['email']['value']);
+
         $user = new User();
-        $user->setUsername($values['username']);
-        $user->setEmail($values['email']);
-        $password = password_hash($values['password'], PASSWORD_ARGON2I);
+        $user->setUsername($values['username']['value']);
+        $user->setEmail($values['email']['value']);
+        $password = password_hash($values['password']['value'], PASSWORD_ARGON2I);
         $user->setPassword($password);
         User::save($user->getUser());
-        session("success", "You have been registered! An email was sent to verify your account!");
+        flash("success", "You have been registered! An email was sent to verify your account!");
         redirect("user.login");
 
     }

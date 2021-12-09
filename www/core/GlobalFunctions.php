@@ -60,7 +60,7 @@ function back(){
     }
 }
 
-function session($key, $value)
+function flash($key, $value)
 {
     $_SESSION['flash'][$key] = [
         "remove" => false,

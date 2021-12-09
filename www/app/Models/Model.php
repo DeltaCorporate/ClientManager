@@ -27,23 +27,21 @@ abstract class Model extends Database
     {
         $self = new static();
         $uniqueField = $self->getUnique();
-        if (!isset($uniqueField) or empty($uniqueField)) {
-            return false;
-        } else {
+        if (!empty($uniqueField)) {
             $tableName = $self->getTableName();
-            $sql = "SELECT * FROM $tableName WHERE $uniqueField = :$uniqueField";
+            $sql = "SELECT * FROM `$tableName` WHERE $uniqueField = :$uniqueField";
             $stmt = self::$instance->prepare($sql);
             $stmt->bindValue(":$uniqueField", $value);
             $stmt->execute();
             $result = $stmt->fetch();
             if (!empty($result)) {
-                return "A record with this $uniqueField already exists";
-            } else {
-                return false;
+                flash("error", "This $uniqueField already exists");
+                back();
             }
         }
+        return false;
     }
-
+//dowohufudi@mailinator.com
     public static function bulkDelete(): bool
     {
         $self = new static();
@@ -64,7 +62,7 @@ abstract class Model extends Database
                 Session::validation($column, "The $column field is required");
                 back();
             }
-            $values[$column]['value'] = $session[$column];
+            $values[$column]['value'] = htmlspecialchars($session[$column]);
             if(isset($rules[$column])){
                 $values[$column]['rules'] = $rules[$column];
             }
@@ -76,7 +74,7 @@ abstract class Model extends Database
                     Session::validation($column, "The $column field is required");
                     back();
                 }
-                $values[$column]["value"] = $session[$column];
+                $values[$column]["value"] = htmlspecialchars($session[$column]);
                 if(isset($rules[$column])){
                     $values[$column]['rules'] = $rules[$column];
                 }

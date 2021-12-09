@@ -40,11 +40,14 @@ class AuthentificationController
 
         $values = Request::postBody();
         $rules = [
-            "username" => [[Rules::class, 'string'], [Rules::class, 'length']],
-            "email" => [[Rules::class, 'email']],
+            'email' => ["required", "email"],
+            "username" => ["string","length:3:20"],
+            "password" => ["string","length:8:20"],
+            "password_confirm" => ["string","length:8:20"],
         ];
         $values = User::matchPostValuesToValidationData($values, $rules);
         Request::validateRules($values);
+        exit();
         $user = User::findBy("email", $values['email']);
 
         dd($user);

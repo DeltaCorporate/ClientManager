@@ -61,14 +61,25 @@ class Request
         return $randstring;
     }
 
-    public static function validateRules($data){
-        foreach ($data as $key => $value){
-            if(!isset($value['rules'])){
+    public static function validateRules($data)
+    {
+        foreach ($data as $key => $value) {
+            if (!isset($value['rules'])) {
                 continue;
-            } else{
-                foreach ($value['rules'] as $rule){
-                    $called = call_user_func_array($rule, [$value['value']]);
-                    if($called == true){
+            } else {
+
+                foreach ($value['rules'] as $rule) {
+                    $rule = explode(':', $rule);
+                    $ruleName = $rule[0];
+                    if (count($rule) > 1) {
+                       $rule[0] = $value['value'];
+                        $callable = [Rules::class, $ruleName];
+                        $called = call_user_func_array($callable, $rule);
+                    } else {
+                        $callable = [Rules::class, $ruleName];
+                        $called = call_user_func($callable, $value['value']);
+                    }
+                    if($called === true){
                         continue;
                     } else{
                         $called = str_replace(':key', $key, $called);

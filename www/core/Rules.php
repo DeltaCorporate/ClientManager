@@ -10,6 +10,14 @@ namespace Core;
 
 class Rules
 {
+    public function required($value)
+    {
+        if(empty($value))
+        {
+            return ":key field is required";
+        }
+        return true;
+    }
     public function int($value)
     {
         if (!is_int($value)) {
@@ -20,7 +28,7 @@ class Rules
 
     public function string($value)
     {
-        if (!is_string($value)) {
+        if (!is_string($value) or is_numeric($value)) {
             return ":key must be a string";
         }
         return true;
@@ -53,7 +61,7 @@ class Rules
     public function length($value, $min = 6, $max = 8)
     {
         if (strlen($value) < $min or strlen($value) > $max) {
-            return ":key must be between $min and $max characters";
+            return ":key length must be between $min and $max characters";
         }
         return true;
     }

@@ -21,6 +21,17 @@ class User extends Model
             'password',
         ];
 	}
+    public static function getNotMappedColumns(): array
+    {
+        return [
+            "password_confirm",
+        ];
+    }
+
+    public static function getUnique(): string
+    {
+        return 'email';
+    }
 
 
    public function setUsername(string $pseudo)
@@ -43,15 +54,5 @@ class User extends Model
         return $this->user;
     }
 
-    public static function getNotMappedColumns(): array
-    {
-        return [
-            "password_confirm",
-        ];
-    }
 
-    public static function getUnique(): string
-    {
-        return 'email';
-    }
 }

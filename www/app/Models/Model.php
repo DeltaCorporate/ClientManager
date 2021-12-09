@@ -23,7 +23,7 @@ abstract class Model extends Database
         return 'id';
     }
 
-    public static function checkIfExists($value): bool
+    public static function checkIfUniqueRespected($value): bool
     {
         $self = new static();
         $uniqueField = $self->getUnique();
@@ -37,7 +37,7 @@ abstract class Model extends Database
             $stmt->execute();
             $result = $stmt->fetch();
             if (!empty($result)) {
-                return true;
+                return "A record with this $uniqueField already exists";
             } else {
                 return false;
             }

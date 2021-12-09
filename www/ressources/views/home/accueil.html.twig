@@ -5,6 +5,18 @@
 {% endblock %}
 
 {% block body %}
-    <a href="{{ url("test",'get') }}" class="text-red-50">Test</a>
+    <canvas id="myChart" width="200" height="200"></canvas>
+
+
+
+
+
+
+{% endblock %}
+
+{% block customJs %}
+
+
+<script src="{{ asset('js/chart.js') }}"></script>
 
 {% endblock %}

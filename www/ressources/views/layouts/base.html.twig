@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="shortcut icon" href="{{ image('logo.svg') }}" type="image/x-icon">
     <title>{% block title %}{% endblock %}</title>
+    <script src="{{ asset("js/jquery.js") }}"></script>
+    <script src="{{ asset("js/app.js") }}"></script>
+    <!-- Required popper.js -->
+    <script
+            src="https://unpkg.com/@popperjs/core@2.9.1/dist/umd/popper.min.js"
+            charset="utf-8"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.2/chart.min.js" integrity="sha512-tMabqarPtykgDtdtSqCL3uLVM0gS1ZkUAVhRFu1vSEFgvB73niFQWJuvviDyBGBH22Lcau4rHB5p2K2T0Xvr6Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 </head>
 <body class=" h-screen overflow-hidden">
 {% if session('success') %}
@@ -49,15 +58,6 @@
     </div>
 
 </div>
-
-
-<script src="{{ asset("js/jquery.js") }}"></script>
-<script src="{{ asset("js/app.js") }}"></script>
-<!-- Required popper.js -->
-<script
-        src="https://unpkg.com/@popperjs/core@2.9.1/dist/umd/popper.min.js"
-        charset="utf-8"
-></script>
 {% block customJs %}{% endblock %}
 
 </body>

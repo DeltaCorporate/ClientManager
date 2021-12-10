@@ -8,65 +8,8 @@
     <link rel="shortcut icon" href="{{ image('logo.svg') }}" type="image/x-icon">
     <title>{% block title %}{% endblock %}</title>
 </head>
-<body class=" h-screen overflow-hidden">
-{% if flash('success') %}
-    <div class="bg-green-100 rounded-md p-4 mb-4 dark:bg-green-200 absolute top-0 right-0 z-50 w-96" role="alert">
-        <div class="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-700 mr-2 dark:text-green-800" fill="none"
-                 viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-            <h3 class="text-green-700 text-lg font-medium dark:text-green-800">Awesome!</h3>
-        </div>
-        <div class="mt-2 mb-4 text-sm text-green-700 dark:text-green-800">
-            {{ flash('success') }}
-        </div>
-        <button type="button"
-                class="flash text-green-700 bg-transparent border border-green-700 hover:bg-green-800 hover:text-white focus:ring-0 focus:outline-none font-medium rounded-md text-xs px-3 py-1.5 text-center dark:border-green-800 dark:text-green-800 dark:hover:text-white"
-                data-collapse-toggle="alert-additional-content-3" aria-label="Close">
-            Close
-        </button>
-    </div>
-{% endif %}
-{% if flash('error') %}
-    <div class="bg-red-100 rounded-md p-4 mb-4 dark:bg-red-200 absolute top-0 right-0 z-50 w-96" role="alert">
-        <div class="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-red-700 mr-2 dark:text-red-800" fill="none"
-                 viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-            <h3 class="text-red-700 text-lg font-medium dark:text-red-800">There is an error message</h3>
-        </div>
-        <div class="mt-2 mb-4 text-sm text-red-700 dark:text-red-800">
-            {{ flash('error') }}
-        </div>
-        <button type="button"
-                class="flash text-red-700 bg-transparent border border-red-700 hover:bg-red-800 hover:text-white focus:ring-0 focus:outline-none font-medium rounded-md text-xs px-3 py-1.5 text-center dark:border-red-800 dark:text-red-800 dark:hover:text-white"
-                data-collapse-toggle="alert-additional-content-2" aria-label="Close">
-            Close
-        </button>
-    </div>
-{% endif %}
-{% if flash('info') %}
-    <div class="bg-gray-100 rounded-md p-4 mb-4 dark:bg-gray-700 absolute top-0 right-0 z-50 w-96" role="alert">
-        <div class="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-700 mr-2 dark:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
-            </svg>
-            <h3 class="text-gray-700 text-lg font-medium dark:text-gray-300">Information for you!</h3>
-        </div>
-        <div class="mt-2 mb-4 text-sm text-gray-700 dark:text-gray-300">
-            {{ flash('info') }}
-        </div>
-        <button type="button"
-                class="flash text-gray-700 bg-transparent border border-gray-700 hover:bg-gray-800 hover:text-white focus:ring-4 focus:ring-gray-300 font-medium rounded-md text-xs px-3 py-1.5 text-center dark:border-gray-600 dark:hover:bg-gray-600 dark:text-gray-300 dark:hover:text-white"
-                data-collapse-toggle="alert-additional-content-5" aria-label="Close">
-            Close
-        </button>
-    </div>
-{% endif %}
+<body class=" h-screen">
+<x-alerts/>
 
 {% include 'components/header.html.twig' %}
 <div class="flex h-full">

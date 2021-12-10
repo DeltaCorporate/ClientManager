@@ -52,10 +52,12 @@ abstract class Model extends Database
         return true;
     }
 
-    public static function matchPostValuesToValidationData($session,$rules =[]): array
+    public static function matchPostValuesToValidationData($session,$rules =[],$columns = null,$columsNotMapped = true): array
     {
         $self = new static();
-        $columns = $self->getColumns();
+        if(is_null($columns)){
+            $columns = $self->getColumns();
+        }
         $values = [];
         foreach ($columns as $column) {
             if (!isset($session[$column]) or empty($session[$column])) {
@@ -67,14 +69,14 @@ abstract class Model extends Database
                 $values[$column]['rules'] = $rules[$column];
             }
         }
-        $notMapped = $self->getNotMappedColumns();
-        if (!empty($notMapped)) {
-            foreach ($notMapped as $column) {
+        if($columsNotMapped){
+            $notMappedColumns = $self->getNotMappedColumns();
+            foreach ($notMappedColumns as $column) {
                 if (!isset($session[$column]) or empty($session[$column])) {
                     Session::validation($column, "The $column field is required");
                     back();
                 }
-                $values[$column]["value"] = htmlspecialchars($session[$column]);
+                $values[$column]['value'] = htmlspecialchars($session[$column]);
                 if(isset($rules[$column])){
                     $values[$column]['rules'] = $rules[$column];
                 }
@@ -194,7 +196,7 @@ abstract class Model extends Database
         $stmt = self::$instance->prepare($sql);
         $stmt->bindValue(":" . $colomn, $value);
         $stmt->execute();
-        return $stmt->fetchObject(static::class);
+        return $stmt->fetch();
     }
 
     public static function findAll()

@@ -48,6 +48,9 @@ class Renderer
             }, $validationMessages);
             return ($validationMessages);
         }));
+        self::$renderer->addFunction(new TwigFunction("auth", function () {
+            return Session::getUser();
+        }));
     }
 
     public function getRenderer(): Environment

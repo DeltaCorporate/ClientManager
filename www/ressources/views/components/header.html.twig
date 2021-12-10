@@ -49,7 +49,7 @@
                 <div class="relative inline-flex align-middle w-full">
                     <button
                             class="flex items-center justify-between border w-max border-primary-500 bg-transparent text-primary-500 font-bold uppercase text-xs px-2 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 transition-all duration-150 ease-in-out"
-                            type="button" onclick="openDropdown(event,'dropdown-example-1')">
+                            type="button" onclick="openDropdown(event,'settings')">
                         <span>Settings</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24"
                              stroke="currentColor">
@@ -58,27 +58,41 @@
                     </button>
                     <div
                             class=" hidden bg-primary-200 text-base z-49 float-left py-2 list-none text-left rounded shadow-lg mt-1 "
-                            style="min-width: 12rem" id="dropdown-example-1">
-                        <a href="{{ url('user.login') }}"
-                           class=" flex items-center space-x-2 text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-primary-500 hover:bg-primary-100">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-                            </svg>
-                            <span>Sign in</span>
-                        </a>
-                        <a href="{{ url('user.register') }}"
-                           class=" flex items-center space-x-2 text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-primary-500 hover:bg-primary-100">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-                            </svg>
-                            <span>Sign up</span>
-                        </a>
+                            style="min-width: 12rem" id="settings">
+                        {% if(auth()) %}
+                            <a href="#" class="block px-4 py-2 text-sm text-primary-500 hover:bg-primary-300 hover:text-white">
+                                Connected as {{ auth() }}
+                            </a>
+                            <a href="{{ url('user.logout') }}"
+                               class="block px-4 py-2 text-sm text-primary-500 hover:bg-primary-300 hover:text-white">Logout</a>
+                        {% else %}
+                            <a href="{{ url('user.login') }}"
+                               class=" flex items-center space-x-2 text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-primary-500 hover:bg-primary-100">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                     stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+                                </svg>
+                                <span>Sign in</span>
+                            </a>
+                            <a href="{{ url('user.register') }}"
+                               class=" flex items-center space-x-2 text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-primary-500 hover:bg-primary-100">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                     stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                                </svg>
+                                <span>Sign up</span>
+                            </a>
+                        {% endif %}
                         <div class=" h-0 my-2 border border-solid border-t-0 border-blueGray-800 opacity-25 "></div>
 
                         <a href="#"
                            class=" flex items-center space-x-2 text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-primary-500 hover:bg-primary-100">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
                             </svg>
                             <span>White mode</span>
                         </a>

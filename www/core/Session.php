@@ -144,6 +144,25 @@ class Session
     }
 
 
+
+    /*
+     * GESTION UTILISATEUR
+     */
+
+    public static function setUser($email){
+        $_SESSION['user'] = $email;
+    }
+
+    public static function getUser(){
+        return $_SESSION['user'] ?? null;
+    }
+
+    public static function removeUser(){
+        unset($_SESSION['user']);
+    }
+
+
+
     public function __destruct()
     {
         self::removeFlashMessageAuto();

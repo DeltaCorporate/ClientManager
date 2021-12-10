@@ -13,3 +13,4 @@ Router::post("/user/login", [AuthentificationController::class, "login"], "user.
 Router::post("/user/register", [AuthentificationController::class, "register"], "user.register");
 Router::post("/user/forgot-password", [AuthentificationController::class, "sendLinkToResetPassword"], "user.forgotpassword");
 Router::post("/user/reset-password", [AuthentificationController::class, "resetPassword"], "user.resetpassword");
+Router::get("/user/logout", [AuthentificationController::class, "logout"], "user.logout");

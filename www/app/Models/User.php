@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Core\Session;
@@ -6,23 +7,35 @@ use Core\Session;
 class User extends Model
 {
     private $user;
-    public function __construct()
-    {
-       $this->user = [];
-    }
-	public static function getTableName(): string
-	{
-		return 'user';
-	}
 
-	 public static function getColumns(): array
-	{
-		return [
+    public function __construct($user = null)
+    {
+        if (is_null($user)) {
+            $this->user = [];;
+        } else {
+            $this->user = $user;
+        }
+    }
+
+    public static function getTableName(): string
+    {
+        return 'user';
+    }
+
+    public static function getColumnsToLogin(): array
+    {
+        return ['email', 'password'];
+    }
+
+    public static function getColumns(): array
+    {
+        return [
             'username',
             'email',
             'password',
         ];
-	}
+    }
+
     public static function getNotMappedColumns(): array
     {
         return [
@@ -36,7 +49,7 @@ class User extends Model
     }
 
 
-   public function setUsername(string $pseudo)
+    public function setUsername(string $pseudo)
     {
         $this->user['username'] = $pseudo;
     }
@@ -46,6 +59,14 @@ class User extends Model
         $this->user['email'] = $email;
     }
 
+    public function getEmail()
+    {
+        return $this->user['email'];
+    }
+
+    public function getPassword(){
+        return $this->user['password'];
+    }
     public function setPassword(string $password)
     {
         $this->user['password'] = $password;

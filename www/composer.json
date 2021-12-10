@@ -29,6 +29,7 @@
         "twig/twig": "^2.0",
         "symfony/var-dumper": "^5.3",
       "ext-pdo": "*",
-        "php-school/cli-menu": "^4.1"
+        "php-school/cli-menu": "^4.1",
+      "ext-json": "*"
     }
 }

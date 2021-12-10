@@ -10,7 +10,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-class ModelColumnNotfound extends Exception
+class RouteNotFound extends Exception
 {
     public function __construct($message = "", $code = 0, \Throwable $previous = null)
     {

@@ -9,6 +9,7 @@
 namespace Console;
 
 use Database\Database;
+use Database\seeders\Seeder;
 use PhpSchool\CliMenu\Builder\CliMenuBuilder;
 use PhpSchool\CliMenu\CliMenu;
 use PhpSchool\CliMenu\Exception\InvalidTerminalException;
@@ -35,6 +36,17 @@ class Commands extends Database
         $flash->getStyle()->setBg('green')->setFg('black');
         $flash->display();
 
+    }
+
+    public function run_seeders(CliMenu $cliMenu){
+        $seederInstance = new Seeder();
+        $seederInstance->run();
+        $this->flashSuccess($cliMenu, 'Toutes les seeders ont été commit à la bdd');
+        try {
+            $cliMenu->close();
+        } catch (InvalidTerminalException $e) {
+            dump('Impossible to close the cli');
+        }
     }
 
     public function make_controller(CliMenu $cliMenu)
@@ -105,6 +117,9 @@ class Commands extends Database
                 })
                 ->addItem("migrate", function (CliMenu $cliMenu) {
                     $this->migrate($cliMenu);
+                })
+                ->addItem("seeders:run", function (CliMenu $cliMenu) {
+                    $this->run_seeders($cliMenu);
                 })
                 ->addLineBreak('#')
                 ->setBackgroundColour("black")

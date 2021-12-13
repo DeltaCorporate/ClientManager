@@ -52,11 +52,19 @@ class User extends Model
     public function setUsername(string $pseudo)
     {
         $this->user['username'] = $pseudo;
+
     }
 
     public function setEmail(string $email)
     {
         $this->user['email'] = $email;
+
+    }
+
+    public function setPassword(string $password)
+    {
+        $this->user['password'] = $password;
+
     }
 
     public function getEmail()
@@ -64,12 +72,9 @@ class User extends Model
         return $this->user['email'];
     }
 
-    public function getPassword(){
-        return $this->user['password'];
-    }
-    public function setPassword(string $password)
+    public function getPassword()
     {
-        $this->user['password'] = $password;
+        return $this->user['password'];
     }
 
     public static function checkPasswordConfirm(string $password, string $password_confirm): bool

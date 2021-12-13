@@ -35,6 +35,7 @@ services:
     command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
     ports:
       - "8083:80"
+      - "25:25"
     restart: always
     networks:
       - dev

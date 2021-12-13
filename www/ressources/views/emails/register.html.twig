@@ -1,0 +1,16 @@
+{% extends "layouts/email_layout.html.twig" %}
+
+{% block stylesheets %}
+    <style>
+        {{ css }}
+    </style>
+{% endblock %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block body %}
+    <a href="{{ url("test",'get') }}" class="text-red-50">Test</a>
+
+{% endblock %}

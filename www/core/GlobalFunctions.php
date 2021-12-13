@@ -11,19 +11,22 @@ use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
 
-function render($path, $datas = []): bool
+function render($path, $datas = [], $renderContent = false)
 {
     $renderer = (new Renderer())->getRenderer();
     $path = str_replace(".", "/", $path);
     $path .= ".html.twig";
     try {
+        if ($renderContent) {
+            return $renderer->render($path, $datas);
+        }
         echo $renderer->render($path, $datas);
-        return true;
+
     } catch (LoaderError|RuntimeError|SyntaxError $e) {
         echo $e->getMessage();
-
-        return false;
     }
+
+    exit();
 
 }
 
@@ -31,31 +34,32 @@ function url($name, $reqMethode, $datas = null): string
 {
     $routes = Router::getRoutes($reqMethode);
     foreach ($routes as $route) {
-        if($route['name']===$name){
+        if ($route['name'] === $name) {
             return $route['path'];
         }
     }
     return "";
 }
 
-function redirect($link="/")
+function redirect($link = "/")
 {
     $routes = Router::getRoutes('GET');
 
     if (str_contains($link, '/')) {
         $link = $routes[$link]['path'];
-    } else{
-        $link = url($link,'get');
+    } else {
+        $link = url($link, 'get');
     }
-    if(!headers_sent()){
+    if (!headers_sent()) {
         header("Location: $link");
         exit();
     }
 }
 
-function back(){
-    if(!headers_sent() and isset($_SERVER['HTTP_REFERER']) and !empty($_SERVER['HTTP_REFERER'])){
-        header("Location: ".$_SERVER['HTTP_REFERER']);
+function back()
+{
+    if (!headers_sent() and isset($_SERVER['HTTP_REFERER']) and !empty($_SERVER['HTTP_REFERER'])) {
+        header("Location: " . $_SERVER['HTTP_REFERER']);
         exit();
     }
 }

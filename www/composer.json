@@ -30,6 +30,7 @@
         "symfony/var-dumper": "^5.3",
       "ext-pdo": "*",
         "php-school/cli-menu": "^4.1",
-      "ext-json": "*"
+      "ext-json": "*",
+        "phpmailer/phpmailer": "^6.5"
     }
 }

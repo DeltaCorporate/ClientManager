@@ -36,10 +36,6 @@ class User extends Model
         ];
     }
 
-    public function flush(): array{
-        return $this->user;
-    }
-
     public static function getNotMappedColumns(): array
     {
         return [
@@ -53,23 +49,22 @@ class User extends Model
     }
 
 
-    public function setUsername(string $pseudo): User
+    public function setUsername(string $pseudo)
     {
         $this->user['username'] = $pseudo;
-        return $this;
+
     }
 
-    public function setEmail(string $email): User
+    public function setEmail(string $email)
     {
         $this->user['email'] = $email;
 
-        return $this;
     }
 
-    public function setPassword(string $password) :User
+    public function setPassword(string $password)
     {
         $this->user['password'] = $password;
-        return $this;
+
     }
 
     public function getEmail()
@@ -77,7 +72,8 @@ class User extends Model
         return $this->user['email'];
     }
 
-    public function getPassword(){
+    public function getPassword()
+    {
         return $this->user['password'];
     }
 

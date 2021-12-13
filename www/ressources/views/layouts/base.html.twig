@@ -9,7 +9,7 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body class=" h-screen">
-<x-alerts/>
+{% include('components/alerts.html.twig') %}
 
 {% include 'components/header.html.twig' %}
 <div class="flex h-full">

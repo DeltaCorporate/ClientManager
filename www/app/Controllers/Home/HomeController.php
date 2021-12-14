@@ -3,6 +3,9 @@
 namespace App\Controllers\Home;
 
 use App\Exceptions\ModelColumnNotfound;
+use Core\Request;
+use Core\Router;
+use Core\Session;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;

@@ -14,7 +14,7 @@ class Router
     private Request $request;
     private Session $session;
 
-    public function __construct(Request $request,Session $session)
+    public function __construct(Request $request, Session $session)
     {
         require_once('../routes/web.php');
         $this->request = $request;
@@ -28,6 +28,16 @@ class Router
             'callable' => $callable,
             'name' => $name
         ];
+    }
+
+    public function getRequest(): Request
+    {
+        return $this->request;
+    }
+
+    public function getSession(): Session
+    {
+        return $this->session;
     }
 
     public static function post($path, $callable, $name)
@@ -52,10 +62,9 @@ class Router
         if ($callable === false) {
             return render('errors.404');
         }
-        return call_user_func_array($callable,array('request'=>$this->request));
+        return call_user_func($callable, $this);
 
     }
-
 
 
 }

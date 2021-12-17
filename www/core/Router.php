@@ -8,17 +8,21 @@
 
 namespace Core;
 
+use PHPMailer\PHPMailer\PHPMailer;
+
 class Router
 {
     protected static array $routes;
     private Request $request;
     private Session $session;
+    private Mailer $mailer;
 
-    public function __construct(Request $request, Session $session)
+    public function __construct(Request $request, Session $session,Mailer $mailer)
     {
         require_once('../routes/web.php');
         $this->request = $request;
         $this->session = $session;
+        $this->mailer = $mailer;
     }
 
     public static function get($path, $callable, $name)
@@ -62,7 +66,7 @@ class Router
         if ($callable === false) {
             return render('errors.404');
         }
-        return call_user_func($callable, $this);
+        return call_user_func_array($callable, [$this->request, $this->session,$this->mailer]);
 
     }
 

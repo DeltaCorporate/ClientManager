@@ -22,14 +22,14 @@ class Renderer
             'strict_variables' => false,
         ]);
         self::$renderer->addFunction(new TwigFunction("url", function ($name, $reqMethode = 'get', $datas = []) {
-            echo url($name, $reqMethode, $datas);
+            echo $_SERVER["APP_URL"].url($name, $reqMethode, $datas);
 
         }));
         self::$renderer->addFunction(new TwigFunction("asset", function ($path) {
-            echo "/assets/" . $path;
+            echo $_SERVER["APP_URL"]."/assets/" . $path;
         }));
         self::$renderer->addFunction(new TwigFunction("image", function ($path) {
-            echo "/src/images/" . $path;
+            echo $_SERVER["APP_URL"]."/src/images/" . $path;
         }));
         self::$renderer->addFunction(new TwigFunction("arrow", function () {
             echo "&#10132;";
@@ -50,6 +50,9 @@ class Renderer
         }));
         self::$renderer->addFunction(new TwigFunction("auth", function () {
             return Session::getUser();
+        }));
+        self::$renderer->addFunction(new TwigFunction("public_path", function ($path) {
+            echo $_SERVER['APP_URL']."/".$path;
         }));
     }
 

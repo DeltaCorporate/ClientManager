@@ -42,7 +42,7 @@ class Renderer
         self::$renderer->addFunction(new TwigFunction("session", function ($key) {
             return (Session::getFlash($key))['value'];
         }));
-        self::$renderer->addFunction(new TwigFunction("css", function ($path) {
+        self::$renderer->addFunction(new TwigFunction("css", function () {
             return file_get_contents(ROOT_DIR."/assets/css/app.css");
         }));
     }

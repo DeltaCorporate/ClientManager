@@ -51,15 +51,7 @@ class Request
         return $_COOKIE[$key] ?? [];
     }
 
-    public static function token(): string
-    {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $randstring = '';
-        for ($i = 0; $i < 50; $i++) {
-            $randstring .= $characters[rand(0, strlen($characters))];
-        }
-        return $randstring;
-    }
+
 
     public static function validateRules($data)
     {

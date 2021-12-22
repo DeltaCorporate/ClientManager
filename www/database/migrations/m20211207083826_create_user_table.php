@@ -15,7 +15,7 @@ class m20211207083826_create_user_table
 		$this->table = new SqlBuilder($this->tableName);
 	}
 	public function up(): string{
-        return $this->table->create('user')
+        return $this->table->create()
             ->id()
             ->string('username', 255)
             ->string('email', 32)

@@ -46,6 +46,15 @@ function url($name, $reqMethode, $datas = null): string
     }
     return "";
 }
+ function token(): string
+{
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $randstring = '';
+    for ($i = 0; $i < 50; $i++) {
+        $randstring .= $characters[rand(0, strlen($characters))];
+    }
+    return $randstring;
+}
 
 function redirect($link = "/")
 {

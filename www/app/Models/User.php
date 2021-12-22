@@ -36,6 +36,10 @@ class User extends Model
         ];
     }
 
+    public static function hasToken($val){
+        self::hasOne(PasswordReset::class, $val);
+    }
+
     public static function getNotMappedColumns(): array
     {
         return [

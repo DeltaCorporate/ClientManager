@@ -82,10 +82,10 @@ class Session
     public static function csrf(): string
     {
         $csrfTokens = self::session('csrf');
-        $token = Request::token();
+        $token = token();
         if (!empty($csrfTokens)) {
             while (in_array($token, $csrfTokens)) {
-                $token = Request::token();
+                $token = token();
             }
         }
         self::setSessionCsrf($token);

@@ -8,29 +8,20 @@
     <link rel="shortcut icon" href="{{ image('logo.svg') }}" type="image/x-icon">
     <title>{% block title %}{% endblock %}</title>
 </head>
-<body class=" h-screen">
+<body class="bg-primary-100 h-screen grid grid-cols-12 grid-rows-6">
 {% include('components/alerts.html.twig') %}
-
-{% include 'components/header.html.twig' %}
-<div class="flex h-full">
-    {% include 'components/navbar.html.twig' %}
-
-    <div class="min-h-full px-3 md:px-4 flex-1 bg-primary-100">
-        {% block body %}{% endblock %}
-    </div>
-
+<div class="col-span-full row-span-1">
+    {% include 'components/header.html.twig' %}
 </div>
+<div class="col-span-2 grow row-span-5">
 
-
-<script src="{{ asset("js/jquery.js") }}"></script>
-<script src="{{ asset("js/app.js") }}"></script>
-
-<script
-        src="https://unpkg.com/@popperjs/core@2.9.1/dist/umd/popper.min.js"
-        charset="utf-8"
-></script>
-{% block customJs %}{% endblock %}
+    {% include 'components/navbar.html.twig' %}
+</div>
+<div class="col-span-10 px-4 bg-primary-100 row-span-5 overflow-y-scroll">
+    {% block body %}{% endblock %}
+</div>
 
 </body>
 </html>
+
 

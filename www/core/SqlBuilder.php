@@ -26,6 +26,7 @@ class SqlBuilder
         return $this;
     }
 
+
     public function alter(): SqlBuilder
     {
         $this->sql = "ALTER TABLE `$this->tableName` ";
@@ -122,7 +123,7 @@ class SqlBuilder
 
     public function onUpdate(string $action = 'CASCADE'): SqlBuilder
     {
-        $this->sql .= "ON UPDATE $action ";
+        $this->sql .= " ON UPDATE $action ";
         return $this;
     }
 

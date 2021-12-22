@@ -41,6 +41,7 @@ abstract class Model extends Database
         }
         return false;
     }
+
 //dowohufudi@mailinator.com
     public static function bulkDelete(): bool
     {
@@ -52,10 +53,10 @@ abstract class Model extends Database
         return true;
     }
 
-    public static function matchPostValuesToValidationData($session,$rules =[],$columns = null,$columsNotMapped = true): array
+    public static function matchPostValuesToValidationData($session, $rules = [], $columns = null, $columsNotMapped = true): array
     {
         $self = new static();
-        if(is_null($columns)){
+        if (is_null($columns)) {
             $columns = $self->getColumns();
         }
         $values = [];
@@ -65,11 +66,11 @@ abstract class Model extends Database
                 back();
             }
             $values[$column]['value'] = htmlspecialchars($session[$column]);
-            if(isset($rules[$column])){
+            if (isset($rules[$column])) {
                 $values[$column]['rules'] = $rules[$column];
             }
         }
-        if($columsNotMapped){
+        if ($columsNotMapped) {
             $notMappedColumns = $self->getNotMappedColumns();
             foreach ($notMappedColumns as $column) {
                 if (!isset($session[$column]) or empty($session[$column])) {
@@ -77,12 +78,50 @@ abstract class Model extends Database
                     back();
                 }
                 $values[$column]['value'] = htmlspecialchars($session[$column]);
-                if(isset($rules[$column])){
+                if (isset($rules[$column])) {
                     $values[$column]['rules'] = $rules[$column];
                 }
             }
         }
         return $values;
+    }
+
+    public static function hasOneToOne($model, $foreignVal)
+    {
+        $model = new $model();
+        $table = $model->getTableName();
+        $self = new static();
+        $foreignKey = $self::getTableName() . '_id';
+        $sql = "SELECT * FROM `$table` WHERE $foreignKey = :$foreignKey";
+        $stmt = self::$instance->prepare($sql);
+        $stmt->bindValue(":$foreignKey", $foreignVal);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
+    public static function hasOneToMany($model, $foreignVal)
+    {
+        $model = new $model();
+        $table = $model->getTableName();
+        $self = new static();
+        $foreignKey = $self::getTableName() . '_id';
+        $sql = "SELECT * FROM `$table` WHERE $foreignKey = :$foreignKey";
+        $stmt = self::$instance->prepare($sql);
+        $stmt->bindValue(":$foreignKey", $foreignVal);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    public static function belongsTo($model, $val)
+    {
+        $model = new $model();
+        $self = new static();
+        $table = $model->getTableName();
+        $sql = "SELECT * FROM `$table` WHERE id = :id";
+        $stmt = self::$instance->prepare($sql);
+        $stmt->bindValue(":id", $val);
+        $stmt->execute();
+        return $stmt->fetch();
     }
 
     public static function delete($id): bool

@@ -15,7 +15,6 @@ class Application
     private Router $router;
     private Request $request;
     private Session $session;
-    private Mailer $mailer;
 
     public function __construct()
     {
@@ -23,10 +22,9 @@ class Application
         Database::connection();
         $this->request = new Request();
         $this->session = new Session();
-        $this->mailer = new Mailer();
 
 
-        $this->router = new Router($this->request, $this->session,$this->mailer);
+        $this->router = new Router($this->request, $this->session);
 
 
     }

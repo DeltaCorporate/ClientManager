@@ -5,6 +5,7 @@
 */
 
 use App\Views\Renderer;
+use Core\Mailer;
 use Core\Router;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -28,6 +29,11 @@ function render($path, $datas = [], $renderContent = false)
 
     exit();
 
+}
+
+function sendMail(array $from, array $to, string $subject, string $body,array $moreAddress = []){
+    $mailer = new Mailer();
+    $mailer->send($from, $to, $subject, $body,$moreAddress);
 }
 
 function url($name, $reqMethode, $datas = null): string

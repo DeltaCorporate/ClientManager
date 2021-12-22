@@ -8,7 +8,7 @@ use PHPMailer\PHPMailer\SMTP;
 
 class Mailer
 {
-    private $mailer;
+    private PHPMailer $mailer;
 
     public function __construct()
     {
@@ -24,7 +24,7 @@ class Mailer
 
 
 
-    public function send($from, $to, $subject, $body,$moreAddress = [])
+    public function send(array $from, array $to,string $subject,string $body,array $moreAddress = [])
     {
         $content = render($body, [], true);
         $mail = $this->mailer;

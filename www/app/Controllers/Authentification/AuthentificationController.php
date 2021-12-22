@@ -12,6 +12,7 @@ class AuthentificationController
     /**
      * Methods to display forms
      */
+
     public function displayLoginForm(): bool
     {
         if(Session::getUser()){
@@ -21,16 +22,30 @@ class AuthentificationController
         return render('authentification/login');
     }
 
+    /**
+     * @return bool
+     */
+
+
     public function displayRegisterForm(): bool
     {
         return render('authentification/register');
     }
 
+    /**
+     * @return bool
+     */
+    /*
+     * Reads the data from the form and creates a new user
+     * */
     public function displayForgotPasswordForm(): bool
     {
         return render('authentification/forgot-password');
     }
 
+    /**
+     * @return bool
+     */
     public function displayResetPasswordForm(): bool
     {
         return render('authentification/reset-password');
@@ -67,6 +82,9 @@ class AuthentificationController
 
     }
 
+    /**
+     * @return void
+     */
     public function login(){
         if(Session::getUser()){
             flash("info", "You are already logged in!");
@@ -99,6 +117,9 @@ class AuthentificationController
         redirect("home");
     }
 
+    /**
+     * @return void
+     */
     public function logout(){
         Session::removeUser();
         flash("success","You have been logged out!");

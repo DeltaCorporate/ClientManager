@@ -1,38 +1,69 @@
 <?php
+
 namespace App\Models;
 
 class PasswordReset extends Model
 {
-	public static function getTableName(): string
-	{
-		return 'passwordreset';
-	}
+    private array $passwordReset;
 
-	 public static function getColumns(): array
-	{
-		return [
+    public function __construct()
+    {
+        $this->passwordReset = [];
+    }
+
+    public function getPasswordReset(): array
+    {
+        return $this->passwordReset;
+    }
+
+    public function setUser($userID)
+    {
+        $this->passwordReset["user_id"] = $userID;
+    }
+
+    public function setToken($token)
+    {
+        $this->passwordReset["token"] = $token;
+    }
+
+
+    public static function getTableName(): string
+    {
+        return 'passwordreset';
+    }
+
+    public static function getColumns(): array
+    {
+        return [
             'user_id',
             'token',
-        ];//TODO: mettre les colonnes, ne pas mettre id et created_at
-	}
+        ];
+    }
 
     public static function getUnique(): string
     {
         return 'token';
     }
 
-
-
-    public function user(){
-
-    }
-    public static function getNotMappedColumns(): array
+    public static function checkIfTokenExists($token): bool
     {
-        return [];
+        $passwordReset = self::findBy('token', $token);
+        if ($passwordReset) {
+            return true;
+        }
+        return false;
     }
 
-    public static function hasUser($val){
-        self::belongsTo(User::class,$val);
+
+    public static function hasUser($val)
+    {
+        return self::belongsTo(User::class, $val);
     }
 
+    public static function toValidate(): array
+    {
+        return [
+            "email"
+        ];
+    }
 }

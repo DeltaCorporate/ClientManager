@@ -115,6 +115,9 @@ class Session
             'remove' => false
         ];
     }
+    public static function setSession($key,$val){
+        $_SESSION[$key] = $val;
+    }
 
     private static function setValidation($validationMessages)
     {
@@ -135,7 +138,6 @@ class Session
     {
         $flashMessages = $_SESSION[self::FLASH_KEY] ?? [];
         foreach ($flashMessages as $key => $flashMessage) {
-            dump($flashMessage);
             if ($flashMessage['remove']) {
                 unset($flashMessages[$key]);
             }

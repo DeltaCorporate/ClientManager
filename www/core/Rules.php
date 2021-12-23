@@ -20,7 +20,7 @@ class Rules
     }
     public function int($value)
     {
-        if (!is_int($value)) {
+        if (!is_numeric($value)) {
             return ":key must be a number";
         }
         return true;

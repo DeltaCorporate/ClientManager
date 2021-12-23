@@ -16,7 +16,7 @@ abstract class Model extends Database
 
     abstract public static function getColumns(): array;
 
-    abstract public static function getNotMappedColumns(): array;
+    abstract public static function toValidate(): array;
 
     public function primaryKey(): string
     {
@@ -53,11 +53,11 @@ abstract class Model extends Database
         return true;
     }
 
-    public static function matchPostValuesToValidationData($session, $rules = [], $columns = null, $columsNotMapped = true): array
+    public static function matchPostValuesToValidationData($session, $rules = [], $columns = null): array
     {
         $self = new static();
         if (is_null($columns)) {
-            $columns = $self->getColumns();
+            $columns = $self->toValidate();
         }
         $values = [];
         foreach ($columns as $column) {
@@ -68,19 +68,6 @@ abstract class Model extends Database
             $values[$column]['value'] = htmlspecialchars($session[$column]);
             if (isset($rules[$column])) {
                 $values[$column]['rules'] = $rules[$column];
-            }
-        }
-        if ($columsNotMapped) {
-            $notMappedColumns = $self->getNotMappedColumns();
-            foreach ($notMappedColumns as $column) {
-                if (!isset($session[$column]) or empty($session[$column])) {
-                    Session::validation($column, "The $column field is required");
-                    back();
-                }
-                $values[$column]['value'] = htmlspecialchars($session[$column]);
-                if (isset($rules[$column])) {
-                    $values[$column]['rules'] = $rules[$column];
-                }
             }
         }
         return $values;
@@ -116,8 +103,16 @@ abstract class Model extends Database
     {
         $model = new $model();
         $self = new static();
-        $table = $model->getTableName();
-        $sql = "SELECT * FROM `$table` WHERE id = :id";
+        $table = $model->getTableName(); //user
+        $actualTable = $self->getTableName();//resetpassword
+        $foreignKey = $table . '_id';
+        $tableColumns = $model->getColumns();
+        $actualTableColumns = $self->getColumns();
+        $columns = array_merge($tableColumns, $actualTableColumns);
+        $columns = implode(', ', $columns);
+
+        $sql = "SELECT $columns FROM $table INNER JOIN $actualTable ON $table.id = $actualTable.$foreignKey WHERE $table.id = :id;";
+//        dd($sql);
         $stmt = self::$instance->prepare($sql);
         $stmt->bindValue(":id", $val);
         $stmt->execute();
@@ -136,10 +131,20 @@ abstract class Model extends Database
         return true;
     }
 
+    public static function deleteBy($key,$val){
+        $self = new static();
+        $table = $self->getTableName();
+        $sql = "DELETE FROM `$table` WHERE $key = :$key";
+        $stmt = self::$instance->prepare($sql);
+        $stmt->bindValue(":$key", $val);
+        $stmt->execute();
+        return true;
+    }
+
     /**
      * @throws ModelColumnNotfound
      */
-    public static function update($id, $data): bool
+    public static function update(int $id, array $data): bool
     {
         $self = new static();
         $table = $self->getTableName();

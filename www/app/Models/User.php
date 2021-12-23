@@ -37,15 +37,9 @@ class User extends Model
     }
 
     public static function hasToken($val){
-        self::hasOne(PasswordReset::class, $val);
+        self::hasOneToOne(PasswordReset::class, $val);
     }
 
-    public static function getNotMappedColumns(): array
-    {
-        return [
-            "password_confirm",
-        ];
-    }
 
     public static function getUnique(): string
     {
@@ -84,7 +78,7 @@ class User extends Model
     public static function checkPasswordConfirm(string $password, string $password_confirm): bool
     {
         if ($password !== $password_confirm) {
-            Session::validation("password_confirm", "Les mots de passe ne correspondent pas");
+            Session::validation("password_confirm", "Password confirmation doesn't match");
             back();
         }
         return true;
@@ -96,4 +90,13 @@ class User extends Model
     }
 
 
+    public static function toValidate(): array
+    {
+        return [
+            'username',
+            'email',
+            'password',
+            'password_confirm'
+        ];
+    }
 }

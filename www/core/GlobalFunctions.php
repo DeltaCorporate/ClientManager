@@ -31,9 +31,9 @@ function render($path, $datas = [], $renderContent = false)
 
 }
 
-function sendMail(array $from, array $to, string $subject, string $body,array $moreAddress = []){
+function sendMail(array $from, array $to, string $subject, string $body,array $data= [],array $moreAddress = []){
     $mailer = new Mailer();
-    $mailer->send($from, $to, $subject, $body,$moreAddress);
+    $mailer->send($from, $to, $subject, $body,$data,$moreAddress);
 }
 
 function url($name, $reqMethode, $datas = null): string
@@ -63,7 +63,7 @@ function redirect($link = "/")
     if (str_contains($link, '/')) {
         $link = $routes[$link]['path'];
     } else {
-        $link = url($link, 'get');
+        $link = url($link,'get');
     }
     if (!headers_sent()) {
         header("Location: $link");
@@ -73,9 +73,12 @@ function redirect($link = "/")
 
 function back()
 {
+
     if (!headers_sent() and isset($_SERVER['HTTP_REFERER']) and !empty($_SERVER['HTTP_REFERER'])) {
         header("Location: " . $_SERVER['HTTP_REFERER']);
         exit();
+    } else{
+        redirect('home');
     }
 }
 

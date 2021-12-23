@@ -13,15 +13,21 @@
 <div class="col-span-full row-span-1">
     {% include 'components/header.html.twig' %}
 </div>
-<div class="col-span-2 grow row-span-5">
+<div class="hidden md:inline-grid md:col-span-3 lg:col-span-2 grow row-span-5">
 
     {% include 'components/navbar.html.twig' %}
 </div>
-<div class="col-span-10 px-4 bg-primary-100 row-span-5 overflow-y-scroll">
+<div class="col-span-full md:col-span-9 lg:col-span-10 px-4 bg-primary-100 row-span-5 overflow-y-scroll">
     {% block body %}{% endblock %}
 </div>
+<script src="{{ asset("js/jquery.js") }}"></script>
+<script src="{{ asset("js/app.js") }}"></script>
 
+<script
+        src="https://unpkg.com/@popperjs/core@2.9.1/dist/umd/popper.min.js"
+        charset="utf-8"
+></script>
+{% block customJs %}{% endblock %}
 </body>
 </html>
-
 

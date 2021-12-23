@@ -13,7 +13,7 @@ class Mailer
     public function __construct()
     {
         $this->mailer = new PHPMailer(true);
-        $this->mailer->SMTPDebug = SMTP::DEBUG_SERVER;
+        $this->mailer->SMTPDebug = SMTP::DEBUG_OFF;
         $this->mailer->isSMTP();
         $this->mailer->Host = 'progMail';
         $this->mailer->SMTPAuth = false;
@@ -24,9 +24,9 @@ class Mailer
 
 
 
-    public function send(array $from, array $to,string $subject,string $body,array $moreAddress = [])
+    public function send(array $from, array $to,string $subject,string $body,array $data = [],array $moreAddress = [])
     {
-        $content = render($body, [], true);
+        $content = render($body, $data, true);
         $mail = $this->mailer;
         try {
             $mail->setFrom($from['email'], $from['name'] ?? null);

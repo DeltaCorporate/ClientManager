@@ -62,7 +62,12 @@ class Router
         if ($callable === false) {
             return render('errors.404');
         }
-        return call_user_func_array($callable, [$this->request, $this->session]);
+
+        if (is_callable($callable)) {
+            return call_user_func_array($callable, [$this->request, $this->session]);
+        } else {
+            return render('errors.404');
+        }
 
     }
 

@@ -21,13 +21,17 @@ class Router
         $this->session = $session;
     }
 
-    public static function get($path, $callable, $name)
+    public static function get2($path, $callable, $name)
     {
         self::$routes['GET'][$path] = [
             'path' => $path,
             'callable' => $callable,
             'name' => $name
         ];
+    }
+    public static function get(Route $route)
+    {
+        self::$routes['GET'][$route->getPath()] = $route->get();
     }
 
     public function getRequest(): Request
@@ -40,13 +44,17 @@ class Router
         return $this->session;
     }
 
-    public static function post($path, $callable, $name)
+    public static function post2($path, $callable, $name)
     {
         self::$routes['POST'][$path] = [
             'path' => $path,
             'callable' => $callable,
             'name' => $name
         ];
+    }
+    public static function post(Route $route)
+    {
+        self::$routes['POST'][$route->getPath()] = $route->get();
     }
 
     public static function getRoutes($method): array

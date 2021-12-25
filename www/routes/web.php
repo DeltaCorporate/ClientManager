@@ -2,11 +2,11 @@
 
 
 use App\Controllers\Home\HomeController;
+use Core\Route;
 use Core\Router;
 
-Router::get("/",[HomeController::class,'index'],'home');
-Router::get("/test",[HomeController::class,'test'],'test');
-Router::post("/",[HomeController::class,'index'],'home');
+Router::get((new Route([HomeController::class, "index"]))->path("/")->name("home"));
+Router::get((new Route([HomeController::class, "test"]))->path("/test")->name("test"));
 
 include_once '../routes/auth.php';
 

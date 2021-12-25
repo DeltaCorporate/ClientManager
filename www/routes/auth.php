@@ -2,16 +2,19 @@
 
 
 use App\Controllers\Authentification\AuthentificationController;
+use Core\Route;
 use Core\Router;
 
-Router::get("/user/login", [AuthentificationController::class, "displayLoginForm"], "user.login");
-Router::get("/user/register", [AuthentificationController::class, "displayRegisterForm"], "user.register");
-Router::get("/user/forgot-password", [AuthentificationController::class, "displayForgotPasswordForm"], "user.forgotpassword");
-Router::get("/user/reset-password", [AuthentificationController::class, "displayResetPasswordForm"], "user.resetpassword");
+Router::get((new Route([AuthentificationController::class, "displayLoginForm"]))->name("user.login")->path("/user/login"));
+Router::get((new Route([AuthentificationController::class, 'displayRegisterForm']))->name("user.register")->path("/user/register"));
+Router::get((new Route([AuthentificationController::class, "displayForgotPasswordForm"]))->path("/user/forgot-password")->name("user.forgotpassword"));
+Router::get((new Route([AuthentificationController::class, "displayResetPasswordForm"]))->name('user.resetpassword')->path("/user/reset-password"));
+Router::get((new Route([AuthentificationController::class, "logout"]))->name("user.logout")->path("/user/logout"));
+Router::post((new Route([AuthentificationController::class, "login"]))->name("user.login")->path("/user/login"));
+Router::post((new Route([AuthentificationController::class, "register"]))->name("user.register")->path("/user/register"));
+Router::post((new Route([AuthentificationController::class, "sendLinkToResetPassword"]))->name("user.forgotpassword")->path("/user/forgot-password"));
+Router::post((new Route([AuthentificationController::class, "resetPassword"]))->name("user.resetpassword")->path("/user/reset-password"));
+Router::post((new Route([AuthentificationController::class, "handleResetPassword"]))->name("user.handleresetpassword")->path("/user/handle-reset-password"));
 
-Router::post("/user/login", [AuthentificationController::class, "login"], "user.login");
-Router::post("/user/register", [AuthentificationController::class, "register"], "user.register");
-Router::post("/user/forgot-password", [AuthentificationController::class, "sendLinkToResetPassword"], "user.forgotpassword");
-Router::post("/user/reset-password", [AuthentificationController::class, "resetPassword"], "user.resetpassword");
-Router::post("/user/handle-reset-password", [AuthentificationController::class, "handleResetPassword"], "user.handleresetpassword");
-Router::get("/user/logout", [AuthentificationController::class, "logout"], "user.logout");
+
+

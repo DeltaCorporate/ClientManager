@@ -22,10 +22,6 @@ class Route
         $this->callable = $callable;
         return $this;
     }
-    public function __invoke(): Route
-    {
-        return $this;
-    }
 
     /**
      * @return string

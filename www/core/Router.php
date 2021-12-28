@@ -8,6 +8,9 @@
 
 namespace Core;
 
+use App\Exceptions\MiddlewareException;
+use App\Middlewares\TestMiddleware;
+
 class Router
 {
     protected static array $routes;
@@ -29,14 +32,17 @@ class Router
             'name' => $name
         ];
     }
+
     public static function get(Route $route)
     {
         self::$routes['GET'][$route->getPath()] = $route->get();
     }
+
     public static function post(Route $route)
     {
         self::$routes['POST'][$route->getPath()] = $route->get();
     }
+
     public function getRequest(): Request
     {
         return $this->request;
@@ -48,25 +54,29 @@ class Router
     }
 
 
-
     public static function getRoutes($method): array
     {
         return self::$routes[strtoupper($method)] ?? [];
     }
 
+
+    /**
+     * @throws MiddlewareException
+     */
     public function resolve()
     {
         $path = $this->request->getPath();
         $method = $this->request->getMethod();
         $callable = self::$routes[$method][$path]['callable'] ?? false;
-        if ($callable === false) {
-            return render('errors.404');
+        if ($callable === false or !is_callable($callable)) {
+            render('errors.404');
         }
-
-        if (is_callable($callable)) {
-            return call_user_func_array($callable, [$this->request, $this->session]);
+        $middlewares = self::$routes[$method][$path]['middlewares'] ?? [];
+        if (!empty($middlewares)) {
+            Middleware::checkMiddlewares($middlewares);
+            Middleware::resolve($middlewares, $this->request, $this->session, $callable);
         } else {
-            return render('errors.404');
+            call_user_func_array($callable, [$this->request, $this->session]);
         }
 
     }

@@ -3,7 +3,7 @@
     "license": "MIT",
     "autoload": {
         "files": [
-            "core/GlobalFunctions.php"
+          "core/functions.php"
         ],
         "psr-4": {
             "App\\": "app/",

@@ -31,6 +31,7 @@ function render($path, $datas = [], $renderContent = false)
 
 }
 
+
 function sendMail(array $from, array $to, string $subject, string $body,array $data= [],array $moreAddress = []){
     $mailer = new Mailer();
     $mailer->send($from, $to, $subject, $body,$data,$moreAddress);

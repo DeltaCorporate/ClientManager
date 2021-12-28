@@ -20,6 +20,7 @@ class Route
     public function __construct(array $callable)
     {
         $this->callable = $callable;
+        $this->middleware = [];
         return $this;
     }
 
@@ -94,13 +95,14 @@ class Route
         return $this->middleware;
     }
 
+
     /**
-     * @param array $middleware
+     * @param string $middleware
      * @return Route
      */
-    public function middleware(array $middleware): Route
+    public function middleware(string $middleware): Route
     {
-        $this->middleware = $middleware;
+        $this->middleware[] = $middleware;
         return $this;
     }
 
@@ -122,11 +124,13 @@ class Route
         return $this;
     }
 
-    public function get() : array{
+    public function get(): array
+    {
         return [
             "path" => $this->path,
             "callable" => $this->callable,
-            "name" => $this->name
+            "name" => $this->name,
+            "middlewares" => $this->middleware
         ];
     }
 

@@ -8,6 +8,7 @@
 
 namespace Console;
 
+use Console\Commands\MakeCommands\middleware;
 use Database\Database;
 use Database\seeders\Seeder;
 use PhpSchool\CliMenu\Builder\CliMenuBuilder;
@@ -38,7 +39,8 @@ class Commands extends Database
 
     }
 
-    public function run_seeders(CliMenu $cliMenu){
+    public function run_seeders(CliMenu $cliMenu)
+    {
         $seederInstance = new Seeder();
         $seederInstance->run();
         $this->flashSuccess($cliMenu, 'Toutes les seeders ont été commit à la bdd');
@@ -114,6 +116,9 @@ class Commands extends Database
                 })
                 ->addItem("make:migration", function (CliMenu $cliMenu) {
                     $this->make_migration($cliMenu);
+                })
+                ->addItem("make:middleware", function (CliMenu $cliMenu) {
+                    call_user_func([new middleware(), "run"], $cliMenu);
                 })
                 ->addItem("migrate", function (CliMenu $cliMenu) {
                     $this->migrate($cliMenu);

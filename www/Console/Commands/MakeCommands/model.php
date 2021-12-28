@@ -14,7 +14,7 @@ use PhpSchool\CliMenu\Exception\InvalidTerminalException;
 
 class model extends Utils
 {
-    public function create(CliMenu $cliMenu)
+    public function make(CliMenu $cliMenu)
     {
 
         $model = $this->ask($cliMenu, 'Enter the name of the model', 'The Model name must be only with model name. Directories are not allowed');

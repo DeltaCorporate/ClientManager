@@ -9,6 +9,7 @@
 namespace Console;
 
 use Console\Commands\MakeCommands\middleware;
+use Console\Commands\MakeCommands\migration as makeMigration;
 use Console\Commands\MakeCommands\model;
 use Console\Commands\MigrationCommands\migration;
 use Database\Database;
@@ -114,10 +115,10 @@ class Commands extends Database
                     $this->make_controller($cliMenu);
                 })
                 ->addItem("make:model", function (CliMenu $cliMenu) {
-                    call_user_func([new model(), 'create'], $cliMenu);
+                    call_user_func([new model(), 'make'], $cliMenu);
                 })
                 ->addItem("make:migration", function (CliMenu $cliMenu) {
-                    $this->make_migration($cliMenu);
+                    call_user_func([new makeMigration(), 'make'], $cliMenu);
                 })
                 ->addItem("make:middleware", function (CliMenu $cliMenu) {
                     call_user_func([new middleware(), "make"], $cliMenu);
@@ -143,33 +144,6 @@ class Commands extends Database
     }
 
 
-    private function make_migration(CliMenu $cliMenu)
-    {
-        $prompt = $cliMenu->askText();
-        $prompt->getStyle()
-            ->setBg('blue')
-            ->setFg('black');
-        $prompt = $prompt->setPromptText('Enter the name of the migration')
-            ->setPlaceholderText('')
-            ->setValidationFailedText('The migration name must be only like create_user_table')
-            ->ask();
-        $migration = $prompt->fetch();
-        if (file_exists('database/migrations/' . $migration . '.php')) {
-            $this->flashError($cliMenu, 'The migration already exists');
-        } else {
-            $migration = "m" . date('YmdHis') . '_' . $migration;
-            shell_exec('touch ./database/migrations/' . $migration . '.php');
-            $content = "<?php" . PHP_EOL . PHP_EOL . "namespace Database\migrations;" . PHP_EOL . PHP_EOL . "use Core\SqlBuilder;" . PHP_EOL . PHP_EOL . "class $migration" . PHP_EOL . "{" . PHP_EOL . "\tprivate \$tableName;" . PHP_EOL . "\tprivate \$table;" . PHP_EOL . PHP_EOL . "\tpublic function __construct()\n\t{" . PHP_EOL . "\t\t\$this->tableName = ''//TODO: put table name, must be same than model name;" . PHP_EOL . "\t\t\$this->table = new SqlBuilder(\$this->tableName);" . PHP_EOL . "\t}\n\tpublic function up(){\n\t\t//TODO:Construire la structure de la table. Ne pas oublier le create au début et le endcreation à la fin et bien return le tout\n\t}" . PHP_EOL . "}";
-            file_put_contents('./database/migrations/' . $migration . '.php', $content);
-            $this->flashSuccess($cliMenu, 'The migration created successfully\nCheck the file in the database/migrations/' . $migration . '.php');
-        }
-        try {
-            $cliMenu->close();
-        } catch (InvalidTerminalException $e) {
-            dump('Impossible to close the cli');
-        }
-        $this->givePerms();
-    }
 
     private function givePerms()
     {

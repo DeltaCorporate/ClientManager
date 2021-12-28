@@ -12,16 +12,23 @@ use Core\Middleware;
 use Core\Request;
 use Core\Session;
 
-class AuthMiddleware extends Middleware
+class ConnectedMiddleware extends Middleware
 {
 
-    public function run(Request $request,Session $session):bool
+    public function run(Request $request, Session $session): bool
     {
-        return true;
+        $user = $session->getUser();
+
+        if (!$user) {
+            return false;
+        } else {
+            return true;
+        }
+
     }
 
     public function error()
     {
-        render("errors.404");
+        redirect("user.login");
     }
 }

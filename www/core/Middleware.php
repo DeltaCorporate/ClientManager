@@ -10,14 +10,14 @@ namespace Core;
 
 
 use App\Exceptions\MiddlewareException;
-use App\Middlewares\AuthMiddleware;
+use App\Middlewares\ConnectedMiddleware;
 
 abstract class Middleware
 {
     public static function all(): array
     {
         return [
-            "auth" => AuthMiddleware::class
+            "auth" => ConnectedMiddleware::class
         ];
     }
 

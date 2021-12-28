@@ -10,6 +10,7 @@ namespace Console;
 
 use Console\Commands\MakeCommands\middleware;
 use Console\Commands\MakeCommands\model;
+use Console\Commands\MigrationCommands\migration;
 use Database\Database;
 use Database\seeders\Seeder;
 use PhpSchool\CliMenu\Builder\CliMenuBuilder;
@@ -122,7 +123,7 @@ class Commands extends Database
                     call_user_func([new middleware(), "make"], $cliMenu);
                 })
                 ->addItem("migrate", function (CliMenu $cliMenu) {
-                    $this->migrate($cliMenu);
+                    call_user_func([new migration(), "migrate"], $cliMenu);
                 })
                 ->addItem("seeders:run", function (CliMenu $cliMenu) {
                     $this->run_seeders($cliMenu);
@@ -141,41 +142,6 @@ class Commands extends Database
         $this->givePerms();
     }
 
-
-    private function migrate(CliMenu $cliMenu)
-    {
-        $models = scandir('./database/migrations');
-        array_shift($models);
-        array_shift($models);
-        if (sizeof($models) <= 0) {
-            $this->flashError($cliMenu, 'There is no migration file in the database/migrations folder');
-            try {
-                $cliMenu->close();
-            } catch (InvalidTerminalException $e) {
-                dump('Impossible to close the cli');
-
-            }
-        }
-        foreach ($models as $model) {
-            $modelName = pathinfo($model, PATHINFO_FILENAME);
-            $modelClass = "\\Database\\migrations\\$modelName";
-            $model = new $modelClass();
-            $sql = $model->up();
-            dump($sql);
-            $migrationStatus = self::$instance->prepare($sql)->execute();
-            if ($migrationStatus) {
-                $this->flashSuccess($cliMenu, 'The migration for the model ' . $modelName . ' was created successfully');
-            } else {
-                $this->flashError($cliMenu, 'The migration for the model ' . $modelName . ' was not created successfully');
-            }
-        }
-        try {
-            $cliMenu->close();
-        } catch (InvalidTerminalException $e) {
-            dump('Impossible to close the cli');
-        }
-        $this->givePerms();
-    }
 
     private function make_migration(CliMenu $cliMenu)
     {

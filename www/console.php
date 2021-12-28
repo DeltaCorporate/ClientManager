@@ -5,15 +5,13 @@
 */
 
 use Console\Commands;
+use Core\DotEnvParser;
+use Database\Database;
 
 require "vendor/autoload.php";
 
-\Database\Database::connection([
-    'host' => 'progDatabase',
-    'dbname' => 'client',
-    'username' => 'root',
-    'password' => 'root',
-]);
+new DotEnvParser("./configFiles/");
+Database::connection();
 new Commands();
 
 

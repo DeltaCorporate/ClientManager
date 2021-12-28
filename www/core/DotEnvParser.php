@@ -6,16 +6,19 @@ namespace Core;
 class DotEnvParser
 {
     private array $configFiles;
-    public function __construct()
+    public function __construct($path = null)
     {
         $this->configFiles = [];
-        $this->load();
+        $this->load($path);
     }
 
 
 
-    private function load(){
-        $files = scandir("../configFiles",SORT_ASC);
+    private function load($path = null){
+        if(!$path){
+            $path = dirname(__DIR__)."/configFiles/";
+        }
+        $files = scandir($path,SORT_ASC);
         foreach ($files as $file){
             $fileExtension = explode(".",$file)[1];
             if($fileExtension === "env"){
@@ -24,7 +27,7 @@ class DotEnvParser
         }
         if(sizeof($this->configFiles)>0){
             foreach ($this->configFiles as $file){
-                $file = "../configFiles/".$file;
+                $file = $path.$file;
                 $content = fopen($file,"r");
                 $content = fread($content,filesize($file));
                 $content = explode("\n",$content);

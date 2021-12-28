@@ -6,7 +6,7 @@
 *@NameSpace: Console\Commands\MakeCommands
 */
 
-namespace Console\Commands\MakeCommands;
+namespace Console\Commands\ModelsCommands;
 
 use Console\Commands\Utils;
 use PhpSchool\CliMenu\CliMenu;

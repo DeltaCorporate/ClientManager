@@ -6,11 +6,12 @@
 *@NameSpace: Console
 */
 
-namespace Console\Commands\MakeCommands;
+namespace Console\Commands\MiddlewaresCommands;
 
 use Console\Commands\Utils;
 use PhpSchool\CliMenu\CliMenu;
 use PhpSchool\CliMenu\Exception\InvalidTerminalException;
+use function dump;
 
 class middleware extends Utils
 {

@@ -9,6 +9,7 @@
 namespace Console;
 
 use Console\Commands\MakeCommands\middleware;
+use Console\Commands\MakeCommands\model;
 use Database\Database;
 use Database\seeders\Seeder;
 use PhpSchool\CliMenu\Builder\CliMenuBuilder;
@@ -112,7 +113,7 @@ class Commands extends Database
                     $this->make_controller($cliMenu);
                 })
                 ->addItem("make:model", function (CliMenu $cliMenu) {
-                    $this->make_model($cliMenu);
+                    call_user_func([new model(), 'create'], $cliMenu);
                 })
                 ->addItem("make:migration", function (CliMenu $cliMenu) {
                     $this->make_migration($cliMenu);
@@ -140,35 +141,6 @@ class Commands extends Database
         $this->givePerms();
     }
 
-    private function make_model(CliMenu $cliMenu)
-    {
-        $prompt = $cliMenu->askText();
-        $prompt->getStyle()
-            ->setBg('blue')
-            ->setFg('black');
-        $prompt = $prompt->setPromptText('Enter the name of the model')
-            ->setPlaceholderText('')
-            ->setValidationFailedText('The Controller name must be only like controller or Directory/controller')
-            ->ask();
-        $model = $prompt->fetch();
-        if (file_exists('app/Models/' . $model . '.php')) {
-            $this->flashError($cliMenu, 'The model already exists');
-        } else {
-            shell_exec('touch ./app/Models/' . $model . '.php');
-            $tableName = strtolower($model);
-            $content = "<?php" . PHP_EOL . "namespace App\Models;" . PHP_EOL . PHP_EOL . "class $model extends Model" . PHP_EOL . "{\n\tpublic static function getTableName(): string\n\t{\n\t\treturn '$tableName';\n\t}" . PHP_EOL . PHP_EOL . "\t public static function getColumns(): array\n\t{\n\t\treturn [];//TODO: mettre les colonnes, ne pas mettre id et created_at\n\t}" . PHP_EOL . PHP_EOL . "}";
-            file_put_contents('./app/Models/' . $model . '.php', $content);
-            $this->flashSuccess($cliMenu, 'The Model created successfully\nCheck the file in the app/Models/' . $model . '.php');
-
-
-        }
-        try {
-            $cliMenu->close();
-        } catch (InvalidTerminalException $e) {
-            dump('Impossible to close the cli');
-        }
-        $this->givePerms();
-    }
 
     private function migrate(CliMenu $cliMenu)
     {

@@ -118,7 +118,7 @@ class Commands extends Database
                     $this->make_migration($cliMenu);
                 })
                 ->addItem("make:middleware", function (CliMenu $cliMenu) {
-                    call_user_func([new middleware(), "run"], $cliMenu);
+                    call_user_func([new middleware(), "make"], $cliMenu);
                 })
                 ->addItem("migrate", function (CliMenu $cliMenu) {
                     $this->migrate($cliMenu);

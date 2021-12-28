@@ -20,7 +20,7 @@ class middleware extends Utils
      * @var string
      */
 
-    public function run(CliMenu $cliMenu)
+    public function make(CliMenu $cliMenu)
     {
         $middleware = $this->ask($cliMenu, 'Enter the name of the middleware','The middleware name must be only like Authentification or CheckingRole. No directory is supported.');
         if (file_exists('./app/Middlewares/' . $middleware . 'Middleware.php')) {

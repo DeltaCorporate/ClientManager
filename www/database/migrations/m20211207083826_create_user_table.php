@@ -17,9 +17,9 @@ class m20211207083826_create_user_table
 	public function up(): string{
         return $this->table->create()
             ->id()
-            ->string('username', 255)
-            ->string('email', 32)
-            ->string('password', 255)
+            ->string('username',32)->notNullable()
+            ->string('email', 32)->notNullable()
+            ->string('password')->notNullable()
             ->timestamp()
             ->endCreation();
 	}

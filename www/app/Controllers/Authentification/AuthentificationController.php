@@ -5,6 +5,7 @@ namespace App\Controllers\Authentification;
 use App\Exceptions\ModelColumnNotfound;
 use App\Models\PasswordReset;
 use App\Models\User;
+use App\Models\User_data;
 use Core\Request;
 use Core\Session;
 
@@ -112,7 +113,14 @@ class AuthentificationController
         $password = password_hash($values['password']['value'], PASSWORD_ARGON2I);
         $user->setPassword($password);
         User::save($user->getUser());
+        $userID = User::findBy("email", $values['email']['value'])->id;
+        $user_data = [
+            "user_id" => $userID,
+            "avatar"=>"defaultAvatar.svg",
+        ];
+        User_data::save($user_data);
         flash("success", "You have been registered! An email was sent to verify your account!");
+        //TODO: send email to verify account
         redirect("user.login");
 
     }
@@ -122,10 +130,6 @@ class AuthentificationController
      */
     public function login()
     {
-        if (Session::getUser()) {
-            flash("info", "You are already logged in!");
-            redirect("user.home");
-        }
         $values = Request::postBody();
         $rules = [
             "email" => ["required"],
@@ -147,7 +151,7 @@ class AuthentificationController
 
         Session::setUser($user->email);
         flash("success", "You have been logged in!");
-        redirect("home");
+        back();
     }
 
     /**

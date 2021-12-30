@@ -40,6 +40,10 @@ class User extends Model
         self::hasOneToOne(PasswordReset::class, $val);
     }
 
+    public function hasData($val){
+        self::hasOneToOne(User_data::class, $val);
+    }
+
 
     public static function getUnique(): string
     {

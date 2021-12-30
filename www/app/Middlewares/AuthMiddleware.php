@@ -12,7 +12,7 @@ use Core\Middleware;
 use Core\Request;
 use Core\Session;
 
-class ConnectedMiddleware extends Middleware
+class AuthMiddleware extends Middleware
 {
 
     public function run(Request $request, Session $session): bool

@@ -20,8 +20,8 @@ class m20211222084023_create_password_reset_method
         $table = $this->table;
         return $table->create()
             ->id()
-            ->int('user_id')
-            ->string('token', 255)
+            ->int('user_id')->notNullable()
+            ->string('token')->notNullable()
             ->timestamp()
             ->foreign('user_id', 'user', 'id')
             ->onUpdate('cascade')

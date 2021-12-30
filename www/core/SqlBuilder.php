@@ -33,6 +33,18 @@ class SqlBuilder
         return $this;
     }
 
+    public function nullable(): SqlBuilder
+    {
+        $this->sql .= " NULL";
+        return $this;
+    }
+
+    public function notNullable(): SqlBuilder
+    {
+        $this->sql .= " NOT NULL";
+        return $this;
+    }
+
     public function renameColumn(): SqlBuilder
     {
         $this->sql = "RENAME COLUMN `$this->tableName` ";
@@ -47,31 +59,36 @@ class SqlBuilder
 
     public function string(string $name, int $length = 255): SqlBuilder
     {
-        $this->sql .= ",$name VARCHAR($length) NOT NULL";
+        $this->sql .= ",$name VARCHAR($length)";
         return $this;
     }
 
     public function text(string $name): SqlBuilder
     {
-        $this->sql .= ",$name TEXT NOT NULL";
+        $this->sql .= ",$name TEXT";
+        return $this;
+    }
+    public function longtext(string $name): SqlBuilder
+    {
+        $this->sql .= ",$name LONGTEXT";
         return $this;
     }
 
     public function boolean(string $name): SqlBuilder
     {
-        $this->sql .= ",$name TINYINT(1) NOT NULL";
+        $this->sql .= ",$name TINYINT(1)";
         return $this;
     }
 
     public function int(string $name): SqlBuilder
     {
-        $this->sql .= ",$name INT(11) NOT NULL";
+        $this->sql .= ",$name INT(11)";
         return $this;
     }
 
     public function integer(string $name): SqlBuilder
     {
-        $this->sql .= ",$name INTEGER NOT NULL";
+        $this->sql .= ",$name INTEGER";
         return $this;
     }
 
@@ -124,6 +141,12 @@ class SqlBuilder
     public function onUpdate(string $action = 'CASCADE'): SqlBuilder
     {
         $this->sql .= " ON UPDATE $action ";
+        return $this;
+    }
+
+    public function default(string $value): SqlBuilder
+    {
+        $this->sql .= " DEFAULT '$value'";
         return $this;
     }
 

@@ -7,79 +7,119 @@
 {% endblock %}
 
 {% block body %}
-    <section id="infos" class="mt-7">
+    <section id="avatar-section" class="mt-7">
+        <form action="{{ url('user.update','post') }}" method="post" enctype="multipart/form-data">
+            <div class="relative overflow-hidden mb-8">
+                <span class=" bg-primary-100 text-primary-400 px-1 py-2 w-max transform top-1/2 -translate-y-1/2 font-semibold text-xl">Avatar</span>
+                <span class="bg-primary-400 absolute h-[1px] w-full transform top-1/2 -translate-y-1/2"></span>
+            </div>
+            <div class="w-48 border border-primary-400 rounded-full overflow-hidden">
+                <label for="avatar" class="relative block ">
+                    <img class="static" src="{{  image(user.data.avatar) }}" alt="">
+                    <span class="block absolute pt-[70%] bottom-0 inset-x-0 bg-gradient-to-t from-primary-100 to-black-50 text-center h-full text-primary-50 font-semibold ">Choose an image</span>
+                </label>
+                <input type="file" class="hidden" id="avatar">
+            </div>
+            <div class="relative h-6 mt-4">
+                <button type="submit" class="w-full md:w-max bg-primary-50 text-primary-100 px-4 py-2 rounded md:absolute md:right-0" >Update avatar</button>
+            </div>
+        </form>
+    </section>
+    <section id="account-settings" class="mt-7">
+        <form action="{{ url('user.update','post') }}" method="post" enctype="multipart/form-data">
+            <div class="relative overflow-hidden mb-8">
+                <span class=" bg-primary-100 text-primary-400 px-1 py-2 w-max transform top-1/2 -translate-y-1/2 font-semibold text-xl">Account settings</span>
+                <span class="bg-primary-400 absolute h-[1px] w-full transform top-1/2 -translate-y-1/2"></span>
+            </div>
+            <div class="grid grid-cols-12 md:gap-x-12">
+                <div class="col-span-full md:col-span-6">
+                    <div class="">
+                        <label class="text-primary-500 font-medium leading-loose" for="username">Username</label>
+                    </div>
+                    <div class="">
+                        <input id="username" type="text" name="username" value="{{ user.username }}" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
+                        <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['username'] }}</p>
+                    </div>
+                </div>
+                <div class="col-span-full md:col-span-6">
+                    <div class="">
+                        <label class="text-primary-500 font-medium leading-loose"  for="email">Email</label>
+                    </div>
+                    <div class="">
+                        <input id="email" type="email" name="email" value="{{ user.email }}" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
+                        <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['email'] }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="relative h-6 mt-4">
+                <button type="submit" class="w-full md:w-max bg-primary-50 text-primary-100 px-4 py-2 rounded md:absolute md:right-0" >Update account details</button>
+            </div>
+        </form>
+    </section>
+    <section id="account-details" class="mt-7">
         <form action="{{ url('user.update','post') }}" method="post" enctype="multipart/form-data">
             <div class="relative overflow-hidden mb-8">
                 <span class=" bg-primary-100 text-primary-400 px-1 py-2 w-max transform top-1/2 -translate-y-1/2 font-semibold text-xl">Personal informations</span>
                 <span class="bg-primary-400 absolute h-[1px] w-full transform top-1/2 -translate-y-1/2"></span>
             </div>
-            <div class="grid grid-cols-12 md:gap-x-4">
-                <div class="col-span-full w-48  lg:w-full lg:col-span-2 border border-primary-400 rounded-full overflow-hidden">
-                    <label for="avatar" class="relative block ">
-                        <img class="static" src="{{  image(user.data.avatar) }}" alt="">
-                        <span class="absolute bg-gradient-to-t from-primary-100 to-black-50 bottom-0 inset-x-0 block text-center h-full text-primary-50 font-semibold pt-32  lg:pt-48">Choose an image</span>
-                    </label>
-                    <input type="file" class="hidden" id="avatar">
+            <div class="grid grid-cols-12 md:gap-x-12">
+                <div class="col-span-full md:col-span-6 lg:col-span-4">
+                    <div class="">
+                        <label class="text-primary-500 font-medium leading-loose" for="username">Username</label>
+                    </div>
+                    <div class="">
+                        <input id="username" type="text" name="username" value="{{ user.username }}" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
+                        <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['username'] }}</p>
+                    </div>
                 </div>
-                <div class="col-span-full lg:col-span-10 grid grid-cols-12 md:gap-x-12">
-                    <div class="col-span-full md:col-span-6 lg:col-span-4">
-                        <div class="">
-                            <label class="text-primary-500 font-medium leading-loose" for="username">Username</label>
-                        </div>
-                        <div class="">
-                            <input id="username" type="text" name="username" value="{{ user.username }}" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
-                            <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['username'] }}</p>
-                        </div>
+                <div class="col-span-full md:col-span-6 lg:col-span-4">
+                    <div class="">
+                        <label class="text-primary-500 font-medium leading-loose" for="firstname">Firstname</label>
                     </div>
-                    <div class="col-span-full md:col-span-6 lg:col-span-4">
-                        <div class="">
-                            <label class="text-primary-500 font-medium leading-loose" for="firstname">Firstname</label>
-                        </div>
-                        <div class="">
-                            <input id="firstname" type="text" name="firstname" value="{{ user.data.firstname }}" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
-                            <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['firstname'] }}</p>
-                        </div>
+                    <div class="">
+                        <input id="firstname" type="text" name="firstname" value="{{ user.data.firstname }}" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
+                        <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['firstname'] }}</p>
                     </div>
-                    <div class="col-span-full md:col-span-6 lg:col-span-4">
-                        <div class="">
-                            <label class="text-primary-500 font-medium leading-loose" for="lastname">Lastname</label>
-                        </div>
-                        <div class="">
-                            <input id="lastname" type="text" name="lastname" value="{{ user.data.lastname }}" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
-                            <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['lastname'] }}</p>
-                        </div>
+                </div>
+                <div class="col-span-full md:col-span-6 lg:col-span-4">
+                    <div class="">
+                        <label class="text-primary-500 font-medium leading-loose" for="lastname">Lastname</label>
                     </div>
-                    <div class="col-span-full md:col-span-6 lg:col-span-4">
-                        <div class="">
-                            <label class="text-primary-500 font-medium leading-loose"  for="email">Email</label>
-                        </div>
-                        <div class="">
-                            <input id="email" type="email" name="email" value="{{ user.email }}" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
-                            <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['email'] }}</p>
-                        </div>
+                    <div class="">
+                        <input id="lastname" type="text" name="lastname" value="{{ user.data.lastname }}" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
+                        <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['lastname'] }}</p>
                     </div>
-                    <div class="col-span-full md:col-span-6 lg:col-span-4">
-                        <div class="">
-                            <label class="text-primary-500 font-medium leading-loose" for="telephone">Telephone</label>
-                        </div>
-                        <div class="">
-                            <input id="telephone" type="tel" name="telephone" value="{{ user.data.telephone }}" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
-                            <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['telephone'] }}</p>
-                        </div>
+                </div>
+                <div class="col-span-full md:col-span-6 lg:col-span-4">
+                    <div class="">
+                        <label class="text-primary-500 font-medium leading-loose"  for="email">Email</label>
                     </div>
-                    <div class="col-span-full md:col-span-6 lg:col-span-4">
-                        <div class="">
-                            <label class="text-primary-500 font-medium leading-loose" for="adress">Address</label>
-                        </div>
-                        <div class="">
-                            <input id="adress" type="text" name="adress" value="{{ user.data.adress }}" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
-                            <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['adress'] }}</p>
-                        </div>
+                    <div class="">
+                        <input id="email" type="email" name="email" value="{{ user.email }}" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
+                        <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['email'] }}</p>
+                    </div>
+                </div>
+                <div class="col-span-full md:col-span-6 lg:col-span-4">
+                    <div class="">
+                        <label class="text-primary-500 font-medium leading-loose" for="telephone">Telephone</label>
+                    </div>
+                    <div class="">
+                        <input id="telephone" type="tel" name="telephone" value="{{ user.data.telephone }}" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
+                        <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['telephone'] }}</p>
+                    </div>
+                </div>
+                <div class="col-span-full md:col-span-6 lg:col-span-4">
+                    <div class="">
+                        <label class="text-primary-500 font-medium leading-loose" for="adress">Address</label>
+                    </div>
+                    <div class="">
+                        <input id="adress" type="text" name="adress" value="{{ user.data.adress }}" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
+                        <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['adress'] }}</p>
                     </div>
                 </div>
             </div>
-            <div class="relative h-6">
-                <button type="submit" class="w-full md:w-max bg-primary-50 text-primary-100 px-4 py-2 rounded md:absolute md:right-0" >Save</button>
+            <div class="relative h-6 mt-4">
+                <button type="submit" class="w-full md:w-max bg-primary-50 text-primary-100 px-4 py-2 rounded md:absolute md:right-0" >Update my personal informations</button>
             </div>
         </form>
     </section>
@@ -134,3 +174,5 @@
     </section>
 {% endblock %}
 
+{#
+#}

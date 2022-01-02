@@ -54,8 +54,8 @@ class Renderer
         self::$renderer->addFunction(new TwigFunction("public_path", function ($path) {
             echo $_SERVER['APP_URL'] . "/" . $path;
         }));
-        self::$renderer->addFunction(new TwigFunction("yield", function (string $name) {
-            echo "{% block $name %}{% endblock %}";
+        self::$renderer->addFunction(new TwigFunction("avatar", function (string $name) {
+            echo $_SERVER["APP_URL"] . "/src/users/avatars/" . $name;
         }));
     }
 

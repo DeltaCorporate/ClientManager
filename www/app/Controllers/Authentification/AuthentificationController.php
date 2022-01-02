@@ -149,7 +149,10 @@ class AuthentificationController
             redirect("user.login");
         }
 
-        Session::setUser($user->email);
+        unset($user->password);
+        $user->data = User_data::findBy("user_id", $user->id);
+        if (!$user->data) $user->data = new User_data();
+        Session::setUser($user);
         flash("success", "You have been logged in!");
         back();
     }

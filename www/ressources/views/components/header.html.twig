@@ -61,7 +61,7 @@
                             style="min-width: 12rem" id="settings">
                         {% if(auth()) %}
                             <a href="#" class="block px-4 py-2 text-sm text-primary-500 hover:bg-primary-300 hover:text-white">
-                                Connected as {{ auth() }}
+                                Connected as {{ auth().email }}
                             </a>
                             <a href="{{ url('user.logout') }}"
                                class="block px-4 py-2 text-sm text-primary-500 hover:bg-primary-300 hover:text-white">Logout</a>

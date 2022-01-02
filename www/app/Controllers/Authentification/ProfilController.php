@@ -7,6 +7,7 @@
 
 namespace App\Controllers\Authentification;
 
+use App\Exceptions\ModelColumnNotfound;
 use App\Models\User;
 use App\Models\User_data;
 use Core\Request;
@@ -16,27 +17,33 @@ class ProfilController
 {
     public function view()
     {
-        $email = Session::getUser();
-        $user = User::findBy("email", $email);
-        unset($user->password);
-        $user->data = User_data::findBy("user_id", $user->id);
-        if (!$user->data) $user->data = new User_data();
+        $user = Session::getUser();
 
 
         return render("authentification/profil", compact("user"));
     }
 
-    public function update(Request $request)
+    /**
+     * @throws ModelColumnNotfound
+     */
+    public function update_avatar(Request $request)
     {
-        $values = $request->postBody();
+        $user = Session::getUser();
+        $values = $request->getFiles();
         $rules = [
-            "email"=>"required|email",
-            "firstname"=>"required",
-            "lastname"=>"required",
-            "telephone"=>"required",
-            "address"=>"required",
+            "avatar"=>['required',"image"]
         ];
-        dd($values);
+        $values = User::matchPostValuesToValidationData($values, $rules,["avatar"]);
+
+        Request::validateRules($values);
+        $file = $values["avatar"]['value'];
+        $filename =$file['name'];
+        $filename = uniqid("",true)."_".$filename;
+        $destination = "src/users/avatars/".$filename;
+        User_data::update($user->id,["avatar"=>$filename]);
+        move_uploaded_file($file["tmp_name"],$destination);
+        flash("success","Votre avatar a été mis à jour");
+        back();
 
     }
 }

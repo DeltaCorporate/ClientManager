@@ -65,7 +65,7 @@ abstract class Model extends Database
                 Session::validation($column, "The $column field is required");
                 back();
             }
-            $values[$column]['value'] = htmlspecialchars($session[$column]);
+            $values[$column]['value'] = is_string($session[$column]) ? htmlspecialchars($session[$column]) : $session[$column];
             if (isset($rules[$column])) {
                 $values[$column]['rules'] = $rules[$column];
             }
@@ -151,7 +151,7 @@ abstract class Model extends Database
         $primaryKey = $self->primaryKey();
         $sql = "UPDATE `$table` SET ";
         foreach ($data as $key => $value) {
-            $sql .= "`$key` = :$key, ";
+            $sql .= "$key = :$key, ";
         }
         $sql = rtrim($sql, ', ');
         $sql .= " WHERE $primaryKey = :$primaryKey";
@@ -162,7 +162,7 @@ abstract class Model extends Database
             }
         }
         $stmt->bindValue(":" . $primaryKey, $id);
-        $stmt->execute();
+        dd($stmt->execute());
         return true;
     }
 

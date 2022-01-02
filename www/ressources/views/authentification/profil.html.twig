@@ -7,26 +7,30 @@
 {% endblock %}
 
 {% block body %}
-    <section id="avatar-section" class="mt-7">
-        <form action="{{ url('user.update','post') }}" method="post" enctype="multipart/form-data">
+    <section id="avatar-section">
+        <form action="{{ url('user.update_avatar','post') }}" method="post" enctype="multipart/form-data">
+            {{ csrf() }}
             <div class="relative overflow-hidden mb-8">
                 <span class=" bg-primary-100 text-primary-400 px-1 py-2 w-max transform top-1/2 -translate-y-1/2 font-semibold text-xl">Avatar</span>
                 <span class="bg-primary-400 absolute h-[1px] w-full transform top-1/2 -translate-y-1/2"></span>
             </div>
             <div class="w-48 border border-primary-400 rounded-full overflow-hidden">
                 <label for="avatar" class="relative block ">
-                    <img class="static" src="{{  image(user.data.avatar) }}" alt="">
+                    <img class="static" src="{{  avatar(user.data.avatar) }}" alt="">
                     <span class="block absolute pt-[70%] bottom-0 inset-x-0 bg-gradient-to-t from-primary-100 to-black-50 text-center h-full text-primary-50 font-semibold ">Choose an image</span>
                 </label>
-                <input type="file" class="hidden" id="avatar">
+                <input type="file" class="hidden" id="avatar" name="avatar">
+
             </div>
+            <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['avatar'] }}</p>
             <div class="relative h-6 mt-4">
                 <button type="submit" class="w-full md:w-max bg-primary-50 text-primary-100 px-4 py-2 rounded md:absolute md:right-0" >Update avatar</button>
             </div>
         </form>
     </section>
     <section id="account-settings" class="mt-7">
-        <form action="{{ url('user.update','post') }}" method="post" enctype="multipart/form-data">
+        <form action="#" method="post"
+                          {{ csrf() }}enctype="multipart/form-data">
             <div class="relative overflow-hidden mb-8">
                 <span class=" bg-primary-100 text-primary-400 px-1 py-2 w-max transform top-1/2 -translate-y-1/2 font-semibold text-xl">Account settings</span>
                 <span class="bg-primary-400 absolute h-[1px] w-full transform top-1/2 -translate-y-1/2"></span>
@@ -57,7 +61,8 @@
         </form>
     </section>
     <section id="account-details" class="mt-7">
-        <form action="{{ url('user.update','post') }}" method="post" enctype="multipart/form-data">
+        <form action="#" method="post">
+                        {{ csrf() }}
             <div class="relative overflow-hidden mb-8">
                 <span class=" bg-primary-100 text-primary-400 px-1 py-2 w-max transform top-1/2 -translate-y-1/2 font-semibold text-xl">Personal informations</span>
                 <span class="bg-primary-400 absolute h-[1px] w-full transform top-1/2 -translate-y-1/2"></span>
@@ -125,6 +130,7 @@
     </section>
     <section id="password" class="mt-7">
         <form action="#" method="post">
+                        {{ csrf() }}
             <div class="relative overflow-hidden mb-8">
                 <span class=" bg-primary-100 text-primary-400 px-1 py-2 w-max transform top-1/2 -translate-y-1/2 font-semibold text-xl">Password</span>
                 <span class="bg-primary-400 absolute h-[1px] w-full transform top-1/2 -translate-y-1/2"></span>
@@ -154,8 +160,9 @@
             </div>
         </form>
     </section>
-    <section id="deleteAccount" class="my-7">
+    <section id="deleteAccount" class="my-10  block">
         <form action="#" method="post">
+                        {{ csrf() }}
             <div class="relative overflow-hidden mb-8">
                 <span class=" bg-primary-100 text-red-500 px-1 py-2 w-max transform top-1/2 -translate-y-1/2 font-semibold text-xl">
                     Danger zone</span>
@@ -171,7 +178,9 @@
                 <button type="submit" class="w-full md:w-max bg-red-500 text-white px-4 py-2 rounded " >Delete my account</button>
             </div>
         </form>
+        <div class="h-5"></div>
     </section>
+
 {% endblock %}
 
 {#

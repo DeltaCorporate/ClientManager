@@ -26,6 +26,11 @@ class Request
         return $_POST;
     }
 
+    public static function getFiles(): array
+    {
+        return $_FILES;
+    }
+
     public function getMethod()
     {
         return $_SERVER['REQUEST_METHOD'] ?? "GET";

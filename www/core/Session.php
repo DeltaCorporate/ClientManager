@@ -151,8 +151,8 @@ class Session
      * GESTION UTILISATEUR
      */
 
-    public static function setUser($email){
-        $_SESSION['user'] = $email;
+    public static function setUser($user){
+        $_SESSION['user'] = $user;
     }
 
     public static function getUser(){

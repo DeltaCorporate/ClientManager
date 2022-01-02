@@ -26,6 +26,15 @@ class Rules
         return true;
     }
 
+    public function image($value){
+        $allowed_extensions = array( 'jpg' , 'jpeg' , 'svg' , 'png' );
+        $extension = strtolower( substr( strrchr($value['name'], '.') ,1) ) ;
+        if(!is_file($value['tmp_name']) or !in_array($extension, $allowed_extensions)){
+            return ":key must be an image. Only jpg, jpeg, svg and png formats are allowed";
+        }
+        return true;
+    }
+
     public function string($value)
     {
         if (!is_string($value) or is_numeric($value)) {

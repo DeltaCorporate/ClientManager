@@ -79,6 +79,14 @@ class AuthentificationController
             User::checkPasswordConfirm($values["password"]["value"], $values["password_confirm"]["value"]);
 
             User::update($toReset->user_id,["password"=>password_hash($values["password"]["value"], PASSWORD_ARGON2I)]);
+            $user = User::find($toReset->user_id);
+            $from = ["email" => $_SERVER['FROM_EMAIL'], "name" => $_SERVER['FROM_NAME']];
+            $to = ["email" => $user->email];
+            $subject = "Updated password";
+            $body = "emails.updated_password";
+            $data = ["user" => $user];
+
+            sendMail($from, $to, $subject, $body, $data);
             flash("success", "Your password has been reset.");
             Session::clearSession("reset_data");
 
@@ -186,7 +194,7 @@ class AuthentificationController
             $passwordReset->setUser($user->id);
             $passwordReset->setToken($token);
             PasswordReset::save($passwordReset->getPasswordReset());
-            $from = ["email" => 'no-reply@client-manager.com'];
+            $from = ["email" => $_SERVER['FROM_EMAIL'], "name" => $_SERVER['FROM_NAME']];
             $to = ["email" => $user->email];
             $subject = "Reset your password";
             $body = "emails.reset-password";

@@ -18,7 +18,7 @@ class HomeController
 
     public function test()
     {
-        return render('emails.reset-password');
+        return render('emails.updates.updated_password');
 
     }
 

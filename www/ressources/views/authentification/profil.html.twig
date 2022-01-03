@@ -41,22 +41,13 @@
         </form>
     </section>
     <section id="account-details" class="mt-7">
-        <form action="#" method="post">
+        <form action="{{ url('user.update_account_details','post') }}" method="post">
                         {{ csrf() }}
             <div class="relative overflow-hidden mb-8">
                 <span class=" bg-primary-100 text-primary-400 px-1 py-2 w-max transform top-1/2 -translate-y-1/2 font-semibold text-xl">Personal informations</span>
                 <span class="bg-primary-400 absolute h-[1px] w-full transform top-1/2 -translate-y-1/2"></span>
             </div>
             <div class="grid grid-cols-12 md:gap-x-12">
-                <div class="col-span-full md:col-span-6 lg:col-span-4">
-                    <div class="">
-                        <label class="text-primary-500 font-medium leading-loose" for="username">Username</label>
-                    </div>
-                    <div class="">
-                        <input id="username" type="text" name="username" value="{{ user.username }}" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
-                        <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['username'] }}</p>
-                    </div>
-                </div>
                 <div class="col-span-full md:col-span-6 lg:col-span-4">
                     <div class="">
                         <label class="text-primary-500 font-medium leading-loose" for="firstname">Firstname</label>
@@ -77,15 +68,6 @@
                 </div>
                 <div class="col-span-full md:col-span-6 lg:col-span-4">
                     <div class="">
-                        <label class="text-primary-500 font-medium leading-loose"  for="email">Email</label>
-                    </div>
-                    <div class="">
-                        <input id="email" type="email" name="email" value="{{ user.email }}" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
-                        <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['email'] }}</p>
-                    </div>
-                </div>
-                <div class="col-span-full md:col-span-6 lg:col-span-4">
-                    <div class="">
                         <label class="text-primary-500 font-medium leading-loose" for="telephone">Telephone</label>
                     </div>
                     <div class="">
@@ -93,13 +75,13 @@
                         <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['telephone'] }}</p>
                     </div>
                 </div>
-                <div class="col-span-full md:col-span-6 lg:col-span-4">
+                <div class="col-span-full md:col-span-8 ">
                     <div class="">
                         <label class="text-primary-500 font-medium leading-loose" for="adress">Address</label>
                     </div>
                     <div class="">
-                        <input id="adress" type="text" name="adress" value="{{ user.data.adress }}" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
-                        <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['adress'] }}</p>
+                        <input id="adress" type="text" name="address" value="{{ user.data.address }}" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
+                        <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['address'] }}</p>
                     </div>
                 </div>
             </div>
@@ -109,7 +91,7 @@
         </form>
     </section>
     <section id="password" class="mt-7">
-        <form action="#" method="post">
+        <form action="{{ url('user.update_password','post') }}" method="post">
                         {{ csrf() }}
             <div class="relative overflow-hidden mb-8">
                 <span class=" bg-primary-100 text-primary-400 px-1 py-2 w-max transform top-1/2 -translate-y-1/2 font-semibold text-xl">Password</span>
@@ -127,11 +109,11 @@
                 </div>
                 <div class="col-span-full md:col-span-6 ">
                     <div class="">
-                        <label class="text-primary-500 font-medium leading-loose" for="confirm-password">Confirm Password</label>
+                        <label class="text-primary-500 font-medium leading-loose" for="password_confirm">Confirm Password</label>
                     </div>
                     <div class="">
-                        <input id="confirm-password" type="password" name="confirm-password" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
-                        <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['confirm-password'] }}</p>
+                        <input id="password_confirm" type="password" name="password_confirm" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
+                        <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['password_confirm'] }}</p>
                     </div>
                 </div>
             </div>
@@ -162,7 +144,7 @@
         </form>
     </section>
     <section id="deleteAccount" class="my-10  block">
-        <form action="#" method="post">
+        <form action="{{ url('user.delete_account','post') }}" method="post">
                         {{ csrf() }}
             <div class="relative overflow-hidden mb-8">
                 <span class=" bg-primary-100 text-red-500 px-1 py-2 w-max transform top-1/2 -translate-y-1/2 font-semibold text-xl">

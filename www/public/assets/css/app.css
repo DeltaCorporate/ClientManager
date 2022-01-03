@@ -1580,6 +1580,10 @@ Ensure the default browser behavior of the `hidden` attribute.
     grid-column: span 9 / span 9;
   }
 
+  .md\:col-span-8 {
+    grid-column: span 8 / span 8;
+  }
+
   .md\:block {
     display: block;
   }
@@ -1637,6 +1641,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 
   .lg\:col-span-10 {
     grid-column: span 10 / span 10;
+  }
+
+  .lg\:col-span-8 {
+    grid-column: span 8 / span 8;
+  }
+
+  .lg\:col-span-full {
+    grid-column: 1 / -1;
   }
 
   .lg\:block {

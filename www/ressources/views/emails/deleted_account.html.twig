@@ -9,10 +9,12 @@
             <h4 class="text-white font-medium text-xl">Client Manager</h4>
         </div>
         <div class="text-primary-400">
-            Thank {{ name }} for your registration.
-            Please confirm your email!
+            We are sorry to see you go. Your account has been deleted.
         </div>
-        <a href="{{ url('home') }}" class="bg-primary-50 px-4 py-2 text-primary-100 block rounded text-center">Click here</a>
+        <div class="text-primary-400">
+            You can create a new account if you want.
+        </div>
+        <a href="{{ url('user.register') }}" class="bg-primary-50 px-4 py-2 text-primary-100 block rounded  text-center">Register</a>
     </div>
 </div>
 

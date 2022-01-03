@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="shortcut icon" href="{{ image('logo.svg') }}" type="image/x-icon">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body class="bg-primary-100 h-screen grid grid-cols-12 grid-rows-6">
+{% include('components/alerts.html.twig') %}
+<div class="col-span-full row-span-1">
+    {% include 'components/header.html.twig' %}
+</div>
+<div class="hidden md:inline-grid md:col-span-3 lg:col-span-2 grow row-span-5" id="navbar">
+
+    {% include 'components/navbar.html.twig' %}
+</div>
+<div class="col-span-full md:col-span-9 lg:col-span-10 px-4 bg-primary-100 row-span-5 overflow-y-scroll pb-5" id="content">
+    {% block body %}{% endblock %}
+</div>
+<script src="{{ asset("js/jquery.js") }}"></script>
+<script src="{{ asset("js/popper.js") }}"></script>
+<script src="{{ asset("js/app.js") }}"></script>
+
+<script>
+    //this is to fix the issue with the navbar
+    $("#toggleMenu").click(function () {
+        let width = window.innerWidth;
+        if(width>=768){
+            $("#navbar").toggleClass("md:inline-grid md:col-span-3 lg:col-span-2 grow row-span-5");
+            $('#content').toggleClass("md:col-span-9 lg:col-span-10");
+        } else{
+            $("#navbar").toggleClass("hidden md:inline-grid md:col-span-9 lg:col-span-10 col-span-6");
+            $("#content").toggleClass('hidden')
+        }
+    });
+</script>
+{% block customJs %}{% endblock %}
+</body>
+</html>
+

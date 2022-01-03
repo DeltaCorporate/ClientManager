@@ -1,0 +1,15 @@
+{% extends "layouts/base.html.twig" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block body %}
+<a href="{{ url("home",'get') }}" class="text-red-50">Ceci est un test</a>
+    <form action="#">
+        {{ csrf() }}
+        <label>
+            <input type="text">
+        </label>
+    </form>
+{% endblock %}

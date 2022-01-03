@@ -2,15 +2,12 @@
 
 namespace App\Views;
 
-use Config\Router;
+use Core\Csrf;
+use Core\Session;
 use Twig\Environment;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 use Twig\Loader\FilesystemLoader;
 use Twig\TwigFunction;
 
-require "../vendor/autoload.php";
 
 class Renderer
 {
@@ -21,37 +18,52 @@ class Renderer
     {
 
 
-        $this->loader = new FilesystemLoader(ROOT.'/ressources/templates/');
-        self::$renderer = new Environment($this->loader);
-        self::$renderer->addFunction(new TwigFunction("url",function ($name,$reqMethode,$datas=[]){
-            echo Router::generateURL($name,$reqMethode,$datas);
+        $this->loader = new FilesystemLoader(ROOT . '/ressources/views/');
+        self::$renderer = new Environment($this->loader, [
+            'strict_variables' => false,
+        ]);
+        self::$renderer->addFunction(new TwigFunction("url", function ($name, $reqMethode = 'get', $datas = []) {
+            echo $_SERVER["APP_URL"] . url($name, $reqMethode, $datas);
+
         }));
-        self::$renderer->addFunction(new TwigFunction("asset",function ($path){
-            echo "/assets/".$path;
+        self::$renderer->addFunction(new TwigFunction("asset", function ($path) {
+            echo $_SERVER["APP_URL"] . "/assets/" . $path;
+        }));
+        self::$renderer->addFunction(new TwigFunction("image", function ($path) {
+            echo $_SERVER["APP_URL"] . "/src/images/" . $path;
+        }));
+        self::$renderer->addFunction(new TwigFunction("arrow", function () {
+            echo "&#10132;";
+        }));
+        self::$renderer->addFunction(new TwigFunction("csrf", function () {
+            $csrf= new Csrf();
+            $token = $csrf->getToken();
+            echo "<input type='hidden' name='csrf' value='$token'>";
+        }));
+        self::$renderer->addFunction(new TwigFunction("flash", function ($key) {
+            return (Session::getFlash($key))['value'];
+        }));
+        self::$renderer->addFunction(new TwigFunction("session", function ($key) {
+            $validationMessages = Session::session($key);
+            $validationMessages = array_map(function ($value) {
+                return $value['value'];
+            }, $validationMessages);
+            return ($validationMessages);
+        }));
+        self::$renderer->addFunction(new TwigFunction("auth", function () {
+            return Session::getUser();
+        }));
+        self::$renderer->addFunction(new TwigFunction("public_path", function ($path) {
+            echo $_SERVER['APP_URL'] . "/" . $path;
+        }));
+        self::$renderer->addFunction(new TwigFunction("avatar", function (string $name) {
+            echo $_SERVER["APP_URL"] . "/src/users/avatars/" . $name;
         }));
     }
 
     public function getRenderer(): Environment
     {
         return self::$renderer;
-    }
-
-
-
-    public static function render($path, $datas = []): bool
-    {
-
-        $path = str_replace(".", "/", $path);
-        $path .= ".html.twig";
-        try {
-            echo self::$renderer->render($path, $datas);
-            return true;
-        } catch (LoaderError | RuntimeError | SyntaxError $e) {
-            echo $e->getMessage();
-
-            return false;
-        }
-
     }
 
 

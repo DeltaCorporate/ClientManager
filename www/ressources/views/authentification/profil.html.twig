@@ -1,0 +1,170 @@
+{% extends 'layouts/base.html.twig' %}
+
+
+
+{% block title %}
+   Profile
+{% endblock %}
+
+{% block body %}
+    <section id="account-settings" >
+        <form action="{{ url('user.update_account_settings',"post") }}" method="post"
+                          enctype="multipart/form-data">
+            {{ csrf() }}
+            <div class="relative overflow-hidden mb-8">
+                <span class=" bg-primary-100 text-primary-400 px-1 py-2 w-max transform top-1/2 -translate-y-1/2 font-semibold text-xl">Account settings</span>
+                <span class="bg-primary-400 absolute h-[1px] w-full transform top-1/2 -translate-y-1/2"></span>
+            </div>
+            <div class="grid grid-cols-12 md:gap-x-12">
+                <div class="col-span-full md:col-span-6">
+                    <div class="">
+                        <label class="text-primary-500 font-medium leading-loose" for="username">Username</label>
+                    </div>
+                    <div class="">
+                        <input id="username" type="text" name="username" value="{{ user.username }}" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
+                        <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['username'] }}</p>
+                    </div>
+                </div>
+                <div class="col-span-full md:col-span-6">
+                    <div class="">
+                        <label class="text-primary-500 font-medium leading-loose"  for="email">Email</label>
+                    </div>
+                    <div class="">
+                        <input id="email" type="email" name="email" value="{{ user.email }}" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
+                        <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['email'] }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="relative h-6 mt-4">
+                <button type="submit" class="w-full md:w-max bg-primary-50 text-primary-100 px-4 py-2 rounded md:absolute md:right-0" >Update account details</button>
+            </div>
+        </form>
+    </section>
+    <section id="account-details" class="mt-7">
+        <form action="{{ url('user.update_account_details','post') }}" method="post">
+                        {{ csrf() }}
+            <div class="relative overflow-hidden mb-8">
+                <span class=" bg-primary-100 text-primary-400 px-1 py-2 w-max transform top-1/2 -translate-y-1/2 font-semibold text-xl">Personal informations</span>
+                <span class="bg-primary-400 absolute h-[1px] w-full transform top-1/2 -translate-y-1/2"></span>
+            </div>
+            <div class="grid grid-cols-12 md:gap-x-12">
+                <div class="col-span-full md:col-span-6 lg:col-span-4">
+                    <div class="">
+                        <label class="text-primary-500 font-medium leading-loose" for="firstname">Firstname</label>
+                    </div>
+                    <div class="">
+                        <input id="firstname" type="text" name="firstname" value="{{ user.data.firstname }}" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
+                        <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['firstname'] }}</p>
+                    </div>
+                </div>
+                <div class="col-span-full md:col-span-6 lg:col-span-4">
+                    <div class="">
+                        <label class="text-primary-500 font-medium leading-loose" for="lastname">Lastname</label>
+                    </div>
+                    <div class="">
+                        <input id="lastname" type="text" name="lastname" value="{{ user.data.lastname }}" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
+                        <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['lastname'] }}</p>
+                    </div>
+                </div>
+                <div class="col-span-full md:col-span-6 lg:col-span-4">
+                    <div class="">
+                        <label class="text-primary-500 font-medium leading-loose" for="telephone">Telephone</label>
+                    </div>
+                    <div class="">
+                        <input id="telephone" type="tel" name="telephone" value="{{ user.data.telephone }}" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
+                        <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['telephone'] }}</p>
+                    </div>
+                </div>
+                <div class="col-span-full md:col-span-8 ">
+                    <div class="">
+                        <label class="text-primary-500 font-medium leading-loose" for="adress">Address</label>
+                    </div>
+                    <div class="">
+                        <input id="adress" type="text" name="address" value="{{ user.data.address }}" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
+                        <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['address'] }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="relative h-6 mt-4">
+                <button type="submit" class="w-full md:w-max bg-primary-50 text-primary-100 px-4 py-2 rounded md:absolute md:right-0" >Update my personal informations</button>
+            </div>
+        </form>
+    </section>
+    <section id="password" class="mt-7">
+        <form action="{{ url('user.update_password','post') }}" method="post">
+                        {{ csrf() }}
+            <div class="relative overflow-hidden mb-8">
+                <span class=" bg-primary-100 text-primary-400 px-1 py-2 w-max transform top-1/2 -translate-y-1/2 font-semibold text-xl">Password</span>
+                <span class="bg-primary-400 absolute h-[1px] w-full transform top-1/2 -translate-y-1/2"></span>
+            </div>
+            <div class="grid grid-cols-12 md:gap-x-12">
+                <div class="col-span-full md:col-span-6">
+                    <div class="">
+                        <label class="text-primary-500 font-medium leading-loose" for="password">New Password</label>
+                    </div>
+                    <div class="">
+                        <input id="password" type="password" name="password" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
+                        <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['password'] }}</p>
+                    </div>
+                </div>
+                <div class="col-span-full md:col-span-6 ">
+                    <div class="">
+                        <label class="text-primary-500 font-medium leading-loose" for="password_confirm">Confirm Password</label>
+                    </div>
+                    <div class="">
+                        <input id="password_confirm" type="password" name="password_confirm" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
+                        <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['password_confirm'] }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="relative h-6 mt-4">
+                <button type="submit" class="w-full md:w-max bg-primary-50 text-primary-100 px-4 py-2 rounded md:absolute md:right-0" >Change password</button>
+            </div>
+        </form>
+    </section>
+    <section id="avatar-section" class="mt-7">
+        <form action="{{ url('user.update_avatar','post') }}" method="post" enctype="multipart/form-data">
+            {{ csrf() }}
+            <div class="relative overflow-hidden mb-8">
+                <span class=" bg-primary-100 text-primary-400 px-1 py-2 w-max transform top-1/2 -translate-y-1/2 font-semibold text-xl">Avatar</span>
+                <span class="bg-primary-400 absolute h-[1px] w-full transform top-1/2 -translate-y-1/2"></span>
+            </div>
+            <div class="w-48 border border-primary-400 rounded-full overflow-hidden">
+                <label for="avatar" class="relative block ">
+                    <img class="static w-full object-cover aspect-square" src="{{  avatar(user.data.avatar) }}" alt="">
+                    <span class="block absolute pt-[70%] bottom-0 inset-x-0 bg-gradient-to-t from-primary-100 to-black-50 text-center h-full text-primary-50 font-semibold ">Choose an image</span>
+                </label>
+                <input type="file" class="hidden" id="avatar" name="avatar">
+
+            </div>
+            <p class="text-sm text-red-400 pl-2 mt-2">{{ session('validation')['avatar'] }}</p>
+            <div class="relative h-6 mt-4">
+                <button type="submit" class="w-full md:w-max bg-primary-50 text-primary-100 px-4 py-2 rounded md:absolute md:right-0" >Update avatar</button>
+            </div>
+        </form>
+    </section>
+    <section id="deleteAccount" class="my-10  block">
+        <form action="{{ url('user.delete_account','post') }}" method="post">
+                        {{ csrf() }}
+            <div class="relative overflow-hidden mb-8">
+                <span class=" bg-primary-100 text-red-500 px-1 py-2 w-max transform top-1/2 -translate-y-1/2 font-semibold text-xl">
+                    Danger zone</span>
+                <span class="bg-primary-400 absolute h-[1px] w-full transform top-1/2 -translate-y-1/2"></span>
+            </div>
+            <div class="relative h-6 mt-4">
+                <div class="text-red-500 mb-5 flex space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    <span>Be careful. If you click here you will delete definitely your account and all datas related to this account.</span>
+                </div>
+                <button type="submit" class="w-full md:w-max bg-red-500 text-white px-4 py-2 rounded " >Delete my account</button>
+            </div>
+        </form>
+        <div class="h-5"></div>
+    </section>
+
+{% endblock %}
+
+{#
+#}

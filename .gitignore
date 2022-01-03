@@ -3,4 +3,7 @@
 composer.lock
 
 www/vendor
-www/node_modules
+www/node_modules/
+
+www/brouillon/
+www/public/src/users/avatars

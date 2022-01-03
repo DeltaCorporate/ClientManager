@@ -1,5 +1,6 @@
 FROM php:7.4-apache
 
+
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf \
 \
     &&  apt-get update \
@@ -13,7 +14,7 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf \
 \
     &&  curl -sS https://getcomposer.org/installer | php -- \
     &&  mv composer.phar /usr/local/bin/composer \
-\ 
+\
     &&  docker-php-ext-configure \
             intl \
     &&  docker-php-ext-install \
@@ -21,4 +22,4 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf \
 \
     &&  pecl install apcu && docker-php-ext-enable apcu
 
-WORKDIR /var/www/
+WORKDIR /var/www/www

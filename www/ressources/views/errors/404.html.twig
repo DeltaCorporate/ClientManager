@@ -1,0 +1,10 @@
+{% extends 'layouts/error.html.twig' %}
+
+{% block title %}
+    Page not found
+{% endblock %}
+
+{% block content %}
+    <h1 class="text-primary-500 mb-5 text-2xl ">This page doen't exist</h1>
+    <a href="{{ url("home","get") }}" class="text-primary-100 bg-primary-50 px-4 py-2 rounded">Return at home</a>
+{% endblock %}

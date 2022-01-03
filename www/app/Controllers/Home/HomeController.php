@@ -2,13 +2,24 @@
 
 namespace App\Controllers\Home;
 
-use App\Views\Renderer;
+
+use Core\Session;
 
 class HomeController
 {
+
+    /**
+     */
     public function index()
     {
-        return Renderer::render("home.accueil");
+        return render('home.accueil');
+    }
+
+
+    public function test()
+    {
+        return render('emails.updates.updated_password');
+
     }
 
 }

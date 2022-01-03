@@ -8,6 +8,7 @@
 
 namespace Core;
 
+use App\Exceptions\MiddlewareException;
 use Database\Database;
 
 class Application
@@ -18,6 +19,7 @@ class Application
 
     public function __construct()
     {
+        date_default_timezone_set('Europe/Paris');
         new DotEnvParser();
         Database::connection();
         $this->request = new Request();
@@ -29,6 +31,9 @@ class Application
 
     }
 
+    /**
+     * @throws MiddlewareException
+     */
     public function run()
     {
         $this->router->resolve();

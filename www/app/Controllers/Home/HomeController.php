@@ -3,6 +3,8 @@
 namespace App\Controllers\Home;
 
 
+use Core\Session;
+
 class HomeController
 {
 
@@ -10,7 +12,6 @@ class HomeController
      */
     public function index()
     {
-
         return render('home.accueil');
     }
 

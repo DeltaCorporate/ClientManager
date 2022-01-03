@@ -24,14 +24,6 @@ class Router
         $this->session = $session;
     }
 
-    public static function get2($path, $callable, $name)
-    {
-        self::$routes['GET'][$path] = [
-            'path' => $path,
-            'callable' => $callable,
-            'name' => $name
-        ];
-    }
 
     public static function get(Route $route)
     {
@@ -40,6 +32,7 @@ class Router
 
     public static function post(Route $route)
     {
+        $route->middleware("csrf");
         self::$routes['POST'][$route->getPath()] = $route->get();
     }
 

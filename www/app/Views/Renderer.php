@@ -2,6 +2,7 @@
 
 namespace App\Views;
 
+use Core\Csrf;
 use Core\Session;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -35,7 +36,8 @@ class Renderer
             echo "&#10132;";
         }));
         self::$renderer->addFunction(new TwigFunction("csrf", function () {
-            $token = Session::csrf();
+            $csrf= new Csrf();
+            $token = $csrf->getToken();
             echo "<input type='hidden' name='csrf' value='$token'>";
         }));
         self::$renderer->addFunction(new TwigFunction("flash", function ($key) {

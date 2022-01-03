@@ -144,25 +144,24 @@ abstract class Model extends Database
     /**
      * @throws ModelColumnNotfound
      */
-    public static function update(int $id, array $data): bool
+    public static function update(int $keyValue, array $data, string $keyColumn = "id"): bool
     {
         $self = new static();
         $table = $self->getTableName();
-        $primaryKey = $self->primaryKey();
         $sql = "UPDATE `$table` SET ";
         foreach ($data as $key => $value) {
             $sql .= "$key = :$key, ";
         }
         $sql = rtrim($sql, ', ');
-        $sql .= " WHERE $primaryKey = :$primaryKey";
+        $sql .= " WHERE $keyColumn = :$keyColumn";
         $stmt = self::$instance->prepare($sql);
         foreach ($data as $key => $value) {
             if ($self->existColumn($key)) {
                 $stmt->bindValue(":" . $key, $value);
             }
         }
-        $stmt->bindValue(":" . $primaryKey, $id);
-        dd($stmt->execute());
+        $stmt->bindValue(":" . $keyColumn, $keyValue);
+        $stmt->execute();
         return true;
     }
 

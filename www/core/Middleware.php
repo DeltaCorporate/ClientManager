@@ -11,6 +11,7 @@ namespace Core;
 
 use App\Exceptions\MiddlewareException;
 use App\Middlewares\AuthMiddleware;
+use App\Middlewares\CsrfMiddleware;
 use App\Middlewares\GuestMiddleware;
 
 abstract class Middleware
@@ -19,7 +20,8 @@ abstract class Middleware
     {
         return [
             "auth" => AuthMiddleware::class,
-            "guest" => GuestMiddleware::class
+            "guest" => GuestMiddleware::class,
+            "csrf" => CsrfMiddleware::class
         ];
     }
 

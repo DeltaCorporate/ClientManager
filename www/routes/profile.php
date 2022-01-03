@@ -11,3 +11,4 @@ use Core\Router;
 
 Router::get((new Route([ProfilController::class, "view"]))->name('user.profile')->path("/user/profile")->middleware("auth"));
 Router::post((new Route([ProfilController::class, "update_avatar"]))->name("user.update_avatar")->path("/user/update_avatar")->middleware("auth"));
+Router::post((new Route([ProfilController::class, "update_account_settings"]))->name("user.update_account_settings")->path("/user/update_account_settings")->middleware("auth"));

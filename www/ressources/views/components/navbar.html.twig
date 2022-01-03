@@ -1,9 +1,10 @@
 <div class="h-full p-3 space-y-2 bg-primary-100 text-primary-400 border-r border-primary-200 overflow-y-auto">
+{% if (auth()) %}
     <div class="flex items-center p-2 space-x-4">
         <img
                 src="{{ avatar(auth().data.avatar) }}"
                 alt=""
-                class="w-12 h-12 rounded-full"
+                class="w-12 h-12 rounded-full  object-cover aspect-square"
         />
         <div>
             <h2 class="text-lg font-semibold">{{ auth().username }}</h2>
@@ -14,6 +15,7 @@
       </span>
         </div>
     </div>
+{% endif %}
     <div class="divide-y divide-primary-300">
         <ul class="pt-2 pb-4 space-y-1 text-sm">
             <li class="hover:bg-primary-200 transition  duration-300 ease-in-out">

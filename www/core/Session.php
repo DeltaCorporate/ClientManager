@@ -30,8 +30,6 @@ class Session
             return $message;
         }, $validationMessages);
         Session::setValidation($validationMessages);
-
-
     }
 
     /*
@@ -79,31 +77,12 @@ class Session
      * Méthodes pour la gestion des csrf
      * */
 
-    public static function csrf(): string
+
+    public static function setSessionCsrf($csrf)
     {
-        $csrfTokens = self::session('csrf');
-        $token = token();
-        if (!empty($csrfTokens)) {
-            while (in_array($token, $csrfTokens)) {
-                $token = token();
-            }
-        }
-        self::setSessionCsrf($token);
-        return $token;
+        $_SESSION['csrf'][] = $csrf;
     }
 
-    public static function setSessionCsrf($value)
-    {
-        $_SESSION['csrf'][] = $value;
-    }
-
-    public static function clearCsrf($token)
-    {
-        $csrfTokens = self::session('csrf');
-        $key = array_search($token, $csrfTokens);
-        unset($csrfTokens[$key]);
-        self::setSessionCsrf($csrfTokens);
-    }
 
     /*
      * Méthode pour la gestion des validations de messages
@@ -145,6 +124,17 @@ class Session
         Session::setFlash($flashMessages);
     }
 
+    public static function removeExpiredCsrfs()
+    {
+        $tokens = self::session('csrf');
+        foreach ($tokens as $key => $csrf) {
+            if(time()>=$csrf->getExpireAt()){
+                unset($tokens[$key]);
+            }
+        }
+        Session::setSession('csrf',$tokens);
+    }
+
 
 
     /*
@@ -169,6 +159,7 @@ class Session
     {
         self::removeFlashMessageAuto();
         self::removeValidationMessageAuto();
+        self::removeExpiredCsrfs();
     }
 
 }

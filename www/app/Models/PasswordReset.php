@@ -66,4 +66,9 @@ class PasswordReset extends Model
             "email"
         ];
     }
+
+    public static function foreigns(): array
+    {
+        return [];
+    }
 }

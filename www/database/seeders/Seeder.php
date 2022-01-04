@@ -8,7 +8,8 @@ class Seeder
     {
         return [
             UserSeeder::class,
-            CategorySeeder::class
+            CategorySeeder::class,
+            ProductSeeder::class
         ];
     }
 

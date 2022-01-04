@@ -17,9 +17,8 @@ class ProfilController
 {
     public function view()
     {
+
         $user = Session::getUser();
-
-
         return render("authentification/profil", compact("user"));
     }
 
@@ -142,7 +141,7 @@ class ProfilController
     {
         $user = Session::getUser();
         User::delete($user->id);
-        User_data::deleteBy("user_id",$user->id);
+        User_data::deleteBy("user_id", $user->id);
         $oldAvatar = $user->data->avatar;
         if (!empty($oldAvatar) and $oldAvatar != "defaultAvatar.svg") {
             unlink("src/users/avatars/" . $oldAvatar);

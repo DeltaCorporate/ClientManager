@@ -44,6 +44,9 @@ class Commands
                 ->addItem("make:middleware", function (CliMenu $cliMenu) {
                     call_user_func([new middleware(), "make"], $cliMenu);
                 })
+                ->addItem("make:seeder", function (CliMenu $cliMenu) {
+                    call_user_func([new seeders(), "make"], $cliMenu);
+                })
                 ->addItem("run:migration", function (CliMenu $cliMenu) {
                     call_user_func([new migration(), "migrate"], $cliMenu);
                 })

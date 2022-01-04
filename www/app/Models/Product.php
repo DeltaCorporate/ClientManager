@@ -33,4 +33,11 @@ class Product extends Model
             // TODO: Put here the values to validate
         ];
     }
+
+    public static function foreigns(): array
+    {
+        return [
+            "category_id" => [Category::class, 'hasOneToOne'],
+        ];
+    }
 }

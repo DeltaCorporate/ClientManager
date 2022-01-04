@@ -7,15 +7,23 @@
 
 namespace App\Controllers\Admin;
 
+use App\Models\Category;
+use App\Models\Product;
+use Core\Request;
+
 class ProductController
 {
     /*
      * View product details
      */
 
-    public function view()
+    public function view(Request $request)
     {
-        //TODO: RENDER PRODUCT DETAILS
+        $id = $request->get('id');
+        $product = Product::find($id);
+        dd($product);
+        render('admin.product.view', compact('product'));
+
     }
 
 

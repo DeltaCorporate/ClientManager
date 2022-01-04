@@ -103,4 +103,9 @@ class User extends Model
             'password_confirm'
         ];
     }
+
+    public static function foreigns(): array
+    {
+        return [];
+    }
 }

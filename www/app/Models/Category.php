@@ -33,4 +33,9 @@ class Category extends Model
            // TODO: Put here the values to validate
        ];
     }
+
+    public static function foreigns(): array
+    {
+        return [];
+    }
 }

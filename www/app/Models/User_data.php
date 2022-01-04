@@ -50,4 +50,8 @@ class User_data extends Model
         return $this->belongsTo(User::class, $val);
     }
 
+    public static function foreigns(): array
+    {
+        return [];
+    }
 }

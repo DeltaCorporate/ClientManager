@@ -17,6 +17,7 @@ abstract class Model extends Database
     abstract public static function getColumns(): array;
 
     abstract public static function toValidate(): array;
+    abstract public static function foreigns(): array;
 
     public function primaryKey(): string
     {
@@ -131,7 +132,8 @@ abstract class Model extends Database
         return true;
     }
 
-    public static function deleteBy($key,$val){
+    public static function deleteBy($key,$val): bool
+    {
         $self = new static();
         $table = $self->getTableName();
         $sql = "DELETE FROM `$table` WHERE $key = :$key";
@@ -190,7 +192,7 @@ abstract class Model extends Database
         $params = array_map(fn($attr) => ':' . $attr, $columns);
         $sql = "INSERT INTO $tableName (" . implode(",", $columns) . ") VALUES (" . implode(",", $params) . ")";
         $statement = self::$instance->prepare($sql);
-        foreach ($columns as $key => $column) {
+        foreach ($columns as $column) {
             if ($self->existColumn($column)) {
                 $statement->bindValue(':' . $column, $values[$column]);
             }
@@ -228,7 +230,22 @@ abstract class Model extends Database
         $stmt = self::$instance->prepare($sql);
         $stmt->bindValue(":" . $primaryKey, $id);
         $stmt->execute();
-        return $stmt->fetchObject(static::class);
+        $associations = $self->foreigns();
+        $result = $stmt->fetchObject(static::class);
+        if (!empty($associations)) {
+            foreach ($associations as $foreignKey => $association) {
+                switch ($association[1]) {
+                    case "hasOneToOne":
+                        $result->$foreignKey = call_user_func_array($association, [static::class, $result->$foreignKey]);
+                        break;
+                    case "belongsTo":
+                    case "hasOneToMany":
+                        break;
+                }
+            }
+        }
+
+        return $result;
     }
 
     public static function findBy($colomn, $value)
@@ -239,7 +256,22 @@ abstract class Model extends Database
         $stmt = self::$instance->prepare($sql);
         $stmt->bindValue(":" . $colomn, $value);
         $stmt->execute();
-        return $stmt->fetch();
+        $associations = $self->foreigns();
+        $result = $stmt->fetchObject(static::class);
+        if (!empty($associations)) {
+            foreach ($associations as $foreignKey => $association) {
+                switch ($association[1]) {
+                    case "hasOneToOne":
+                        $result->$foreignKey = call_user_func_array($association, [static::class, $result->$foreignKey]);
+                        break;
+                    case "belongsTo":
+                    case "hasOneToMany":
+                        break;
+                }
+            }
+        }
+
+        return $result;
     }
 
     public static function findAll()

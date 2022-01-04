@@ -10,4 +10,5 @@ Router::get((new Route([HomeController::class, "test"]))->path("/test")->name("t
 
 include_once '../routes/auth.php';
 include_once '../routes/profile.php';
+include_once '../routes/admin/product.php';
 

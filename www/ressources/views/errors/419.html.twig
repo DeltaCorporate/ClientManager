@@ -5,6 +5,20 @@
 {% endblock %}
 
 {% block content %}
-    <h1 class="text-primary-500 mb-5 text-2xl ">This page expired</h1>
-    <a href="{{ url("home") }}" class="text-primary-100 bg-primary-50 px-4 py-2 rounded">Return at home</a>
+    <div class="relative w-full h-screen">
+        <img src="{{ image('404.svg') }}" class="absolute h-full w-full object-cover" alt="alone"/>
+        <div class="inset-0 bg-black opacity-25 absolute">
+        </div>
+        <div class="container mx-auto px-6 md:px-12 relative z-10 flex items-center py-32 xl:py-40">
+            <div class="w-full font-mono flex flex-col items-center relative z-10">
+                <h1 class="font-extrabold text-5xl text-center text-white leading-tight mt-4">
+                    The page expired
+                </h1>
+                <p class="font-extrabold text-8xl my-44 text-white animate-ping">
+                    419
+                </p>
+                <a href="{{ url('home') }}" class="text-white text-5xl underline font-semibold leading-tight text-center">Go back to home</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

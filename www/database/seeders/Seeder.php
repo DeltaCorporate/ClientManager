@@ -7,7 +7,8 @@ class Seeder
     public function getToRun(): array
     {
         return [
-            UserSeeder::class
+            UserSeeder::class,
+            CategorySeeder::class
         ];
     }
 

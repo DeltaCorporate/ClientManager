@@ -77,7 +77,7 @@ class AuthentificationController
             $values = User::matchPostValuesToValidationData($values, $rules,['password','password_confirm']);
             Request::validateRules($values);
             User::checkPasswordConfirm($values["password"]["value"], $values["password_confirm"]["value"]);
-
+            dd($toReset);
             User::update($toReset->user_id,["password"=>password_hash($values["password"]["value"], PASSWORD_ARGON2I)]);
             $user = User::find($toReset->user_id);
             $from = ["email" => $_SERVER['FROM_EMAIL'], "name" => $_SERVER['FROM_NAME']];

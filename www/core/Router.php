@@ -9,7 +9,6 @@
 namespace Core;
 
 use App\Exceptions\MiddlewareException;
-use App\Middlewares\TestMiddleware;
 
 class Router
 {

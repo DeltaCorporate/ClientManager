@@ -15,11 +15,11 @@ class Csrf
     private string $token;
     private  $expireAt;
 
-    public function __construct()
+    public function __construct($time = 300)
     {
         $this->token = uniqid(token(), true);
         $now = time();
-        $this->expireAt = $now +(60*5);
+        $this->expireAt = $now +$time;
         $_SESSION['csrf'][] = $this;
     }
 

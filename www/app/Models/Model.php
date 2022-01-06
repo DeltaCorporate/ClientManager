@@ -108,9 +108,12 @@ abstract class Model extends Database
         $actualTable = $self->getTableName();//resetpassword
         $foreignKey = $table . '_id';
         $tableColumns = $model->getColumns();
-        $actualTableColumns = $self->getColumns();
-        $columns = array_merge($tableColumns, $actualTableColumns);
-        $columns = implode(', ', $columns);
+        array_unshift($tableColumns,"id");
+        $tableColumns = array_map(function ($column) use ($table, $actualTable) {
+            return $table . '.' . $column;
+        }, $tableColumns);
+
+        $columns = implode(', ', $tableColumns);
 
         $sql = "SELECT $columns FROM $table INNER JOIN $actualTable ON $table.id = $actualTable.$foreignKey WHERE $table.id = :id;";
 //        dd($sql);
@@ -232,46 +235,45 @@ abstract class Model extends Database
         $stmt->execute();
         $associations = $self->foreigns();
         $result = $stmt->fetchObject(static::class);
+        return self::hydrate($result, $associations,$id);
+
+
+    }
+
+    private static function hydrate($result,$associations,$id=0)
+    {
         if (!empty($associations)) {
             foreach ($associations as $foreignKey => $association) {
+                $model = $association[0];
+                $model = new $model();
+                $table = $model->getTableName();
+                $foreignVal = $result->$foreignKey;
+                unset($result->$foreignKey);
                 switch ($association[1]) {
-                    case "hasOneToOne":
-                        $result->$foreignKey = call_user_func_array($association, [static::class, $result->$foreignKey]);
-                        break;
                     case "belongsTo":
+                        $result->$table = call_user_func_array([static::class,$association[1]], [$association[0], $foreignVal]);
+                        break;
+                    case "hasOneToOne":
                     case "hasOneToMany":
+                        $result->$foreignKey = call_user_func_array([static::class,$association[1]], [$association[0], $id]);
                         break;
                 }
             }
         }
-
         return $result;
     }
 
-    public static function findBy($colomn, $value)
+    public static function findBy($column, $value)
     {
         $self = new static();
         $table = $self->getTableName();
-        $sql = "SELECT * FROM `$table` WHERE $colomn = :$colomn";
+        $sql = "SELECT * FROM `$table` WHERE $column = :$column";
         $stmt = self::$instance->prepare($sql);
-        $stmt->bindValue(":" . $colomn, $value);
+        $stmt->bindValue(":" . $column, $value);
         $stmt->execute();
         $associations = $self->foreigns();
         $result = $stmt->fetchObject(static::class);
-        if (!empty($associations)) {
-            foreach ($associations as $foreignKey => $association) {
-                switch ($association[1]) {
-                    case "hasOneToOne":
-                        $result->$foreignKey = call_user_func_array($association, [static::class, $result->$foreignKey]);
-                        break;
-                    case "belongsTo":
-                    case "hasOneToMany":
-                        break;
-                }
-            }
-        }
-
-        return $result;
+        return self::hydrate($result, $associations);
     }
 
     public static function findAll()
@@ -282,7 +284,28 @@ abstract class Model extends Database
         $sql = "SELECT * FROM " . $table;
         $stmt = static::$instance->prepare($sql);
         $stmt->execute();
-        return $stmt->fetchAll();
+        $results =  $stmt->fetchAll();
+        $associations = $self->foreigns();
+        foreach ($results as $key => $result) {
+            $results[$key] = self::hydrate($result, $associations,$result->id);
+        }
+        return $results;
+    }
+    public static function findAllby($column,$value)
+    {
+        $self = new static();
+
+        $table = $self->getTableName();
+        $sql = "SELECT * FROM `$table` WHERE $column = :$column";
+        $stmt = self::$instance->prepare($sql);
+        $stmt->bindValue(":$column", $value);
+        $stmt->execute();
+        $results =  $stmt->fetchAll();
+        $associations = $self->foreigns();
+        foreach ($results as $key => $result) {
+            $results[$key] = self::hydrate($result, $associations,$result->id);
+        }
+        return $results;
     }
 
 

@@ -9,7 +9,8 @@ class Seeder
         return [
             UserSeeder::class,
             CategorySeeder::class,
-            ProductSeeder::class
+            ProductSeeder::class,
+            ProductImagesSeeder::class
         ];
     }
 

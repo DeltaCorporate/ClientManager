@@ -52,6 +52,8 @@ class User_data extends Model
 
     public static function foreigns(): array
     {
-        return [];
+        return [
+            "user_id" => [User::class,"belongsTo"]
+        ];
     }
 }

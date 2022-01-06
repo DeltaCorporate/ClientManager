@@ -35,8 +35,8 @@ class Renderer
         self::$renderer->addFunction(new TwigFunction("arrow", function () {
             echo "&#10132;";
         }));
-        self::$renderer->addFunction(new TwigFunction("csrf", function () {
-            $csrf= new Csrf();
+        self::$renderer->addFunction(new TwigFunction("csrf", function ($time = 300) {
+            $csrf= new Csrf($time);
             $token = $csrf->getToken();
             echo "<input type='hidden' name='csrf' value='$token'>";
         }));
@@ -58,6 +58,9 @@ class Renderer
         }));
         self::$renderer->addFunction(new TwigFunction("avatar", function (string $name) {
             echo $_SERVER["APP_URL"] . "/src/users/avatars/" . $name;
+        }));
+        self::$renderer->addFunction(new TwigFunction("product", function (string $name) {
+            echo $_SERVER["APP_URL"] . "/src/products/images/" . $name;
         }));
     }
 

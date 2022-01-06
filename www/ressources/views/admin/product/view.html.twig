@@ -3,5 +3,93 @@
 
 
 {% block body %}
-    {{ product.category.name }}
+    <main>
+        <h1 class="text-primary-400 font-semibold text-2xl block ">Product details</h1>
+        <h4 class="text-primary-400 block flex space-x-1 my-5">
+            {{ product.category.name }}
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                      clip-rule="evenodd"/>
+            </svg>
+            {{ product.name }}
+        </h4>
+        <section>
+            <div class="grid grid-cols-12 md:gap-x-4">
+                <section id="images" class="col-span-full md:col-span-6 grid grid-cols-12 gap-y-5 md:gap-y-0">
+                    <section id="little_images" class="col-span-full order-last md:order-first md:col-span-3 flex items-center md:flex-col space-x-2 md:space-x-0 md:space-y-6  md:h-96 overflow-auto snap-mandatory snap-x">
+                        {% for image in product.images %}
+                            <div class=" min-w-[10rem] max-w-[10rem] snap-center">
+                                <img src="{{ product(image.image) }}" alt="{{ image.image }}"
+                                     class="littleImage aspect-square w-full object-cover">
+                            </div>
+                        {% endfor %}
+                    </section>
+                    <div class="col-span-full md:col-span-9">
+                        <img src="{{ product(product.images[0].image) }}" alt="{{ product.images[0].image }}"
+                             class="largeImage w-full aspect-video object-center object-cover">
+                    </div>
+                </section>
+                <section id="product-details" class="col-span-full md:col-span-6 mt-5">
+                    <h1 class="text-4xl text-primary-400 font-semibold block">{{ product.name }}</h1>
+                    <div class="relative my-4">
+                        <div class="flex relative w-max pr-2 z-10 bg-primary-100">
+                            <span class="text-primary-400 text-sm mr-2">Reviews:</span>
+                            <span class="block  flex items-center space-x-2 text-primary-50">
+                                {% for i in 0..3 %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
+                                         fill="currentColor">
+                                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                    </svg>
+                                {% endfor %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                         stroke="currentColor">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                                    </svg>
+                            </span>
+                        </div>
+                        <span class="block h-[1px] z-9 bg-primary-400 absolute left-0 top-1/2 transform w-full -translate-y-1/2"></span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="block mt-4 text-xl text-primary-50 font-medium">{{ product.price }} €</span>
+                        <span class="block mt-4 text-xl text-primary-50 font-medium">
+                            <button class="text-primary-100 text-base rounded bg-primary-50 px-4 py-2 w-max">Add to cart</button>
+                        </span>
+                    </div>
+                    <span class="text-primary-400 mt-4 block font-medium text-sm">{{ product.description }}</span>
+                </section>
+            </div>
+
+        </section>
+
+        <h1 class="text-primary-400 font-semibold text-2xl block mt-10 mb-5 max-w-full">Similar products</h1>
+        <section id="similar-products" class="flex w-full mb-4 items-center  space-x-4 overflow-x-auto divide-x-2 snap-mandatory snap-x">
+            {% for product in similar %}
+                <div class="block relative aspect-square min-w-[24rem] max-w-[24rem] snap-center">
+                    <img src="{{ product(product.images[0].image) }}" alt="" class="w-full aspect-video object-cover">
+                    <div class="px-2 mt-2">
+                        <h1 class="text-primary-400 text-xl font-medium">{{ product.name }}</h1>
+                        <span class="text-primary-50 block mt-4">{{ product.price }}€</span>
+                        <span class="absolute right-2 bottom-2 rounded-full flex items-center justify-center bg-primary-50 text-primary-100 h-10 w-10 hover:transform hover:-translate-y-1.5 transition duration-300 ease-in-out">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                              <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                              <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+             {% endfor %}
+        </section>
+    </main>
+{% endblock %}
+
+{% block customJs %}
+    <script>
+        $('.littleImage').click(function () {
+            $('.largeImage').attr('src', $(this).attr('src'));
+        })
+    </script>
+
+
 {% endblock %}

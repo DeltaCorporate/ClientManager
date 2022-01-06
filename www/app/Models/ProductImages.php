@@ -1,18 +1,19 @@
 <?php
 /*
 *@Author: Houmame LAZAR <houms937@gmail.com>
-*@Class: Product
+*@Class: ProductImages
 *@NameSpace: App\Models
 */
 
 namespace App\Models;
 
-class Product extends Model
+class ProductImages extends Model
 {
 
     public static function getTableName(): string
     {
-        return "product";
+        // TODO: PUT the table name here
+        return "product_images";
     }
 
     public static function getUnique(): string
@@ -23,22 +24,22 @@ class Product extends Model
     public static function getColumns(): array
     {
         return [
-            "name", "description", "price", "quantity", "category_id"
+            "product_id",
+            "image",
         ];
     }
 
     public static function toValidate(): array
     {
-        return [
-            "name", "description", "price", "quantity", "category_id"
-        ];
+       return [
+           // TODO: Put here the values to validate
+       ];
     }
-
+    
     public static function foreigns(): array
     {
         return [
-            "category_id" => [Category::class, 'belongsTo'],
-            "images"=>[ProductImages::class,"hasOneToMany"]
+            "product_id"=>[Product::class,"belongsTo"]
         ];
     }
 }

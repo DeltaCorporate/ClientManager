@@ -43,22 +43,4 @@ class ProductController
         render("store.product.list",compact("products"));
     }
 
-    /*
-     * UPDATE PRODUCT DETAILS : view
-     */
-
-    public function update()
-    {
-        //TODO: form to update PRODUCT
-    }
-
-    /*
-     * Delete product
-     * */
-
-    public function delete()
-    {
-        //TODO: DELETE PRODUCT
-    }
-
 }

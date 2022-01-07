@@ -9,7 +9,6 @@ use Database\Database;
 abstract class Model extends Database
 {
 
-
     abstract public static function getTableName(): string;
 
     abstract public static function getUnique(): string;

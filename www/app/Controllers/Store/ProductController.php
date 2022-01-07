@@ -5,7 +5,7 @@
 *@NameSpace: App\Controllers\Admin
 */
 
-namespace App\Controllers\Admin;
+namespace App\Controllers\Store;
 
 use App\Models\Product;
 use Core\Request;

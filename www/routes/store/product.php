@@ -4,7 +4,7 @@
 *@Date: 04/01/2022 at 09:27
 */
 
-use App\Controllers\Admin\ProductController;
+use App\Controllers\Store\ProductController;
 use Core\Route;
 use Core\Router;
 

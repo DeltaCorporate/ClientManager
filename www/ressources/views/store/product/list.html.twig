@@ -1,0 +1,20 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}
+Store
+{% endblock %}
+
+
+{% block body %}
+
+    <section class="grid grid-cols-12 gap-4 mt-5">
+        {% for product in products %}
+            <div class="col-span-4 border border-primary-400">
+                <div>
+                    <img src="{{ product(product.images[0].image) }}" alt="{{ product.name }}" class="w-full aspect-video">
+                </div>
+            </div>
+        {% endfor %}
+    </section>
+
+{% endblock %}

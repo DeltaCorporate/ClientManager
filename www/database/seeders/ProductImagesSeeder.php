@@ -14,24 +14,27 @@ class ProductImagesSeeder
      */
     public function run()
     {
-      $images = [
-          [
-              "product_id" => 1,
-              "image"=>"test1.jpg",
-          ],
-          [
-              "product_id" => 1,
-              "image"=>"test2.jpg",
-          ],
-          [
-              "product_id" => 2,
-              "image"=>"test3.jpg",
-          ],
-          [
-              "product_id" => 2,
-              "image"=>"test4.jpg",
-          ],
-      ];
+      $images = [];
+
+      for($i=1;$i<7;$i++){
+          $images[] = [
+              "product_id" => $i,
+              "image" => "test1.jpg",
+          ];
+          $images[] = [
+              "product_id" => $i,
+              "image" => "test2.jpg",
+          ];
+          $images[] = [
+              "product_id" => $i,
+              "image" => "test3.jpg",
+          ];
+          $images[] = [
+              "product_id" => $i,
+              "image" => "test4.jpg",
+          ];
+
+      }
 
       ProductImages::bulkCreate($images);
     }

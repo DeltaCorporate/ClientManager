@@ -53,7 +53,7 @@ class User_data extends Model
     public static function foreigns(): array
     {
         return [
-            "user_id" => [User::class,"belongsTo"]
+//            "user_id" => [User::class,"belongsTo"]
         ];
     }
 }

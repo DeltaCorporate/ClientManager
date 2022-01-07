@@ -106,6 +106,8 @@ class User extends Model
 
     public static function foreigns(): array
     {
-        return [];
+        return [
+            "data"=>[User_data::class,"hasOneToOne"]
+        ];
     }
 }

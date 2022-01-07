@@ -21,10 +21,14 @@ class ProductController
     public function view(Request $request)
     {
         $id = $request->get('id');
-        $product = Product::find($id);
-        $similar = Product::findAllBy("category_id", $product->category->id);
+        if($id){
+            $product = Product::find($id);
+            $similar = Product::findAllBy("category_id", $product->category->id);
 
-        render('admin.product.view', compact('product', 'similar'));
+            render('store.product.view', compact('product', 'similar'));
+        } else{
+            redirect('store.product.list');
+        }
 
     }
 
@@ -34,7 +38,9 @@ class ProductController
      * */
     public function list()
     {
-        //TODO: RENDER LIST OF PRODUCTS
+        $products = Product::findAll();
+//        dd($products);
+        render("store.product.list",compact("products"));
     }
 
     /*

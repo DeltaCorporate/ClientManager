@@ -41,6 +41,7 @@ function sendMail(array $from, array $to, string $subject, string $body,array $d
 
 function url($name, $reqMethode, $datas = null): string
 {
+
     $routes = Router::getRoutes($reqMethode);
     foreach ($routes as $route) {
         if ($route['name'] === $name) {

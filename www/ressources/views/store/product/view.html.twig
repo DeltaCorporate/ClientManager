@@ -68,7 +68,7 @@
         </section>
 
         <h1 class="text-primary-400 font-semibold text-2xl block mt-10 mb-5 max-w-full">Similar products</h1>
-        <section id="similar-products" class="flex w-full mb-4 items-center  space-x-4 overflow-x-auto">
+        <section id="similar-products" class="flex w-full mb-4 items-center  space-x-4 overflow-x-auto scrollbar-hide">
             {% for product in similar %}
                 <div class="block relative aspect-square min-w-[24rem] max-w-[24rem]">
                     <img src="{{ product(product.images[0].image) }}" alt="" class="w-full aspect-video object-cover">

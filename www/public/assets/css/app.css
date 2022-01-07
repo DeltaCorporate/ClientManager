@@ -1912,6 +1912,10 @@ Ensure the default browser behavior of the `hidden` attribute.
     grid-column: span 10 / span 10;
   }
 
+  .lg\:col-span-full {
+    grid-column: 1 / -1;
+  }
+
   .lg\:block {
     display: block;
   }

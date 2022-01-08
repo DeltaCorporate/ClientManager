@@ -1,0 +1,45 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}
+    My cart
+{% endblock %}
+
+
+{% block body %}
+    <section class="space-y-4 divide-y divide-primary-400">
+        {% if(products is empty) %}
+            <p class="text-primary-400 text-lg font-semibold mb-4">
+                Your cart is empty
+            </p>
+        {% else %}
+            {% for product in products %}
+                <div class="grid grid-cols-12 pt-4">
+                    <div class="col-span-2">
+                        <img src="{{ product(product.images[0].image) }}" alt="{{ product.name }}"
+                             class="w-48 aspect-square object-cover object-center">
+                    </div>
+                    <div class="col-span-10">
+                        <h1 class="text-2xl text-primary-400 font-medium">{{ product.name }}</h1>
+                        <span class="block mt-3 text-base text-primary-400 ">Price per unit: <span
+                                    class="text-primary-50">{{ product.price }}</span></span>
+                        <span class="block mt-3 text-base text-primary-400 ">Quantity: <span
+                                    class="text-primary-50">{{ product.asked }}</span></span>
+                        <span class="block mt-3 text-base text-primary-400 ">Total: <span
+                                    class="text-primary-50">{{ product.asked*product.price }}</span></span>
+                        <div class="flex items-center mt-3">
+                            <form action="{{ url('store.cart.remove',"post") }}" method="post">
+                                {{ csrf() }}
+                                <input type="hidden" name="id" value="{{ product.id }}">
+                                <button type="submit"
+                                        class="inline-block bg-red-500 text-white text-sm font-semibold px-4 py-2 rounded mt-2">
+                                    Remove
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            {% endfor %}
+        {% endif %}
+    </section>
+{% endblock %}

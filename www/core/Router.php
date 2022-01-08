@@ -31,7 +31,7 @@ class Router
 
     public static function post(Route $route)
     {
-        $route->middleware("csrf");
+//        $route->middleware("csrf");
         self::$routes['POST'][$route->getPath()] = $route->get();
     }
 

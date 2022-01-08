@@ -7,21 +7,80 @@
 
 namespace App\Controllers\Store;
 
-class CartController 
+use App\Models\Product;
+use Core\Request;
+use Core\Session;
+
+class CartController
 {
     public function view()
     {
-        //TODO: view the cart
+        $cart = Session::session("cart");
+        $products = [];
+        foreach ($cart as $id => $quantity) {
+            $product = Product::find($id);
+            $product->asked = $quantity;
+            $products[] = $product;
+        }
+        render("store.cart.view",compact("products"));
     }
 
-    public function add()
+    public function add(Request $request, Session $session)
     {
-        //TODO: add to the cart
+        $values = $request->postBody();
+        $cart = $session->session("cart");
+        $rules = [
+            "id" => ["required", "int"],
+            "quantity" => ["required", "int"]
+        ];
+        $values = Product::matchPostValuesToValidationData($values, $rules, ["id", "quantity"]);
+        $request->validateRules($values);
+        $product = Product::find($values["id"]['value']);
+        if (!$product) {
+            flash("error", "Product not found");
+            redirect("store.product.list");
+        }
+        if ($values['quantity']['value'] > $product->quantity) {
+            $session->validation("quantity", "The quantity is not available");
+            back();
+        }
+        if (!$cart) {
+            $cart = [];
+        }
+        $cart[$product->id] = intval($values["quantity"]['value']);
+        $session->setSession("cart", $cart);
+        flash("success", "Product added to cart");
+        redirect("store.product.list");
+
+
     }
 
-    public function remove()
+    public function remove(Request $request, Session $session)
     {
-        //TODO: remove from the cart
+        $values = $request->postBody();
+        $cart = $session->session("cart");
+        $rules = [
+            "id" => ["required", "int"]
+        ];
+        $values = Product::matchPostValuesToValidationData($values, $rules, ["id"]);
+        $request->validateRules($values);
+        if (!$cart) {
+            flash("error", "Cart is empty");
+            redirect("store.product.list");
+        }
+        $product = Product::find($values["id"]['value']);
+        if (!$product) {
+            flash("error", "Product not found");
+            back();
+        }
+        if (!$cart[$product->id]) {
+            flash("error", "Product not found");
+            back();
+        }
+        unset($cart[$product->id]);
+        $session->setSession("cart", $cart);
+        flash("success", "Product removed from cart");
+        back();
     }
 
     public function emptyCart()

@@ -9,6 +9,7 @@ namespace App\Controllers\Store;
 
 use App\Models\Product;
 use Core\Request;
+use Core\Session;
 
 class ProductController
 {
@@ -18,14 +19,24 @@ class ProductController
      */
 
 
-    public function view(Request $request)
+    public function view(Request $request,Session $session)
     {
         $id = $request->get('id');
         if($id){
             $product = Product::find($id);
             $similar = Product::findAllBy("category_id", $product->category->id);
+            $similar = array_map(function($item) use($product){
+                if($item->id != $product->id){
+                    return $item;
+                }
+                return null;
+            }, $similar);
+            $similar = array_filter($similar);
+            $cart = $session->session("cart");
+            $cart = $cart ? $cart : [];
+            $quantity = $cart[$product->id] ?? 1;
 
-            render('store.product.view', compact('product', 'similar'));
+            render('store.product.view', compact('product', 'similar', 'quantity'));
         } else{
             redirect('store.product.list');
         }

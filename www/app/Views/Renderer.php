@@ -62,6 +62,9 @@ class Renderer
         self::$renderer->addFunction(new TwigFunction("product", function (string $name) {
             echo $_SERVER["APP_URL"] . "/src/products/images/" . $name;
         }));
+        self::$renderer->addFunction(new TwigFunction("cart", function () {
+            return sizeof(Session::session("cart"));
+        }));
     }
 
     public function getRenderer(): Environment

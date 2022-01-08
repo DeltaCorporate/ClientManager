@@ -57,9 +57,22 @@
                     </div>
                     <div class="flex items-center justify-between">
                         <span class="block mt-4 text-xl text-primary-50 font-medium">{{ product.price }} €</span>
-                        <span class="block mt-4 text-xl text-primary-50 font-medium">
-                            <button class="text-primary-100 text-base rounded bg-primary-50 px-4 py-2 w-max">Add to cart</button>
-                        </span>
+                        {% if(product.quantity>0) %}
+                            <form action="{{ url("store.cart.add","post") }}" method="post">
+                                {{ csrf() }}
+                                <input type="hidden" name="id" value="{{ product.id }}">
+                                <span class="flex items-center mt-4 text-xl text-primary-50 font-medium">
+                                <label class="mr-8 flex items-center">
+                                    <span class="text-primary-400 text-base mr-2">Quantity:</span>
+                                    <input type="text" value="{{ quantity }}" class="appearance-none focus:outline-none px-1 text-primary-400 w-24 bg-primary-100 border border-primary-400 rounded" name="quantity">
+                                </label>
+                                <button class="text-primary-100 text-base rounded bg-primary-50 px-4 py-2 w-max ">Add to cart</button>
+                            </span>
+                                <span class="text-sm text-red-500">{{ session('validation')['quantity'] }}</span>
+                            </form>
+                        {% else %}
+                            <span class="block mt-4 text-base text-red-500 ">Out of stock</span>
+                        {% endif %}
                     </div>
                     <span class="text-primary-400 mt-4 block font-medium text-sm">{{ product.description }}</span>
                 </section>
@@ -98,6 +111,8 @@
         $('.littleImage').click(function () {
             $('.largeImage').attr('src', $(this).attr('src'));
         })
+
+
     </script>
 
 

@@ -242,21 +242,23 @@ abstract class Model extends Database
 
     private static function hydrate($result,$associations,$id=0)
     {
-        if (!empty($associations)) {
-            foreach ($associations as $foreignKey => $association) {
-                $model = $association[0];
-                $model = new $model();
-                $table = $model->getTableName();
-                $foreignVal = $result->$foreignKey;
-                unset($result->$foreignKey);
-                switch ($association[1]) {
-                    case "belongsTo":
-                        $result->$table = call_user_func_array([static::class,$association[1]], [$association[0], $foreignVal]);
-                        break;
-                    case "hasOneToOne":
-                    case "hasOneToMany":
-                        $result->$foreignKey = call_user_func_array([static::class,$association[1]], [$association[0], $id]);
-                        break;
+        if($result){
+            if (!empty($associations)) {
+                foreach ($associations as $foreignKey => $association) {
+                    $model = $association[0];
+                    $model = new $model();
+                    $table = $model->getTableName();
+                    $foreignVal = $result->$foreignKey;
+                    unset($result->$foreignKey);
+                    switch ($association[1]) {
+                        case "belongsTo":
+                            $result->$table = call_user_func_array([static::class,$association[1]], [$association[0], $foreignVal]);
+                            break;
+                        case "hasOneToOne":
+                        case "hasOneToMany":
+                            $result->$foreignKey = call_user_func_array([static::class,$association[1]], [$association[0], $id]);
+                            break;
+                    }
                 }
             }
         }

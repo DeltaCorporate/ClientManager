@@ -15,7 +15,19 @@
             </span>
         </label>
     </div>
-    <div class="flex items-center space-x-2">
+    <div class="flex items-center space-x-4">
+        <a href="{{ url("store.cart.view") }}" class="relative text-primary-500 text-sm font-medium">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+            <span class="absolute top-0 right-0 -mt-1 -mr-1 text-xs text-white">{{ cart().count }}</span>
+
+            {% if(cart()>0) %}
+                <span class="absolute h-2 w-2 bg-primary-50 rounded-full top-0 -right-2 animate-pulse"></span>
+            {% endif %}
+        </a>
         <a href="#" class="text-primary-500 text-sm font-medium">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                  stroke="currentColor">
@@ -23,20 +35,13 @@
                       d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
             </svg>
         </a>
-        <a href="#" class="text-primary-500 text-sm font-medium relative">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                 stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-            </svg>
-            <div class="absolute h-2 w-2 rounded-full bg-primary-50 -top-1 -right-1"></div>
-        </a>
     </div>
 
 </div>
 <div class="bg-primary-200 px-8 py-4 flex items-center justify-between">
     <div class="flex items-center space-x-2 text-primary-500">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="toggleMenu">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+             id="toggleMenu">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
         </svg>
         <span>
@@ -60,7 +65,8 @@
                             class=" hidden bg-primary-200 text-base z-[200] float-left py-2 list-none text-left rounded shadow-lg mt-1 "
                             style="min-width: 12rem" id="settings">
                         {% if(auth()) %}
-                            <a href="#" class="block px-4 py-2 text-sm text-primary-500 hover:bg-primary-300 hover:text-white">
+                            <a href="#"
+                               class="block px-4 py-2 text-sm text-primary-500 hover:bg-primary-300 hover:text-white">
                                 Connected as {{ auth().email }}
                             </a>
                             <a href="{{ url('user.logout') }}"

@@ -4,6 +4,7 @@ namespace Database\seeders;
 
 use App\Exceptions\ModelColumnNotfound;
 use App\Models\User;
+use App\Models\User_data;
 
 class UserSeeder
 {
@@ -22,8 +23,14 @@ class UserSeeder
         $user2->setPassword(password_hash("test123456789", PASSWORD_ARGON2I));
         $user2 = $user2->getUser();
 
+        $userDatas = [
+          ["user_id" => 1],
+          ["user_id" => 2]
+        ];
+
         try {
             User::bulkCreate(array($user, $user2));
+            User_data::bulkCreate($userDatas);
         } catch (ModelColumnNotfound $e) {
             echo $e->getMessage();
         }

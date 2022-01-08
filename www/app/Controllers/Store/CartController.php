@@ -17,12 +17,14 @@ class CartController
     {
         $cart = Session::session("cart");
         $products = [];
+        $total = 0;
         foreach ($cart as $id => $quantity) {
             $product = Product::find($id);
             $product->asked = $quantity;
             $products[] = $product;
+            $total += $product->price * $quantity;
         }
-        render("store.cart.view",compact("products"));
+        render("store.cart.view",compact("products","total"));
     }
 
     public function add(Request $request, Session $session)

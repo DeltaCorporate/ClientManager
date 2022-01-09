@@ -85,8 +85,4 @@ class CartController
         back();
     }
 
-    public function emptyCart()
-    {
-        //TODO: empty the cart
-    }
 }

@@ -40,7 +40,6 @@ class ProductController
         } else{
             redirect('store.product.list');
         }
-
     }
 
 
@@ -50,7 +49,6 @@ class ProductController
     public function list()
     {
         $products = Product::findAll();
-//        dd($products);
         render("store.product.list",compact("products"));
     }
 

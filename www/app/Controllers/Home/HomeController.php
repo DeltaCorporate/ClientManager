@@ -3,6 +3,7 @@
 namespace App\Controllers\Home;
 
 
+use App\Models\User;
 use Core\Session;
 
 class HomeController

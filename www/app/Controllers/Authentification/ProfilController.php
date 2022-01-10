@@ -32,7 +32,7 @@ class ProfilController
         $rules = [
             "avatar" => ['required', "image"]
         ];
-        $values = User::matchPostValuesToValidationData($values, $rules, ["avatar"]);
+        $values = User::associateRulesAndDatas($values, $rules, ["avatar"]);
 
         Request::validateRules($values);
         $file = $values["avatar"]['value'];
@@ -62,7 +62,7 @@ class ProfilController
             "username" => ["required", "length:3:20"],
             "email" => ["required", "email"]
         ];
-        $values = User::matchPostValuesToValidationData($values, $rules, ["username", "email"]);
+        $values = User::associateRulesAndDatas($values, $rules, ["username", "email"]);
         Request::validateRules($values);
         $user = Session::getUser();
         $toUpdate = [
@@ -89,7 +89,7 @@ class ProfilController
             "telephone" => ['required', 'length:10:16'],
             "address" => ["required", "length:0:255"]
         ];
-        $values = User_data::matchPostValuesToValidationData($values, $rules, ["firstname", "lastname", "telephone", "address"]);
+        $values = User_data::associateRulesAndDatas($values, $rules, ["firstname", "lastname", "telephone", "address"]);
         Request::validateRules($values);
         $user = Session::getUser();
         $toUpdate = [
@@ -118,7 +118,7 @@ class ProfilController
             "password" => ["required", "length:8:20"],
             "password_confirm" => ["required", "length:8:20"]
         ];
-        $values = User::matchPostValuesToValidationData($values, $rules, ["password", "password_confirm"]);
+        $values = User::associateRulesAndDatas($values, $rules, ["password", "password_confirm"]);
         Request::validateRules($values);
         User::checkPasswordConfirm($values["password"]["value"], $values["password_confirm"]["value"]);
         $toUpdate = [

@@ -35,7 +35,7 @@ class CartController
             "id" => ["required", "int"],
             "quantity" => ["required", "int"]
         ];
-        $values = Product::matchPostValuesToValidationData($values, $rules, ["id", "quantity"]);
+        $values = Product::associateRulesAndDatas($values, $rules, ["id", "quantity"]);
         $request->validateRules($values);
         $product = Product::find($values["id"]['value']);
         if (!$product) {
@@ -64,7 +64,7 @@ class CartController
         $rules = [
             "id" => ["required", "int"]
         ];
-        $values = Product::matchPostValuesToValidationData($values, $rules, ["id"]);
+        $values = Product::associateRulesAndDatas($values, $rules, ["id"]);
         $request->validateRules($values);
         if (!$cart) {
             flash("error", "Cart is empty");

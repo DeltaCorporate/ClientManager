@@ -25,6 +25,10 @@ class Request
     {
         return $_POST;
     }
+    public static function getBody(): array
+    {
+        return $_GET;
+    }
 
     public static function getFiles(): array
     {

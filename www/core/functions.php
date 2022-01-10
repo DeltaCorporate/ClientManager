@@ -70,8 +70,10 @@ function redirect($link = "/")
     } else if (str_contains($link, "/")) {
         $path = $link;
     } else {
+
         $path = url($link);
     }
+
     if (!headers_sent()) {
         header("Location: $path");
         exit();

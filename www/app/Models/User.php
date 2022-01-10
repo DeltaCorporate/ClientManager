@@ -107,7 +107,8 @@ class User extends Model
     public static function foreigns(): array
     {
         return [
-            "data"=>[User_data::class,"hasOneToOne"]
+            "data"=>[User_data::class,"hasOneToOne"],
+            "resetToken"=>[PasswordReset::class,"hasOneToOne"]
         ];
     }
 }

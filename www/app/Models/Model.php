@@ -54,7 +54,7 @@ abstract class Model extends Database
         return true;
     }
 
-    public static function matchPostValuesToValidationData($session, $rules = [], $columns = null): array
+    public static function associateRulesAndDatas($datas, $rules = [], $columns = null): array
     {
         $self = new static();
         if (is_null($columns)) {
@@ -62,11 +62,11 @@ abstract class Model extends Database
         }
         $values = [];
         foreach ($columns as $column) {
-            if (!isset($session[$column]) or empty($session[$column])) {
+            if (!isset($datas[$column]) or empty($datas[$column])) {
                 Session::validation($column, "The $column field is required");
                 back();
             }
-            $values[$column]['value'] = is_string($session[$column]) ? htmlspecialchars($session[$column]) : $session[$column];
+            $values[$column]['value'] = is_string($datas[$column]) ? htmlspecialchars($datas[$column]) : $datas[$column];
             if (isset($rules[$column])) {
                 $values[$column]['rules'] = $rules[$column];
             }

@@ -60,40 +60,7 @@ class AuthentificationController
         return false;
     }
 
-    /**
-     * @throws ModelColumnNotfound
-     */
-    public function handleResetPassword()
-    {
-        $toReset = Session::session("reset_data");
-        if (empty($toReset)) {
-            flash("error", "This token is invalid please retry.");
-        } else {
-            $values = Request::postBody();
-            $rules = [
-                "password" => ["required", "length:6:20"],
-                "password_confirm" => ["required"]
-            ];
-            $values = User::matchPostValuesToValidationData($values, $rules,['password','password_confirm']);
-            Request::validateRules($values);
-            User::checkPasswordConfirm($values["password"]["value"], $values["password_confirm"]["value"]);
-            dd($toReset);
-            User::update($toReset->user_id,["password"=>password_hash($values["password"]["value"], PASSWORD_ARGON2I)]);
-            $user = User::find($toReset->user_id);
-            $from = ["email" => $_SERVER['FROM_EMAIL'], "name" => $_SERVER['FROM_NAME']];
-            $to = ["email" => $user->email];
-            $subject = "Updated password";
-            $body = "emails.updated_password";
-            $data = ["user" => $user];
 
-            sendMail($from, $to, $subject, $body, $data);
-            flash("success", "Your password has been reset.");
-            Session::clearSession("reset_data");
-
-        }
-        redirect("user.login");
-
-    }
 
     /**
      * @throws ModelColumnNotfound
@@ -109,7 +76,7 @@ class AuthentificationController
             "password_confirm" => ["string", "length:8:20"],
         ];
         User::checkPasswordConfirm($values['password'], $values['password_confirm']);
-        $values = User::matchPostValuesToValidationData($values, $rules);
+        $values = User::associateRulesAndDatas($values, $rules);
         Request::validateRules($values);
 
         User::checkIfUniqueRespected($values['email']['value']);
@@ -143,7 +110,7 @@ class AuthentificationController
             "email" => ["required"],
             "password" => ["required"],
         ];
-        $values = User::matchPostValuesToValidationData($values, $rules, User::getColumnsToLogin());
+        $values = User::associateRulesAndDatas($values, $rules, User::getColumnsToLogin());
 
         Request::validateRules($values);
 
@@ -174,7 +141,7 @@ class AuthentificationController
         $rules = [
             "email" => ["required", "email"]
         ];
-        $values = PasswordReset::matchPostValuesToValidationData($values, $rules);
+        $values = PasswordReset::associateRulesAndDatas($values, $rules);
         Request::validateRules($values);
         $user = User::findBy('email', $values['email']['value']);
         if (!$user) {
@@ -212,29 +179,65 @@ class AuthentificationController
 
     public function resetPassword()
     {
-        $values = Request::postBody();
+
+        $values = Request::getBody();
         $rules = [
             "id" => ["required", "int"],
             "token" => ["required"],
         ];
-        $values = PasswordReset::matchPostValuesToValidationData($values, $rules, ['id', 'token']);
+        $values = PasswordReset::associateRulesAndDatas($values, $rules, ['id', 'token']);
         Request::validateRules($values);
+
         $passwordReset = PasswordReset::checkIfTokenExists($values['token']['value']);
         if (!$passwordReset) {
+
             flash("error", 'This link is invalid! Please try again!');
             redirect('user.forgotpassword');
         } else {
-            $union = PasswordReset::hasUser($values['id']['value']);
-            if ($union) {
-
+            $user = User::find($values['id']['value']);
+            if ($user->resetToken) {
+                $union = $user->resetToken;
                 PasswordReset::deleteBy("token", $union->token);
                 Session::setSession("reset_data", $union);
-                redirect('user.resetpassword');
+                redirect('user.displayresetpassword');
             } else {
                 flash("error", 'This link is invalid! Please try again!');
                 redirect('user.forgotpassword');
             }
         }
+
+    }
+    /**
+     * @throws ModelColumnNotfound
+     */
+    public function handleResetPassword()
+    {
+        $toReset = Session::session("reset_data");
+        if (empty($toReset)) {
+            flash("error", "This token is invalid please retry.");
+        } else {
+            $values = Request::postBody();
+            $rules = [
+                "password" => ["required", "length:6:20"],
+                "password_confirm" => ["required"]
+            ];
+            $values = User::associateRulesAndDatas($values, $rules,['password','password_confirm']);
+            Request::validateRules($values);
+            User::checkPasswordConfirm($values["password"]["value"], $values["password_confirm"]["value"]);
+            User::update($toReset->user_id,["password"=>password_hash($values["password"]["value"], PASSWORD_ARGON2I)]);
+            $user = User::find($toReset->user_id);
+            $from = ["email" => $_SERVER['FROM_EMAIL'], "name" => $_SERVER['FROM_NAME']];
+            $to = ["email" => $user->email];
+            $subject = "Updated password";
+            $body = "emails.updated_password";
+            $data = ["user" => $user];
+
+            sendMail($from, $to, $subject, $body, $data);
+            flash("success", "Your password has been reset.");
+            Session::clearSession("reset_data");
+
+        }
+        redirect("user.login");
 
     }
 

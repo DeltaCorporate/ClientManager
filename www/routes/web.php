@@ -12,4 +12,5 @@ include_once '../routes/auth.php';
 include_once '../routes/profile.php';
 include_once '../routes/store/product.php';
 include_once "../routes/store/cart.php";
+include_once  "../routes/store/payment.php";
 

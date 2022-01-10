@@ -23,7 +23,7 @@ class Renderer
             'strict_variables' => false,
         ]);
         self::$renderer->addFunction(new TwigFunction("url", function ($name, $reqMethode = 'get', $datas = []) {
-            echo $_SERVER["APP_URL"] . url($name, $reqMethode, $datas);
+            echo url($name, $reqMethode, $datas);
 
         }));
         self::$renderer->addFunction(new TwigFunction("asset", function ($path) {

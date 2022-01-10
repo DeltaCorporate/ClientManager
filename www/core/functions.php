@@ -32,25 +32,25 @@ function render($path, $datas = [], $renderContent = false)
 }
 
 
-
-
-function sendMail(array $from, array $to, string $subject, string $body,array $data= [],array $moreAddress = []){
+function sendMail(array $from, array $to, string $subject, string $body, array $data = [], array $moreAddress = [])
+{
     $mailer = new Mailer();
-    $mailer->send($from, $to, $subject, $body,$data,$moreAddress);
+    $mailer->send($from, $to, $subject, $body, $data, $moreAddress);
 }
 
-function url($name, $reqMethode, $datas = null): string
+function url($name, $reqMethode = "get", $datas = null): string
 {
 
     $routes = Router::getRoutes($reqMethode);
     foreach ($routes as $route) {
         if ($route['name'] === $name) {
-            return $route['path'];
+            return $_SERVER["APP_URL"] . $route['path'];
         }
     }
     return "";
 }
- function token(): string
+
+function token(): string
 {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $randstring = '';
@@ -63,14 +63,17 @@ function url($name, $reqMethode, $datas = null): string
 function redirect($link = "/")
 {
     $routes = Router::getRoutes('GET');
+    $path = "";
 
-    if (str_contains($link, '/')) {
-        $link = $routes[$link]['path'];
+    if (str_starts_with($link, '/')) {
+        $path = $routes[$link]['path'];
+    } else if (str_contains($link, "/")) {
+        $path = $link;
     } else {
-        $link = url($link,'get');
+        $path = url($link);
     }
     if (!headers_sent()) {
-        header("Location: $link");
+        header("Location: $path");
         exit();
     }
 }
@@ -81,7 +84,7 @@ function back()
     if (!headers_sent() and isset($_SERVER['HTTP_REFERER']) and !empty($_SERVER['HTTP_REFERER'])) {
         header("Location: " . $_SERVER['HTTP_REFERER']);
         exit();
-    } else{
+    } else {
         redirect('home');
     }
 }

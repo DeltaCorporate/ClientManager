@@ -84,19 +84,21 @@ class AuthentificationController
         User::checkIfUniqueRespected($values['email']['value']);
 
 
-        $user = new User();
-        $user->setUsername($values['username']['value']);
-        $user->setEmail($values['email']['value']);
         $password = password_hash($values['password']['value'], PASSWORD_ARGON2I);
-        $user->setPassword($password);
-        User::save($user->getUser());
+        $user = [
+            "username" => $values['username']['value'],
+            "email" => $values['email']['value'],
+            "password" => $password,
+            "verified" => 0,
+        ];
+        User::save($user);
         $user =  User::findBy("email", $values['email']['value']);
         $userID =$user->id;
         $clientRole = Role::findBy("name","client");
         $user_data = [
             "user_id" => $userID,
             "avatar"=>"defaultAvatar.svg",
-            "roles"=>"[$clientRole->id]"
+            "roles"=>"[$clientRole->id]",
         ];
         User_data::save($user_data);
         $token = token();

@@ -59,12 +59,14 @@ class User_data extends Model
         $result = $stmt->fetchObject(static::class);
         $result = self::hydrate($result, $associations,$id);
         $rolesBrute = $result->roles;
-         $rolesBrute = json_decode($rolesBrute);
-         $roles = [];
-         foreach ($rolesBrute as $role) {
-             $roles[] = Role::find($role);
-         }
-         $result->roles = $roles;
+        if(!is_null($rolesBrute)){
+            $rolesBrute = json_decode($rolesBrute);
+            $roles = [];
+            foreach ($rolesBrute as $role) {
+                $roles[] = Role::find($role);
+            }
+            $result->roles = $roles;
+        }
         return $result;
 
     }
@@ -81,12 +83,14 @@ class User_data extends Model
         $result = $stmt->fetchObject(static::class);
         $result = self::hydrate($result, $associations);
         $rolesBrute = $result->roles;
-        $rolesBrute = json_decode($rolesBrute);
-        $roles = [];
-        foreach ($rolesBrute as $role) {
-            $roles[] = Role::find($role);
+        if(!is_null($rolesBrute)){
+            $rolesBrute = json_decode($rolesBrute);
+            $roles = [];
+            foreach ($rolesBrute as $role) {
+                $roles[] = Role::find($role);
+            }
+            $result->roles = $roles;
         }
-        $result->roles = $roles;
         return $result;
     }
 

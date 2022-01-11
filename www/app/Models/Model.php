@@ -77,27 +77,17 @@ abstract class Model extends Database
     public static function hasOneToOne($model, $foreignVal)
     {
         $model = new $model();
-        $table = $model->getTableName();
         $self = new static();
         $foreignKey = $self::getTableName() . '_id';
-        $sql = "SELECT * FROM `$table` WHERE $foreignKey = :$foreignKey";
-        $stmt = self::$instance->prepare($sql);
-        $stmt->bindValue(":$foreignKey", $foreignVal);
-        $stmt->execute();
-        return $stmt->fetch();
+        return $model->findBy($foreignKey, $foreignVal);
     }
 
     public static function hasOneToMany($model, $foreignVal)
     {
         $model = new $model();
-        $table = $model->getTableName();
         $self = new static();
         $foreignKey = $self::getTableName() . '_id';
-        $sql = "SELECT * FROM `$table` WHERE $foreignKey = :$foreignKey";
-        $stmt = self::$instance->prepare($sql);
-        $stmt->bindValue(":$foreignKey", $foreignVal);
-        $stmt->execute();
-        return $stmt->fetchAll();
+        return $model->findAll($foreignKey, $foreignVal);
     }
 
     public static function belongsTo($model, $val)
@@ -240,7 +230,7 @@ abstract class Model extends Database
 
     }
 
-    private static function hydrate($result,$associations,$id=0)
+    public static function hydrate($result, $associations, $id=0)
     {
         if($result){
             if (!empty($associations)) {

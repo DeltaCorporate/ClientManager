@@ -5,6 +5,7 @@ namespace App\Controllers\Authentification;
 use App\Exceptions\ModelColumnNotfound;
 use App\Models\AccountVerifToken;
 use App\Models\PasswordReset;
+use App\Models\Role;
 use App\Models\User;
 use App\Models\User_data;
 use Core\Request;
@@ -91,9 +92,11 @@ class AuthentificationController
         User::save($user->getUser());
         $user =  User::findBy("email", $values['email']['value']);
         $userID =$user->id;
+        $clientRole = Role::findBy("name","client");
         $user_data = [
             "user_id" => $userID,
             "avatar"=>"defaultAvatar.svg",
+            "roles"=>"[$clientRole->id]"
         ];
         User_data::save($user_data);
         $token = token();

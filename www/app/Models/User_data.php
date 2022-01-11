@@ -46,9 +46,50 @@ class User_data extends Model
        ];
     }
 
-    public function hasUser($val){
-        return $this->belongsTo(User::class, $val);
+    public static function find($id)
+    {
+        $self = new static();
+        $table = $self->getTableName();
+        $primaryKey = $self->primaryKey();
+        $sql = "SELECT * FROM `$table` WHERE $primaryKey = :" . $primaryKey;
+        $stmt = self::$instance->prepare($sql);
+        $stmt->bindValue(":" . $primaryKey, $id);
+        $stmt->execute();
+        $associations = $self->foreigns();
+        $result = $stmt->fetchObject(static::class);
+        $result = self::hydrate($result, $associations,$id);
+        $rolesBrute = $result->roles;
+         $rolesBrute = json_decode($rolesBrute);
+         $roles = [];
+         foreach ($rolesBrute as $role) {
+             $roles[] = Role::find($role);
+         }
+         $result->roles = $roles;
+        return $result;
+
     }
+
+    public static function findBy($column, $value)
+    {
+        $self = new static();
+        $table = $self->getTableName();
+        $sql = "SELECT * FROM `$table` WHERE $column = :$column";
+        $stmt = self::$instance->prepare($sql);
+        $stmt->bindValue(":" . $column, $value);
+        $stmt->execute();
+        $associations = $self->foreigns();
+        $result = $stmt->fetchObject(static::class);
+        $result = self::hydrate($result, $associations);
+        $rolesBrute = $result->roles;
+        $rolesBrute = json_decode($rolesBrute);
+        $roles = [];
+        foreach ($rolesBrute as $role) {
+            $roles[] = Role::find($role);
+        }
+        $result->roles = $roles;
+        return $result;
+    }
+
 
     public static function foreigns(): array
     {

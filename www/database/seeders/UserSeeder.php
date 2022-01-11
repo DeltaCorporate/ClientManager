@@ -12,26 +12,36 @@ class UserSeeder
 
     public function run()
     {
-        $user = new User();
-        $user->setEmail("test@localhost.com");
-        $user->setUsername("test");
-        $user->setPassword(password_hash("test123456789", PASSWORD_ARGON2I));
-        $user = $user->getUser();
-        $user2 = new User();
-        $user2->setEmail("test2@localhost.com");
-        $user2->setUsername("test2");
-        $user2->setPassword(password_hash("test123456789", PASSWORD_ARGON2I));
-        $user2 = $user2->getUser();
+        $users = [
+            [
+                "email" => "test@localhost.com",
+                "username" => "test",
+                "verified"=>0,
+                "password" => password_hash("test123456789", PASSWORD_ARGON2I),
+            ],
+            [
+                "email" => "test2@localhost.com",
+                "username" => "test2",
+                "verified"=>0,
+                "password" => password_hash("test123456789", PASSWORD_ARGON2I),
+            ]
+        ];
 
         $userDatas = [
-            ["user_id" => 1,
-                "avatar" => "defaultAvatar.svg"],
-            ["user_id" => 2,
-                "avatar" => "defaultAvatar.svg"]
+            [
+                "user_id" => 1,
+                "avatar" => "defaultAvatar.svg",
+                "roles" => "[1,2]"
+            ],
+            [
+                "user_id" => 2,
+                "avatar" => "defaultAvatar.svg",
+                "roles" => "[1]"
+            ]
         ];
 
         try {
-            User::bulkCreate(array($user, $user2));
+            User::bulkCreate($users);
             User_data::bulkCreate($userDatas);
         } catch (ModelColumnNotfound $e) {
             echo $e->getMessage();

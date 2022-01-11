@@ -3,6 +3,7 @@
 namespace App\Controllers\Authentification;
 
 use App\Exceptions\ModelColumnNotfound;
+use App\Models\AccountVerifToken;
 use App\Models\PasswordReset;
 use App\Models\User;
 use App\Models\User_data;
@@ -88,14 +89,31 @@ class AuthentificationController
         $password = password_hash($values['password']['value'], PASSWORD_ARGON2I);
         $user->setPassword($password);
         User::save($user->getUser());
-        $userID = User::findBy("email", $values['email']['value'])->id;
+        $user =  User::findBy("email", $values['email']['value']);
+        $userID =$user->id;
         $user_data = [
             "user_id" => $userID,
             "avatar"=>"defaultAvatar.svg",
         ];
         User_data::save($user_data);
+        $token = token();
+        while(AccountVerifToken::checkIfTokenExists($token)){
+            $token = token();
+        }
+        AccountVerifToken::save([
+            "user_id" => $userID,
+            "token" => $token,
+        ]);
+        $from = ["email" => $_SERVER['FROM_EMAIL'], "name" => $_SERVER['FROM_NAME']];
+        $to = ["email" => $user->email];
+        $subject = "Verify your account";
+        $body = "emails.verify-account";
+        $data = [
+            "token" => $token,
+            "user" => $user
+        ];
+        sendMail($from, $to, $subject, $body, $data);
         flash("success", "You have been registered! An email was sent to verify your account!");
-        //TODO: send email to verify account
         redirect("user.login");
 
     }
@@ -238,7 +256,6 @@ class AuthentificationController
 
         }
         redirect("user.login");
-
     }
 
 

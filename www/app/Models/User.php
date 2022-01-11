@@ -33,6 +33,7 @@ class User extends Model
             'username',
             'email',
             'password',
+            'verified',
         ];
     }
 
@@ -108,7 +109,8 @@ class User extends Model
     {
         return [
             "data"=>[User_data::class,"hasOneToOne"],
-            "resetToken"=>[PasswordReset::class,"hasOneToOne"]
+            "resetToken"=>[PasswordReset::class,"hasOneToOne"],
+            "verifyToken"=>[AccountVerifToken::class,"hasOneToOne"],
         ];
     }
 }

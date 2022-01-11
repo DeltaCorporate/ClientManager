@@ -20,6 +20,7 @@ class m20211207083826_create_user_table
             ->string('username',32)->notNullable()
             ->string('email', 32)->notNullable()
             ->string('password')->notNullable()
+            ->boolean("verified")->default(0)->notNullable()
             ->timestamp()
             ->endCreation();
 	}

@@ -19,7 +19,10 @@ class HomeController
 
     public function test()
     {
-        return render('emails.updates.updated_password');
+        return render('emails.register',[
+            "token"=>token(),
+            "user"=>User::find(1),
+        ]);
 
     }
 

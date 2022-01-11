@@ -30,7 +30,7 @@ class m20211229121347_create_user_data
             ->string('telephone',16)->nullable()
             ->text("address")->nullable()
             ->longtext("roles")->nullable()//TODO:mettre a jour ceci dans le modele il ne faut pas que ce soit nullable
-            ->string("avatar")->default("defaultAvatar.svg")
+            ->string("avatar")->default('defaultAvatar.svg')->notNullable()
             ->timestamp()
             ->foreign('user_id', 'user', 'id')
             ->onUpdate('cascade')

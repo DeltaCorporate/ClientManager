@@ -8,6 +8,9 @@
 
 namespace Core;
 
+
+use App\Models\User;
+
 class Session
 {
     protected const FLASH_KEY = 'flash';
@@ -146,7 +149,13 @@ class Session
     }
 
     public static function getUser(){
-        return $_SESSION['user'] ?? null;
+        $userID =  $_SESSION['user'];
+        $user = User::find($userID);
+        if(!is_null($user)){
+            unset($user->password);
+        }
+        return $user;
+
     }
 
     public static function removeUser(){

@@ -14,6 +14,8 @@ class HomeController
      */
     public function index()
     {
+        dd(User::find(1));
+
         return render('home.accueil');
     }
 

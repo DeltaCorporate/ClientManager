@@ -111,6 +111,7 @@ class User extends Model
             "data"=>[User_data::class,"hasOneToOne"],
             "resetToken"=>[PasswordReset::class,"hasOneToOne"],
             "verifyToken"=>[AccountVerifToken::class,"hasOneToOne"],
+            "orders"=>[Order::class,'hasOneToMany'],
         ];
     }
 }

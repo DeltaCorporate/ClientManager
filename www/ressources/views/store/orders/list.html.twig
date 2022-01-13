@@ -1,0 +1,75 @@
+{% extends "layouts/base.html.twig" %}
+
+{% block title %}
+    Orders
+{% endblock %}
+
+{% block body %}
+    <section class="mt-5">
+        <h1 class="text-primary-400 text-xl font-medium block my-2">There is the list of all your orders {{ auth().username }}</h1>
+        <table class="table-fixed w-full">
+            <thead>
+            <tr class="bg-primary-200">
+                <th class="text-primary-400 text-sm text-left py-2 px-2 border-r border border-primary-400">Order ID</th>
+                <th class="text-primary-400 text-sm text-left py-2 px-2 border-r border border-primary-400">Date</th>
+                <th class="text-primary-400 text-sm text-left py-2 px-2 border-r border border-primary-400">Status</th>
+                <th class="text-primary-400 text-sm text-left py-2 px-2 border-r border border-primary-400">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in auth().orders %}
+
+                <tr class="hover:bg-primary-200 transition duration-300 ease-in-out ">
+                    <td class="text-primary-400 py-2">#{{ order.id }}</td>
+                    <td class="text-primary-400 py-2">{{ order.updated_at|date('d/ m/ Y') }}</td>
+                    <td class="text-primary-400 py-2">
+                        {% if order.status == 'cancelled' %}
+                            <span class="text-red-500 font-medium text-sm bg-red-100 p-2 rounded w-20 inline-block">{{ order.status|upper }}</span>
+                        {% elseif order.status == 'paid' %}
+                            <span class="text-green-500 font-medium text-sm bg-green-100 p-2 rounded w-20 inline-block">{{ order.status|upper }}</span>
+                        {% elseif order.status == 'pending' %}
+                            <span class="text-gray-500 font-medium text-sm bg-gray-100 p-2 rounded w-20 inline-block">{{ order.status|upper }}</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-primary-400 py-2">
+                        <button
+                                class="flex items-center justify-between bg-transparent text-primary-500 outline-none text-sm focus:outline-none mr-1 transition duration-300 ease-in-out"
+                                type="button" onclick="openDropdown(event,'actions-{{ order.id }}')">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block text-sm mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            More details
+                        </button>
+                        <div class=" hidden bg-primary-200  text-base z-[200] float-left list-none text-left rounded shadow-lg mt-1 min-w-[12rem]"
+                             id="actions-{{ order.id }}">
+                            <a href="{{ url("store.orders.view") }}?id={{ order.id }}" class="block pl-2 py-2 text-sm hover:bg-primary-300 duration-300 ease-in-out">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block" fill="none"
+                                     viewBox="0 0 24 24"
+                                     stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                </svg>
+                                Visualize</a>
+                            <a href="#"
+                               class="block text-sm pl-2 py-2  hover:bg-primary-300 duration-300 ease-in-out">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block" fill="none" viewBox="0 0 24 24"
+                                     stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                                </svg>
+                                Download</a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            {% if auth().orders is empty %}
+                <tr class="text-red-500 mt-4">
+                    <td>You have no orders yet.</td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}

@@ -87,7 +87,7 @@ abstract class Model extends Database
         $model = new $model();
         $self = new static();
         $foreignKey = $self::getTableName() . '_id';
-        return $model->findAll($foreignKey, $foreignVal);
+        return $model->findAllBy($foreignKey, $foreignVal);
     }
 
     public static function belongsTo($model, $val)
@@ -183,11 +183,12 @@ abstract class Model extends Database
         $tableName = $self->getTableName();
         $columns = $self->getColumns();
         $params = array_map(fn($attr) => ':' . $attr, $columns);
-        $sql = "INSERT INTO $tableName (" . implode(",", $columns) . ") VALUES (" . implode(",", $params) . ")";
+        $sql = "INSERT INTO `$tableName` (" . implode(",", $columns) . ") VALUES (" . implode(",", $params) . ");";
         $statement = self::$instance->prepare($sql);
         foreach ($columns as $column) {
             if ($self->existColumn($column)) {
-                $statement->bindValue(':' . $column, $values[$column]);
+                $value =$values[$column];
+                $statement->bindValue($column, $value);
             }
         }
         $statement->execute();
@@ -233,6 +234,7 @@ abstract class Model extends Database
     public static function hydrate($result, $associations, $id=0)
     {
         if($result){
+            $id = $result->id;
             if (!empty($associations)) {
                 foreach ($associations as $foreignKey => $association) {
                     $model = $association[0];
@@ -265,7 +267,8 @@ abstract class Model extends Database
         $stmt->execute();
         $associations = $self->foreigns();
         $result = $stmt->fetchObject(static::class);
-        return self::hydrate($result, $associations);
+       return self::hydrate($result, $associations);
+
     }
 
     public static function findAll()

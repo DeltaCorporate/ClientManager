@@ -13,6 +13,7 @@ use App\Exceptions\MiddlewareException;
 use App\Middlewares\AuthMiddleware;
 use App\Middlewares\CsrfMiddleware;
 use App\Middlewares\GuestMiddleware;
+use App\Middlewares\SeeOrderMiddleware;
 
 abstract class Middleware
 {
@@ -21,7 +22,8 @@ abstract class Middleware
         return [
             "auth" => AuthMiddleware::class,
             "guest" => GuestMiddleware::class,
-            "csrf" => CsrfMiddleware::class
+            "csrf" => CsrfMiddleware::class,
+            "seeOrder"=>SeeOrderMiddleware::class,
         ];
     }
 

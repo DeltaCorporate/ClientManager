@@ -7,6 +7,8 @@
 
 namespace App\Controllers\Store;
 
+use App\Exceptions\ModelColumnNotfound;
+use App\Models\Order;
 use App\Models\Product;
 use Core\Request;
 use Core\Session;
@@ -22,6 +24,7 @@ use PayPal\Api\Transaction;
 use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Exception\PayPalConnectionException;
 use PayPal\Rest\ApiContext;
+use function MongoDB\BSON\toJSON;
 
 class PaymentController
 {
@@ -30,7 +33,7 @@ class PaymentController
         return new ApiContext(new OAuthTokenCredential($_SERVER["SANDBOX_CLIENT_ID"], $_SERVER["SANDBOX_SECRET"]));
     }
 
-    public function setThePayment(Request $request, Session $session): Payment
+    public function setThePayment(Request $request, Session $session): array
     {
         $apiContext = self::createPaymentContext();
         $payer = (new Payer())
@@ -77,9 +80,9 @@ class PaymentController
             ->setItemList($listOfItems)
             ->setDescription("Payment on " . $_SERVER["APP_URL"])
             ->setAmount($amount)
-        ->setCustom($session->getUser()->id);
+            ->setCustom($session->getUser()->id);
         $payment->setTransactions([$transaction]);
-        return $payment;
+        return [$payment, $cart];
     }
 
     public function checkout(Request $request, Session $session)
@@ -87,31 +90,49 @@ class PaymentController
 
 
         try {
-            $payment = self::setThePayment($request, $session);
+            $createdPayment = self::setThePayment($request, $session);
+            $payment = $createdPayment[0];
             $payment->create(self::createPaymentContext());
+            $cart = $createdPayment[1];
+            $order = [
+                "user_id" => $session->getUser()->id,
+                "products" => json_encode($cart),
+                "status" => "pending",
+            ];
+            Order::save($order);
             redirect($payment->getApprovalLink());
-        } catch (PayPalConnectionException $e) {
+        } catch (PayPalConnectionException|ModelColumnNotfound $e) {
             flash("error", "The payment failed, please try again later");
             back();
         }
     }
 
 
-    public function getPaymentStatus(Request $request)
+    /**
+     * @throws ModelColumnNotfound
+     */
+    public function getPaymentStatus(Request $request,Session $session)
     {
         $paymentId = $request->get("paymentId");
         $payerId = $request->get("PayerID");
+        if(!$paymentId || !$payerId){
+            flash("error", "The payment failed, please try again later");
+            redirect("store.cart.view");
+        }
         $payment = Payment::get($paymentId, self::createPaymentContext());
+        $user = $payment->getTransactions()[0]->getCustom();
+        $order = Order::findBy("user_id",$user);
         $paymentExecution = (new PaymentExecution())
             ->setPayerId($payerId)
             ->setTransactions($payment->getTransactions());
         try {
             $payment->execute($paymentExecution, self::createPaymentContext());
-            $userID = $payment->getTransactions()[0]->getCustom();
-
+            Order::update($order->id,["status" => "paid"]);
+            $session->clearSession("cart");
             flash("success", "The payment was successful");
             redirect("store.cart.view");
         } catch (PayPalConnectionException $e) {
+            Order::update($order->id,["status" => "cancelled"]);
             flash("error", "The payment failed, please try again later");
             redirect("store.cart.view");
         }

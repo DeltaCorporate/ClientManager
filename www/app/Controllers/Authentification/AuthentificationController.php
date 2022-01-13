@@ -146,10 +146,7 @@ class AuthentificationController
             flash("error", "Email or password is incorrect!");
             redirect("user.login");
         }
-
-        unset($user->password);
-        $user->data = User_data::findBy("user_id",$user->id);
-        Session::setUser($user);
+        Session::setUser($user->id);
         flash("success", "You have been logged in!");
         back();
     }
@@ -271,6 +268,6 @@ class AuthentificationController
     {
         Session::removeUser();
         flash("success", "You have been logged out!");
-        redirect("home");
+        redirect("user.login");
     }
 }

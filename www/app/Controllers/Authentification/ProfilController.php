@@ -17,7 +17,6 @@ class ProfilController
 {
     public function view()
     {
-
         $user = Session::getUser();
         return render("authentification/profil", compact("user"));
     }

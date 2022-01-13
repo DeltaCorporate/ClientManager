@@ -76,6 +76,14 @@
                     </div>
                     <span class="text-primary-400 mt-4 block font-medium text-sm">{{ product.description }}</span>
                 </section>
+
+                <section>
+                   <form action="{{ url("product.view",'post') }}" method="post">
+                       <label class="text-primary-400 font-semibold text-2xl block" for="remark">Add a comment</label>
+                       <input id="remark" type="text" name="remark" class="w-full text-primary-500 rounded-lg appearance-none outline-none bg-primary-300 px-1 py-2 focus:outline-none">
+                   </form>
+                    <button class="text-primary-100 text-base rounded bg-primary-50 px-4 py-2 w-max ">Send</button>
+                </section>
             </div>
 
         </section>

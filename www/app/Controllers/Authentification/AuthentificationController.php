@@ -263,7 +263,6 @@ class AuthentificationController
         redirect("user.login");
     }
 
-
     /**
      * @return void
      */

@@ -4,14 +4,29 @@ namespace App\Controllers\Store;
 
 use App\Models\Product;
 use App\Models\Remark;
+use App\Models\User;
 use Core\Request;
+use Core\Session;
 
 class RemarkController
 {
+
+    public function postComment()
+    {
+        $values = Request::postBody();
+        $rules = [
+            "txt" => ["string", "length:6:255"],
+        ];
+        $values = User::associateRulesAndDatas($values, $rules);
+        Request::validateRules($values);
+        /*
+       A terminer...
+        */
+    }
     /*
      * View List of remarks for a particular product
      * */
-    public function listRemarks(Request $request)
+    public function list(Request $request)
     {
         $id = $request->get('id');
         if($id) {
@@ -20,4 +35,5 @@ class RemarkController
             render("store.product.remark", compact("remarks"));
         }
     }
+
 }

@@ -51,7 +51,6 @@ class User extends Model
         return 'email';
     }
 
-
     public function setUsername(string $pseudo)
     {
         $this->user['username'] = $pseudo;
@@ -68,6 +67,11 @@ class User extends Model
     {
         $this->user['password'] = $password;
 
+    }
+
+    public function getUserName()
+    {
+        return $this->user['username'];
     }
 
     public function getEmail()

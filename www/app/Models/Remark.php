@@ -17,7 +17,7 @@ class Remark extends Model
     public static function getColumns(): array
     {
         return [
-            "id", "id_user", "id_product", "txt", "date"
+            "id", "user_name", "id_product", "txt", "date"
         ];
     }
 
@@ -26,7 +26,7 @@ class Remark extends Model
         return [
             /* Je sais pas si c'est nécessaire
               "id", "id_user", "id_product", "txt", "date"
-       */
+            */
         ];
     }
 

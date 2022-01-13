@@ -63,7 +63,6 @@ class Session
         $_SESSION[self::FLASH_KEY][$key] = $value;
     }
 
-
     public static function getFlash($key)
     {
         if (isset($_SESSION[self::FLASH_KEY][$key])) {
@@ -72,11 +71,9 @@ class Session
         return [];
     }
 
-
     /*
      * Méthodes pour la gestion des csrf
      * */
-
 
     public static function setSessionCsrf($csrf)
     {
@@ -112,7 +109,6 @@ class Session
         }
     }
 
-
     public static function removeFlashMessageAuto()
     {
         $flashMessages = $_SESSION[self::FLASH_KEY] ?? [];
@@ -135,8 +131,6 @@ class Session
         Session::setSession('csrf',$tokens);
     }
 
-
-
     /*
      * GESTION UTILISATEUR
      */
@@ -152,8 +146,6 @@ class Session
     public static function removeUser(){
         unset($_SESSION['user']);
     }
-
-
 
     public function __destruct()
     {

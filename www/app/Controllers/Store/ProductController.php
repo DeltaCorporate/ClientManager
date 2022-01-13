@@ -18,7 +18,6 @@ class ProductController
      * View product details
      */
 
-
     public function view(Request $request,Session $session)
     {
         $id = $request->get('id');

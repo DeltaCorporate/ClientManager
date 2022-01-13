@@ -1,0 +1,24 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}
+    Comments
+{% endblock %}
+
+{% block body %}
+    <main>
+        <h1 class="text-primary-400 font-semibold text-2xl block ">Comments</h1>
+        <h4 class="text-primary-400 block flex space-x-1 my-5">
+            {{ product.category.name }}
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                      clip-rule="evenodd"/>
+            </svg>
+            {{ product.name }}
+        </h4>
+
+        <section id="similar-products" class="grid grid-cols-12 w-full mt-4 gap-4">
+            /* liste des commentaires du produit à faire
+        </section>
+    </main>
+{% endblock %}

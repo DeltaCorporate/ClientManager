@@ -29,6 +29,7 @@ class AuthMiddleware extends Middleware
 
     public function error()
     {
+        flash("info","You must be logged in to access this page!");
         redirect("user.login");
     }
 }

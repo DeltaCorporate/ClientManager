@@ -45,8 +45,6 @@ class ProfilController
         }
         User_data::update($user->id, ["avatar" => $filename], "user_id");
         move_uploaded_file($file["tmp_name"], $destination);
-        $user->data->avatar = $filename;
-        Session::setUser($user);
         flash("success", "Your avatar has been updated successfully.");
         back();
 
@@ -70,9 +68,6 @@ class ProfilController
             "email" => $values["email"]["value"]
         ];
         User::update($user->id, $toUpdate);
-        $user->username = $values["username"]["value"];
-        $user->email = $values["email"]["value"];
-        Session::setUser($user);
         flash("success", "Your account settings has been updated successfully.");
         back();
     }
@@ -99,11 +94,6 @@ class ProfilController
             "address" => $values["address"]["value"]
         ];
         User_data::update($user->id, $toUpdate, "user_id");
-        $user->data->firstname = $values["firstname"]["value"];
-        $user->data->lastname = $values["lastname"]["value"];
-        $user->data->telephone = $values["telephone"]["value"];
-        $user->data->address = $values["address"]["value"];
-        Session::setUser($user);
         flash("success", "Your account details has been updated successfully.");
         back();
     }

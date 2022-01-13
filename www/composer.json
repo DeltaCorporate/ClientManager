@@ -17,12 +17,6 @@
         {
             "name": "Houmame LAZAR",
             "email": "houms937@gmail.com"
-        },{
-            "name": "Raphael BACKLAND",
-            "email": "raphaos.rb@gmail.com"
-        },{
-            "name": "Ryan RIDA",
-            "email": "ryanrida783@gmail.com"
         }
     ],
     "require": {
@@ -33,6 +27,6 @@
       "ext-json": "*",
         "phpmailer/phpmailer": "^6.5",
         "paypal/rest-api-sdk-php": "^1.14",
-      "ext-http": "*"
+        "mpdf/mpdf": "^8.0"
     }
 }

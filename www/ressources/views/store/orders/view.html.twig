@@ -1,5 +1,76 @@
 {% extends "layouts/invoice.html.twig" %}
 
 {% block body %}
+    <div class="transform -rotate-45  absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
+        {% if order.status == 'cancelled' %}
+            <span class="select-none text-red-800 font-medium text-opacity-25  text-9xl p-2 rounded inline-block">INVOICE {{ order.status|upper }}</span>
+        {% elseif order.status == 'paid' %}
+            <span class="select-none text-green-800 font-medium text-opacity-25  text-9xl  p-2 roundedinline-block">INVOICE {{ order.status|upper }}</span>
+        {% elseif order.status == 'pending' %}
+            <span class="select-none text-gray-400 font-medium text-opacity-25  text-9xl p-2 rounded inline-block">INVOICE {{ order.status|upper }}</span>
+        {% endif %}
+    </div>
+    <div class="grid grid-cols-12">
+        <div class="col-span-6">
+            <span class="block text-3xl font-medium text-primary-400 bg-primary-300 p-2">Client Manager</span>
+            <span class="block text-primary-400">5 rue Damien Didier</span>
+            <span class="block text-primary-400">75000 Paris</span>
+            <span class="block text-primary-400">France</span>
+            <span class="block text-primary-400">+33 6 12 34 56 78</span>
+            <span class="block text-primary-400">www.clientmanager.com</span>
+        </div>
+        <div class="col-span-6 text-right">
+            <span class="block text-3xl font-medium text-primary-400 bg-primary-300 p-2">Invoice</span>
+            <span class="block text-primary-400">Date: {{ order.updated_at|date('d/ m/ Y') }}</span>
+            <span class="block text-primary-400">Invoice #{{ order.id }}</span>
+            <span class="block text-primary-400">Client: {{ user.data.firstname }} {{ user.data.lastname }}</span>
+        </div>
+    </div>
+    <div class="mt-8 ">
+        <span class="text-primary-400 block bg-primary-300 p-2">Bill to: {{ user.data.firstname }} {{ user.data.lastname }}</span>
+        <span class="text-primary-400 block">Address: {{ user.data.address }}</span>
+        <span class="text-primary-400 block">Phone: {{ user.data.telephone }}</span>
+    </div>
 
+    <div class="text-primary-400 bg-primary-300 p-2 mt-8">
+        Details:
+    </div>
+    <table class="table-fixed w-full">
+        <thead>
+        <tr class="bg-primary-200">
+            <th class="text-primary-400 text-sm text-left py-2 px-2 border-r border border-primary-400">Product</th>
+            <th class="text-primary-400 text-sm text-left py-2 px-2 border-r border border-primary-400">Price/unit</th>
+            <th class="text-primary-400 text-sm text-left py-2 px-2 border-r border border-primary-400">Quantity</th>
+            <th class="text-primary-400 text-sm text-left py-2 px-2 border-r border border-primary-400">Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in order.products %}
+            <tr class="hover:bg-primary-200 transition duration-300 ease-in-out ">
+                <td class="text-primary-400 py-2">{{ item.product.name }}</td>
+                <td class="text-primary-400 py-2">{{ item.product.price }}€</td>
+                <td class="text-primary-400 py-2">{{ item.quantity }}</td>
+                <td class="text-primary-400 py-2">{{ item.quantity*item.product.price }}€</td>
+            </tr>
+        {% endfor %}
+        <tr class="hover:bg-primary-200 transition duration-300 ease-in-out ">
+            <td class="text-primary-400 py-2"></td>
+            <td class="text-primary-400 py-2"></td>
+            <td class="text-primary-400 py-2 text-right pr-2">VAT :  </td>
+            <td class="text-primary-400 py-2">{{ order.subtotal*0.2 }}€</td>
+        </tr>
+        <tr class="hover:bg-primary-200 transition duration-300 ease-in-out ">
+            <td class="text-primary-400 py-2"></td>
+            <td class="text-primary-400 py-2"></td>
+            <td class="text-primary-400 py-2 text-right pr-2">Total excl tax :  </td>
+            <td class="text-primary-400 py-2">{{ order.subtotal - order.subtotal*0.2 }}€</td>
+        </tr>
+        <tr class="hover:bg-primary-200 transition duration-300 ease-in-out ">
+            <td class="text-primary-400 py-2"></td>
+            <td class="text-primary-400 py-2"></td>
+            <td class="text-primary-400 py-2 text-right pr-2">Total incl tax :  </td>
+            <td class="text-primary-400 py-2">{{ order.subtotal + order.subtotal*0.2 }}€</td>
+        </tr>
+        </tbody>
+    </table>
 {% endblock %}

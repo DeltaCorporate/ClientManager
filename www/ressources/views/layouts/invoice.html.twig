@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="{{ image('logo.svg') }}" type="image/x-icon">
     <title>Invoice #{{ order.id }}</title>
 </head>
-<body class="bg-primary-100 h-screen">
+<body class="bg-primary-100 h-screen container mx-auto py-8">
 {% block body %}{% endblock %}
 <script src="{{ asset("js/jquery.js") }}"></script>
 <script src="{{ asset("js/popper.js") }}"></script>

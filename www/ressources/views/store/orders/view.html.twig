@@ -1,35 +1,34 @@
 {% extends "layouts/invoice.html.twig" %}
 
 {% block body %}
-    <div class="transform -rotate-45  absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
+    <div class="transform -rotate-45 text-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
         {% if order.status == 'cancelled' %}
-            <span class="select-none text-red-800 font-medium text-opacity-25  text-9xl p-2 rounded inline-block">INVOICE {{ order.status|upper }}</span>
+            <span class="select-none text-red-800 font-bold text-opacity-25  text-9xl p-2 rounded inline-block">INVOICE {{ order.status|upper }}</span>
         {% elseif order.status == 'paid' %}
-            <span class="select-none text-green-800 font-medium text-opacity-25  text-9xl  p-2 roundedinline-block">INVOICE {{ order.status|upper }}</span>
+            <span class="select-none text-green-800 font-bold text-opacity-25  text-9xl  p-2 roundedinline-block">INVOICE {{ order.status|upper }}</span>
         {% elseif order.status == 'pending' %}
-            <span class="select-none text-gray-400 font-medium text-opacity-25  text-9xl p-2 rounded inline-block">INVOICE {{ order.status|upper }}</span>
+            <span class="select-none text-gray-400 font-bold text-opacity-25  text-9xl p-2 rounded inline-block">INVOICE {{ order.status|upper }}</span>
         {% endif %}
     </div>
     <div class="grid grid-cols-12">
         <div class="col-span-6">
             <span class="block text-3xl font-medium text-primary-400 bg-primary-300 p-2">Client Manager</span>
-            <span class="block text-primary-400">5 rue Damien Didier</span>
-            <span class="block text-primary-400">75000 Paris</span>
-            <span class="block text-primary-400">France</span>
-            <span class="block text-primary-400">+33 6 12 34 56 78</span>
-            <span class="block text-primary-400">www.clientmanager.com</span>
+            <span class="block text-primary-400 p-2">5 rue Damien Didier</span>
+            <span class="block text-primary-400 p-2">75000 Paris</span>
+            <span class="block text-primary-400 p-2">France</span>
+            <span class="block text-primary-400 p-2">+33 6 12 34 56 78</span>
+            <span class="block text-primary-400 p-2">www.clientmanager.com</span>
         </div>
         <div class="col-span-6 text-right">
             <span class="block text-3xl font-medium text-primary-400 bg-primary-300 p-2">Invoice</span>
-            <span class="block text-primary-400">Date: {{ order.updated_at|date('d/ m/ Y') }}</span>
-            <span class="block text-primary-400">Invoice #{{ order.id }}</span>
-            <span class="block text-primary-400">Client: {{ user.data.firstname }} {{ user.data.lastname }}</span>
+            <span class="block text-primary-400 p-2">Date: {{ order.updated_at|date('d/ m/ Y') }}</span>
+            <span class="block text-primary-400 p-2">Invoice #{{ order.id }}</span>
         </div>
     </div>
     <div class="mt-8 ">
         <span class="text-primary-400 block bg-primary-300 p-2">Bill to: {{ user.data.firstname }} {{ user.data.lastname }}</span>
-        <span class="text-primary-400 block">Address: {{ user.data.address }}</span>
-        <span class="text-primary-400 block">Phone: {{ user.data.telephone }}</span>
+        <span class="text-primary-400 block p-2">Address: {{ user.data.address }}</span>
+        <span class="text-primary-400 block p-2">Phone: {{ user.data.telephone }}</span>
     </div>
 
     <div class="text-primary-400 bg-primary-300 p-2 mt-8">

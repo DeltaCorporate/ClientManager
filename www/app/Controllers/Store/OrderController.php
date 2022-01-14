@@ -11,9 +11,9 @@ use App\Models\Order;
 use App\Models\User;
 use Core\Request;
 use Core\Session;
-use FPDF;
+use Dompdf\Css\Stylesheet;
+use Dompdf\Dompdf;
 use Mpdf\Mpdf;
-use Spipu\Html2Pdf\Html2Pdf;
 
 
 class OrderController
@@ -53,7 +53,7 @@ class OrderController
     }
 
     /**
-     * @throws \Spipu\Html2Pdf\Exception\Html2PdfException
+     * @throws MpdfException
      * @throws \Mpdf\MpdfException
      */
     public function download(Request $request, Session $session)
@@ -84,10 +84,16 @@ class OrderController
         $order->subtotal = $subtotal;
 
         $content = render("store.orders.view",compact("order","user"),true);
-        $pdf = new Mpdf();
-        $pdf->writeHTML("<h1>Order</h1>");
+        $pdf = new  Dompdf();
+        $pdf->loadHtml($content);
+        $options = $pdf->getOptions();
+        $options->setIsHtml5ParserEnabled(true);
+        $options->setIsRemoteEnabled(true);
+        $options->setIsPhpEnabled(true);
+        $pdf->setOptions($options);
+        $pdf->setPaper('A4');
+        $pdf->render();
+        $pdf->stream("order_".$order->id.".pdf");
 
-
-        $pdf->output("$user->username"."_"."invoice#$order->id".".pdf");
     }
 }

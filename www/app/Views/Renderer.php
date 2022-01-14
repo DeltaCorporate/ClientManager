@@ -65,6 +65,9 @@ class Renderer
         self::$renderer->addFunction(new TwigFunction("cart", function () {
             return sizeof(Session::session("cart"));
         }));
+        self::$renderer->addFunction(new TwigFunction("file_get_contents", function ($file) {
+            return file_get_contents($file);
+        }));
     }
 
     public function getRenderer(): Environment

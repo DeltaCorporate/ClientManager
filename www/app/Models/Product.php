@@ -38,7 +38,8 @@ class Product extends Model
     {
         return [
             "category_id" => [Category::class, 'belongsTo'],
-            "images"=>[ProductImages::class,"hasOneToMany"]
+            "images"=>[ProductImages::class,"hasOneToMany"],
+            'testimonials'=>[Testimonial::class,"hasOneToMany"]
         ];
     }
 }

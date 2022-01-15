@@ -12,35 +12,34 @@ class Testimonial extends Model
 
     public static function getTableName(): string
     {
-        // TODO: PUT the table name here
         return "testimonial";
     }
 
     public static function getUnique(): string
     {
-        // TODO: put the unique colmn here
-        return "";
+
+        return "id";
     }
 
     public static function getColumns(): array
     {
         return [
-            // TODO: put here the columns of the table
+            "user_id","product_id",'comment'
         ];
     }
 
     public static function toValidate(): array
     {
        return [
-           // TODO: Put here the values to validate
+           "user_id","product_id",'comment'
        ];
     }
     
     public static function foreigns(): array
     {
         return [
-            //TODO : add foreigns
-            //"column"=>[class,"method"]
+            "user_id" => [User::class, "belongsTo"],
+            "product_id" => [Product::class, "belongsTo"]
         ];
     }
 }

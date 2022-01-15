@@ -112,6 +112,7 @@ class User extends Model
             "resetToken"=>[PasswordReset::class,"hasOneToOne"],
             "verifyToken"=>[AccountVerifToken::class,"hasOneToOne"],
             "orders"=>[Order::class,'hasOneToMany'],
+            "Testimonials"=>[Testimonial::class,'hasOneToMany'],
         ];
     }
 }

@@ -9,6 +9,7 @@ namespace App\Controllers\Store;
 
 use App\Models\Product;
 use Core\Request;
+use Core\Rules;
 use Core\Session;
 
 class ProductController
@@ -22,7 +23,8 @@ class ProductController
     public function view(Request $request,Session $session)
     {
         $id = $request->get('id');
-        if($id){
+
+        if($id and is_numeric($id)){
             $product = Product::find($id);
             $similar = Product::findAllBy("category_id", $product->category->id);
             $similar = array_map(function($item) use($product){

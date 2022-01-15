@@ -958,6 +958,14 @@ Ensure the default browser behavior of the `hidden` attribute.
           animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-default {
+  cursor: default;
+}
+
 .select-none {
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -1081,6 +1089,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-divide-y-reverse: 0;
   border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
   border-bottom-width: calc(1px * var(--tw-divide-y-reverse));
+}
+
+.divide-x > :not([hidden]) ~ :not([hidden]) {
+  --tw-divide-x-reverse: 0;
+  border-right-width: calc(1px * var(--tw-divide-x-reverse));
+  border-left-width: calc(1px * calc(1 - var(--tw-divide-x-reverse)));
 }
 
 .divide-primary-300 > :not([hidden]) ~ :not([hidden]) {

@@ -83,7 +83,7 @@ class OrderController
         }
         $order->subtotal = $subtotal;
 
-        $content = render("store.orders.view",compact("order","user"),true);
+        $content = render("store.orders.download",compact("order","user"),true);
         $pdf = new  Dompdf();
         $pdf->loadHtml($content);
         $options = $pdf->getOptions();
@@ -93,7 +93,7 @@ class OrderController
         $pdf->setOptions($options);
         $pdf->setPaper('A4');
         $pdf->render();
-        $pdf->stream("order_".$order->id.".pdf");
+        $pdf->stream($user->username."_order_".$order->id.".pdf");
 
     }
 }

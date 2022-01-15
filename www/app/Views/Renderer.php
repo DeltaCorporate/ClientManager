@@ -66,7 +66,7 @@ class Renderer
             return sizeof(Session::session("cart"));
         }));
         self::$renderer->addFunction(new TwigFunction("file_get_contents", function ($file) {
-            return file_get_contents($file);
+            echo file_get_contents($file);
         }));
     }
 

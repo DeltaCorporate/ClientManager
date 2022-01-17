@@ -29,6 +29,7 @@ class CsrfMiddleware extends Middleware
         return false;
     }
 
+
     public function error()
     {
         return render("errors.419");

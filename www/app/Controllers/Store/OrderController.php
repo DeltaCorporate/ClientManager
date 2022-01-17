@@ -11,9 +11,7 @@ use App\Models\Order;
 use App\Models\User;
 use Core\Request;
 use Core\Session;
-use Dompdf\Css\Stylesheet;
 use Dompdf\Dompdf;
-use Mpdf\Mpdf;
 
 
 class OrderController
@@ -52,10 +50,6 @@ class OrderController
         render("store.orders.view",compact("order","user"));
     }
 
-    /**
-     * @throws MpdfException
-     * @throws \Mpdf\MpdfException
-     */
     public function download(Request $request, Session $session)
     {
         $values = $request->getBody();
@@ -93,7 +87,7 @@ class OrderController
         $pdf->setOptions($options);
         $pdf->setPaper('A4');
         $pdf->render();
-        $pdf->stream($user->username."_order_".$order->id.".pdf");
+        $pdf->stream($user->username."_order_".$order->id.".pdf",array("Attachment"=>1));
 
     }
 }

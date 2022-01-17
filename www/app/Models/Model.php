@@ -17,6 +17,7 @@ abstract class Model extends Database
     abstract public static function getColumns(): array;
 
     abstract public static function toValidate(): array;
+
     abstract public static function foreigns(): array;
 
     public function primaryKey(): string
@@ -98,7 +99,7 @@ abstract class Model extends Database
         $actualTable = $self->getTableName();//resetpassword
         $foreignKey = $table . '_id';
         $tableColumns = $model->getColumns();
-        array_unshift($tableColumns,"id");
+        array_unshift($tableColumns, "id");
         $tableColumns = array_map(function ($column) use ($table, $actualTable) {
             return $table . '.' . $column;
         }, $tableColumns);
@@ -109,6 +110,19 @@ abstract class Model extends Database
 //        dd($sql);
         $stmt = self::$instance->prepare($sql);
         $stmt->bindValue(":id", $val);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
+
+    public static function countBy($col, $val)
+    {
+        $self = new static();
+        $table = $self->getTableName();
+        $primaryKey = $self->primaryKey();
+        $sql = "SELECT COUNT(*) as total FROM `$table` WHERE $col = :" . $col;
+        $stmt = self::$instance->prepare($sql);
+        $stmt->bindValue(":" . $col, $val);
         $stmt->execute();
         return $stmt->fetch();
     }
@@ -125,7 +139,7 @@ abstract class Model extends Database
         return true;
     }
 
-    public static function deleteBy($key,$val): bool
+    public static function deleteBy($key, $val): bool
     {
         $self = new static();
         $table = $self->getTableName();
@@ -187,7 +201,7 @@ abstract class Model extends Database
         $statement = self::$instance->prepare($sql);
         foreach ($columns as $column) {
             if ($self->existColumn($column)) {
-                $value =$values[$column];
+                $value = $values[$column];
                 $statement->bindValue($column, $value);
             }
         }
@@ -226,14 +240,14 @@ abstract class Model extends Database
         $stmt->execute();
         $associations = $self->foreigns();
         $result = $stmt->fetchObject(static::class);
-        return self::hydrate($result, $associations,$id);
+        return self::hydrate($result, $associations, $id);
 
 
     }
 
-    public static function hydrate($result, $associations, $id=0)
+    public static function hydrate($result, $associations)
     {
-        if($result){
+        if ($result) {
             $id = $result->id;
             if (!empty($associations)) {
                 foreach ($associations as $foreignKey => $association) {
@@ -244,11 +258,11 @@ abstract class Model extends Database
                     unset($result->$foreignKey);
                     switch ($association[1]) {
                         case "belongsTo":
-                            $result->$table = call_user_func_array([static::class,$association[1]], [$association[0], $foreignVal]);
+                            $result->$table = call_user_func_array([static::class, $association[1]], [$model, $foreignVal]);
                             break;
                         case "hasOneToOne":
                         case "hasOneToMany":
-                            $result->$foreignKey = call_user_func_array([static::class,$association[1]], [$association[0], $id]);
+                            $result->$foreignKey = call_user_func_array([static::class, $association[1]], [$association[0], $id]);
                             break;
                     }
                 }
@@ -267,7 +281,29 @@ abstract class Model extends Database
         $stmt->execute();
         $associations = $self->foreigns();
         $result = $stmt->fetchObject(static::class);
-       return self::hydrate($result, $associations);
+        return self::hydrate($result, $associations);
+
+    }
+
+    public static function findByandBy($conditions)
+    {
+        $condition = "";
+        $i = 0;
+        foreach ($conditions as $column => $value) {
+            $i==0 ? $condition .= "$column = :$column" :  $condition .= " AND $column = :$column";
+            $i++;
+        }
+        $self = new static();
+        $table = $self->getTableName();
+        $sql = "SELECT * FROM `$table` WHERE $condition";
+        $stmt = self::$instance->prepare($sql);
+        foreach ($conditions as $column => $value) {
+            $stmt->bindValue(":" . $column, $value);
+        }
+        $stmt->execute();
+        $associations = $self->foreigns();
+        $result = $stmt->fetchObject(static::class);
+        return self::hydrate($result, $associations);
 
     }
 
@@ -279,14 +315,15 @@ abstract class Model extends Database
         $sql = "SELECT * FROM " . $table;
         $stmt = static::$instance->prepare($sql);
         $stmt->execute();
-        $results =  $stmt->fetchAll();
+        $results = $stmt->fetchAll();
         $associations = $self->foreigns();
         foreach ($results as $key => $result) {
-            $results[$key] = self::hydrate($result, $associations,$result->id);
+            $results[$key] = self::hydrate($result, $associations, $result->id);
         }
         return $results;
     }
-    public static function findAllby($column,$value)
+
+    public static function findAllby($column, $value)
     {
         $self = new static();
 
@@ -295,10 +332,10 @@ abstract class Model extends Database
         $stmt = self::$instance->prepare($sql);
         $stmt->bindValue(":$column", $value);
         $stmt->execute();
-        $results =  $stmt->fetchAll();
+        $results = $stmt->fetchAll();
         $associations = $self->foreigns();
         foreach ($results as $key => $result) {
-            $results[$key] = self::hydrate($result, $associations,$result->id);
+            $results[$key] = self::hydrate($result, $associations, $result->id);
         }
         return $results;
     }

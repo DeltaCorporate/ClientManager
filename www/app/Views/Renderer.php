@@ -35,10 +35,14 @@ class Renderer
         self::$renderer->addFunction(new TwigFunction("arrow", function () {
             echo "&#10132;";
         }));
-        self::$renderer->addFunction(new TwigFunction("csrf", function ($time = 300) {
+        self::$renderer->addFunction(new TwigFunction("csrf", function ($time = 3600) {
             $csrf= new Csrf($time);
             $token = $csrf->getToken();
             echo "<input type='hidden' name='csrf' value='$token'>";
+        }));
+        self::$renderer->addFunction(new TwigFunction("csrf_token", function ($time = 3600) {
+            $csrf= new Csrf($time);
+            echo $csrf->getToken();
         }));
         self::$renderer->addFunction(new TwigFunction("flash", function ($key) {
             return (Session::getFlash($key))['value'];

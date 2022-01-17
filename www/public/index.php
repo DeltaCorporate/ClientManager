@@ -11,5 +11,8 @@ const ROOT_DIR = ROOT . "/public";
 
 $app = new Application();
 
-$app->run();
+try {
+    $app->run();
+} catch (\App\Exceptions\MiddlewareException $e) {
+}
 

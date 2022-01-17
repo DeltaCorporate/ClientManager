@@ -15,4 +15,5 @@ include_once '../routes/store/product.php';
 include_once "../routes/store/cart.php";
 include_once  "../routes/store/payment.php";
 include_once  "../routes/store/orders.php";
+include_once  "../routes/store/testimonial.php";
 

@@ -84,9 +84,9 @@
     <script>
         $(document).ready(function () {
             $('.deleteImage').click(function () {
-                $inputID = $(this).parent().attr('for');
+                const inputID = $(this).parent().attr('for');
                 $(this).parent().remove();
-                $('#' + $inputID).remove();
+                $('#' + inputID).remove();
             });
         });
     </script>

@@ -105,6 +105,17 @@ class User extends Model
         ];
     }
 
+    public static function hasRole($user,$roleTofind): bool
+    {
+     $roles = $user->data->roles;
+        foreach ($roles as $role) {
+            if ($role->name == $roleTofind) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static function foreigns(): array
     {
         return [

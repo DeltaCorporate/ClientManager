@@ -2,6 +2,7 @@
 
 namespace App\Views;
 
+use App\Models\User;
 use Core\Csrf;
 use Core\Session;
 use Twig\Environment;
@@ -71,6 +72,9 @@ class Renderer
         }));
         self::$renderer->addFunction(new TwigFunction("file_get_contents", function ($file) {
             echo file_get_contents($file);
+        }));
+        self::$renderer->addFunction(new TwigFunction("hasRole", function ($role) {
+            return Session::getUser() && User::hasRole(Session::getUser(), $role);
         }));
     }
 

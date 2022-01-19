@@ -1,0 +1,110 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block body %}
+    <section class="mt-7">
+        <h1 class="text-primary-400 font-semibold text-2xl">
+            Dashboard
+        </h1>
+
+        <div>
+            <h1 class="text-primary-400 text-xl font-medium my-5">Actions</h1>
+            <div class="flex items-center mb-4 space-x-4">
+                <a href="{{ url("admin.product.list") }}" class="text-primary-100 bg-primary-50 hover:bg-transparent hover:text-primary-50 transition duration-300 ease-in-out border rounded border-primary-50 block p-4">Manage your stocks</a>
+                <a href="{{ url("admin.category.list") }}" class="text-primary-100 bg-primary-50 hover:bg-transparent hover:text-primary-50 transition duration-300 ease-in-out border rounded border-primary-50 block p-4">Manage the categories</a>
+            </div>
+        </div>
+
+
+
+
+        <div class="grid grid-cols-12 gap-4 py-4">
+            <div class="col-span-full md:col-span-6 lg:col-span-4">
+                <h1 class="text-primary-50 font-medium text-xl">Users:</h1>
+                <canvas id="users" aria-label="Users"></canvas>
+            </div>
+            <div class="col-span-full md:col-span-6 lg:col-span-4">
+                <h1 class="text-primary-50 font-medium text-xl">Orders:</h1>
+                <canvas id="orders" aria-label="orders"></canvas>
+            </div>
+        </div>
+
+    </section>
+{% endblock %}
+{% block customJs %}
+    <script src="{{ asset("js/chart.js") }}"></script>
+    <script>
+        /*USERS*/
+        const labelsUsers = [
+            "Verified",
+            "Unverified"
+        ];
+        const dataUsers = {
+            labels:labelsUsers,
+
+            datasets:[
+                {
+                    data: [{{ users.verified }},{{ users.unverified }}],
+                    backgroundColor: [
+                        "rgba(135,255,164,0.2)",
+                        "rgba(220,53,69,0.2)"
+                    ],
+                    borderColor: [
+                        "#87ffa4",
+                        "#dc3545"
+                    ],
+                    borderWidth: 1
+                }
+            ]
+        }
+        const config = {
+            type: "doughnut",
+            data: dataUsers,
+        }
+        const usersChart = new Chart(
+           $( "#users" ),
+            config
+        );
+
+        /*ORDERS*/
+        const labelsOrders = [
+            "Paid",
+            "Pending",
+            "Cancelled"
+        ];
+        const dataOrders = {
+            labels:labelsOrders,
+
+            datasets:[
+                {
+                    label: "Orders",
+                    data: [{{ orders.paid }},{{ orders.pending }},{{ orders.cancelled }}],
+                    backgroundColor: [
+                        "rgba(85,255,0,0.2)",
+                        "rgba(124,124,124,0.2)",
+                        "rgba(255,242,0,0.2)"
+                    ],
+                    borderColor: [
+
+                        "rgba(85, 255, 0,1)",
+                        "rgba(124,124,124,1)",
+                        "rgba(255, 242, 0,1)"
+                    ],
+                    borderWidth: 1
+                }
+            ]
+        }
+        const configOrders = {
+            type: "bar",
+            data: dataOrders,
+        }
+        const ordersChart = new Chart(
+           $( "#orders" ),
+            configOrders
+        );
+
+    </script>
+{% endblock %}

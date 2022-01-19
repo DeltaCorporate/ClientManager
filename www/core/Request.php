@@ -30,7 +30,7 @@ class Request
         return $_GET;
     }
 
-    public static function getFiles(): array
+    public static function filesBody(): array
     {
         return $_FILES;
     }

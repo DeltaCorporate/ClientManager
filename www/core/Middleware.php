@@ -10,6 +10,7 @@ namespace Core;
 
 
 use App\Exceptions\MiddlewareException;
+use App\Middlewares\AdminMiddleware;
 use App\Middlewares\AuthMiddleware;
 use App\Middlewares\CsrfMiddleware;
 use App\Middlewares\GuestMiddleware;
@@ -24,6 +25,7 @@ abstract class Middleware
             "guest" => GuestMiddleware::class,
             "csrf" => CsrfMiddleware::class,
             "seeOrder"=>SeeOrderMiddleware::class,
+            "admin"=>AdminMiddleware::class,
         ];
     }
 

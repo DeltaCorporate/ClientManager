@@ -128,6 +128,10 @@ class PaymentController
         try {
             $payment->execute($paymentExecution, self::createPaymentContext());
             Order::update($order->id,["status" => "paid"]);
+            $cart = $session->session("cart");
+            foreach ($cart as $item) {
+                Product::update($item["product"]->id, ["quantity" => $item["product"]->quantity - $item["quantity"]]);
+            }
             $session->clearSession("cart");
             flash("success", "The payment was successful");
             redirect("store.cart.view");

@@ -45,7 +45,7 @@ class Rules
 
     public function float($value)
     {
-        if (!is_float($value)) {
+        if (!is_float($value) and !is_numeric($value)) {
             return ":key must be a float";
         }
         return true;

@@ -15,7 +15,6 @@ class HomeController
      */
     public function index()
     {
-        dd(Review::findByandBy(array("user_id"=>1,"testimonial_id"=>1)));
         return render('home.accueil');
     }
 

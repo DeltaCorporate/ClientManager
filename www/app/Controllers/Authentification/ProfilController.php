@@ -28,7 +28,7 @@ class ProfilController
     public function update_avatar(Request $request)
     {
         $user = Session::getUser();
-        $values = $request->getFiles();
+        $values = $request->filesBody();
         $rules = [
             "avatar" => ['required', "image"]
         ];

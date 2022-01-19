@@ -119,10 +119,19 @@ abstract class Model extends Database
     {
         $self = new static();
         $table = $self->getTableName();
-        $primaryKey = $self->primaryKey();
         $sql = "SELECT COUNT(*) as total FROM `$table` WHERE $col = :" . $col;
         $stmt = self::$instance->prepare($sql);
         $stmt->bindValue(":" . $col, $val);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
+    public static function count()
+    {
+        $self = new static();
+        $table = $self->getTableName();
+        $sql = "SELECT COUNT(*) as total FROM `$table`";
+        $stmt = self::$instance->prepare($sql);
         $stmt->execute();
         return $stmt->fetch();
     }

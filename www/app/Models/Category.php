@@ -30,7 +30,7 @@ class Category extends Model
     public static function toValidate(): array
     {
        return [
-           // TODO: Put here the values to validate
+           "name","description"
        ];
     }
 

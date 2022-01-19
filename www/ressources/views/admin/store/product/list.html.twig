@@ -1,0 +1,48 @@
+{% extends "layouts/base.html.twig" %}
+
+{% block title %}
+    List products
+{% endblock %}
+
+
+{% block body %}
+    <section class="mt-7">
+        <h1 class="text-primary-400 text-2xl font-semibold block mb-5">All products</h1>
+        <div class="flex justify-end my-4">
+            <a href="{{ url("admin.product.create") }}" class="text-primary-100 bg-primary-50 hover:bg-transparent hover:text-primary-50 transition duration-300 ease-in-out border rounded border-primary-50 block p-4">Add a product</a>
+        </div>
+        <table class="table-fixed w-full">
+            <thead class="bg-primary-300">
+            <tr class="border border-primary-400 ">
+                <td class="text-primary-400 px-2 py-4 border-l border-primary-400">Name</td>
+                <td class="text-primary-400 px-2 py-4 border-l border-primary-400">Price</td>
+                <td class="text-primary-400 px-2 py-4 border-l border-primary-400">Stock</td>
+                <td class="text-primary-400 px-2 py-4 border-l border-primary-400">Description</td>
+                <td class="text-primary-400 px-2 py-4 border-l border-primary-400">Actions</td>
+            </tr>
+            </thead>
+            <tbody>
+        {% for product in products %}
+
+            <tr class="border border-primary-400 hover:bg-primary-300">
+                <td class="text-primary-400 px-2 py-4 border-l border-primary-400">{{ product.name }}</td>
+                <td class="text-primary-400 px-2 py-4 border-l border-primary-400">{{ product.price }}€</td>
+                <td class="text-primary-400 px-2 py-4 border-l border-primary-400">{{ product.quantity }}</td>
+                <td class="text-primary-400 truncate px-2 py-4 border-l border-primary-400">{{ product.description }}</td>
+                <td class=" px-2 py-4 border-l border-primary-400 flex items-center space-x-5">
+                    <a href="{{ url("admin.product.update") }}?id={{ product.id }}" class="p-2 bg-primary-50 rounded text-primary-100">
+                       Edit
+                    </a>
+                    <form action="{{ url("admin.product.delete","post") }}" method="post">
+                        {{ csrf() }}
+                        <input type="hidden" name="id" value="{{ product.id }}">
+                        <input type="submit" value="Delete" class="appearance-none bg-red-500 text-white p-2 rounded">
+                    </form>
+                </td>
+            </tr>
+
+        {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}

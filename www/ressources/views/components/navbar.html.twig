@@ -18,6 +18,32 @@
     {% endif %}
     <div class="divide-y divide-primary-300">
         <ul class="pt-2 pb-4 space-y-1 text-sm">
+
+
+            <li class="hover:bg-primary-200 transition  duration-300 ease-in-out">
+                {% if(hasRole("administrator")) %}
+                    <a href=" {{ url("admin.home") }}"
+                       class="flex items-center p-2 space-x-3 rounded-md text-primary-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5  text-primary-50" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                        </svg>
+                        <span>Dashboard</span>
+                    </a>
+                {% else %}
+                    <a href=" {{ url("home") }}"
+                       class="flex items-center p-2 space-x-3 rounded-md text-primary-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5  text-primary-50" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                        </svg>
+                        <span>Home</span>
+                    </a>
+                {% endif %}
+            </li>
+
             <li class="hover:bg-primary-200 transition  duration-300 ease-in-out">
                 <a href="{{ url('user.profile') }}" class="flex items-center p-2 space-x-3 rounded-md text-primary-400">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5  text-primary-50" fill="none"
@@ -29,7 +55,7 @@
                 </a>
             </li>
             <li class="hover:bg-primary-200 transition  duration-300 ease-in-out">
-                <a href="{{ url('store.product.list') }}"
+                <a href="{% if(hasRole('administrator')) %} {{ url('admin.product.list') }} {% else %} {{ url('store.product.list') }} {% endif %}"
                    class="flex items-center p-2 space-x-3 rounded-md text-primary-400">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary-50" fill="none"
                          viewBox="0 0 24 24" stroke="currentColor">

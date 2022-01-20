@@ -75,11 +75,11 @@ class ProductController
                 $session->validation("image", $image . "is not a supported format. Only jpeg and png images are allowed");
                 back();
             }
-            $filename = $values['product']["value"] . time() . "_" . $image;
+            $filename = $product->id . time() . "_" . $image;
             $path = "src/products/images/" . $filename;
             move_uploaded_file($images['tmp_name'][$key], $path);
             $imageToDb = [
-                "product_id" => $values['product']["value"],
+                "product_id" => $product->id,
                 "image" => $filename,
             ];
 
